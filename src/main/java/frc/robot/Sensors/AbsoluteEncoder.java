@@ -21,6 +21,7 @@ public class AbsoluteEncoder {
         this.spi = new SPI(SPIport);
     }
 
+    //get in raw encoder value
     public int get(){
         byte[] data = {0,0};
         spi.read(true, data, 2);
