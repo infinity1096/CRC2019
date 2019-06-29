@@ -161,9 +161,40 @@ public class DifferentialDrive {
         + dynamics.chassisAcceleration.angular * effective_wheelbase_radius_;
     }
 
+    public DriveDynamics solveInverseDynamics(final ChassisState chassis_velocity, final ChassisState
+            chassis_acceleration) {
+        
+        DriveDynamics dynamics = new DriveDynamics();
+
+        dynamics.chassisVelocity = chassis_velocity;
+        dynamics.chassisAcceleration = chassis_acceleration;
+
+        dynamics.curvature = dynamics.chassisVelocity.angular / dynamics.chassisVelocity.linear;
+
+        dynamics.wheelAcceleration = solveInverseKinematics(chassis_acceleration);
+        dynamics.wheelVelocity = solveInverseKinematics(chassis_velocity);
+
+        dynamics.dcurvature = (dynamics.chassisAcceleration.angular - dynamics.chassisAcceleration.linear*dynamics.curvature)
+        / (dynamics.chassisVelocity.linear * dynamics.chassisVelocity.linear);
+
+        solveInverseDynamics(dynamics);
+
+        return dynamics;
+    }
 
 
-    
+    private void solveInverseDynamics(DriveDynamics dynamics){
+        
+        dynamics.wheel_torque.left = wheel_radius_/2*( (-dynamics.chassisAcceleration.angular *moi_ - dynamics.chassisVelocity.angular *
+        angular_drag_)/ effective_wheelbase_radius_ + mass_ *dynamics.chassisAcceleration.linear);
+        
+        dynamics.wheel_torque.right = wheel_radius_/2*( (dynamics.chassisAcceleration.angular *moi_ + dynamics.chassisVelocity.angular *
+        angular_drag_)/ effective_wheelbase_radius_ + mass_ *dynamics.chassisAcceleration.linear);
+
+        dynamics.voltage.left = leftTransmission.get_voltage_for_torque(dynamics.wheelVelocity.left, dynamics.wheel_torque.left);
+        dynamics.voltage.right = rightTransmission.get_voltage_for_torque(dynamics.wheelVelocity.right, dynamics.wheel_torque.right);
+
+    }
 
     public static class WheelState{
         
@@ -212,9 +243,6 @@ public class DifferentialDrive {
         public WheelState wheelAcceleration;
         public WheelState voltage;
         public WheelState wheel_torque;
-
-
-
     }
 
 
