@@ -14,4 +14,8 @@ public class Util {
 
     public static final double kEpsilon = 1e-12;
 
+    public static boolean epsilonEqual(double a, double b){
+        return (a-b < kEpsilon) && (a-b > -kEpsilon); 
+    }
+
 }
