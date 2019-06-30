@@ -206,14 +206,6 @@ public class DifferentialDrive {
                 dynamics.chassisAcceleration.angular * moi_ / effective_wheelbase_radius_ -
                 dynamics.chassisVelocity.angular * angular_drag_ / effective_wheelbase_radius_);
 
-        System.out.println(dynamics.wheel_torque.left);
-
-        dynamics.wheel_torque.left = wheel_radius_ / 2*( (-dynamics.chassisAcceleration.angular *moi_ - dynamics.chassisVelocity.angular *
-        angular_drag_)/ effective_wheelbase_radius_ + mass_ *dynamics.chassisAcceleration.linear);
-
-        System.out.println(dynamics.wheel_torque.left);
-
-
         dynamics.wheel_torque.right = wheel_radius_ / 2.0 * (dynamics.chassisAcceleration.linear * mass_ +
                 dynamics.chassisAcceleration.angular * moi_ / effective_wheelbase_radius_ +
                 dynamics.chassisVelocity.angular * angular_drag_ / effective_wheelbase_radius_);
