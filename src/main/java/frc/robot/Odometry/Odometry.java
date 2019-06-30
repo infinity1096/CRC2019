@@ -12,11 +12,7 @@ package frc.robot.Odometry;
  */
 public class Odometry implements Runnable {
 
-    double[][] a(){
-        double[][] b = {{1,0},{0,1}};
-        b[1][0]
-        return b;
-    }
+ 
 
     @Override
     public void run() {

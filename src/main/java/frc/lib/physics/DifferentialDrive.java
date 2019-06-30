@@ -91,16 +91,18 @@ public class DifferentialDrive {
         return rightTransmission;
     }
 
+    //tested
     public ChassisState solveForwardKinematics(WheelState wheelState){
         ChassisState state = new ChassisState();
 
-        state.linear = wheel_radius_ * (wheelState.left+wheelState.left)/2.0f;
+        state.linear = wheel_radius_ * (wheelState.left+wheelState.right)/2.0f;
         state.angular = wheel_radius_ * (wheelState.right-wheelState.left)/
                                         (2.0f*effective_wheelbase_radius_);
 
         return state;
     }
 
+    //tested
     public WheelState solveInverseKinematics(ChassisState chassisState){
         WheelState state = new WheelState();
 
@@ -110,7 +112,13 @@ public class DifferentialDrive {
         return state;
     }
 
+    /**
+     * 
+     * @param dynamics : need speed and votage
+     */ 
+    //tested - 6/30/2019
     public void solveForwardDynamics(DriveDynamics dynamics){
+        dynamics.chassisVelocity = solveForwardKinematics(dynamics.wheelVelocity);
         final boolean is_left_stationary = (leftTransmission.friction_volt()> 
         dynamics.voltage.left) && Util.epsilonEqual(dynamics.wheelVelocity.left,0);
         final boolean is_right_stationary = (rightTransmission.friction_volt()> 
@@ -138,12 +146,19 @@ public class DifferentialDrive {
         dynamics.chassisAcceleration.linear = (dynamics.wheel_torque.left +
                                                 dynamics.wheel_torque.right)/
                                                 wheel_radius_ / mass_;
+                                                
         
         //angular acceleration: a = T / I = ((Tr - Tl) / wr * wb - omega * k)/ I
         dynamics.chassisAcceleration.angular = 
-        ((dynamics.wheel_torque.left - dynamics.wheel_torque.right) /
+        ((dynamics.wheel_torque.right - dynamics.wheel_torque.left) /
         wheel_radius_ * effective_wheelbase_radius_ - angular_drag_ 
         * dynamics.chassisVelocity.angular)/ moi_;
+
+        
+
+        //curveture = omega / v
+
+        dynamics.curvature = dynamics.chassisVelocity.angular / dynamics.chassisVelocity.linear;
         
         //angular acceleration = accel * k + dk/dx * v^2
         //dk/dx = (ang_acc - accel * k)/v^2
@@ -153,14 +168,16 @@ public class DifferentialDrive {
             * dynamics.curvature) / dynamics.chassisVelocity.linear
             /dynamics.chassisVelocity.linear;
 
-
-        dynamics.wheel_torque.left = dynamics.chassisAcceleration.linear
+        
+        
+        dynamics.wheelAcceleration.left = dynamics.chassisAcceleration.linear
         - dynamics.chassisAcceleration.angular * effective_wheelbase_radius_;
 
-        dynamics.wheel_torque.right = dynamics.chassisAcceleration.linear
+        dynamics.wheelAcceleration.right = dynamics.chassisAcceleration.linear
         + dynamics.chassisAcceleration.angular * effective_wheelbase_radius_;
     }
 
+    //tested 
     public DriveDynamics solveInverseDynamics(final ChassisState chassis_velocity, final ChassisState
             chassis_acceleration) {
         
@@ -169,24 +186,52 @@ public class DifferentialDrive {
         dynamics.chassisVelocity = chassis_velocity;
         dynamics.chassisAcceleration = chassis_acceleration;
 
-        dynamics.curvature = dynamics.chassisVelocity.angular / dynamics.chassisVelocity.linear;
+        dynamics.curvature = dynamics.chassisVelocity.angular / dynamics.chassisVelocity.linear;//pass
 
-        dynamics.wheelAcceleration = solveInverseKinematics(chassis_acceleration);
-        dynamics.wheelVelocity = solveInverseKinematics(chassis_velocity);
+        dynamics.wheelAcceleration = solveInverseKinematics(chassis_acceleration);//pass
+        dynamics.wheelVelocity = solveInverseKinematics(chassis_velocity);//pass
 
         dynamics.dcurvature = (dynamics.chassisAcceleration.angular - dynamics.chassisAcceleration.linear*dynamics.curvature)
-        / (dynamics.chassisVelocity.linear * dynamics.chassisVelocity.linear);
+        / (dynamics.chassisVelocity.linear * dynamics.chassisVelocity.linear);//pass
 
         solveInverseDynamics(dynamics);
 
         return dynamics;
     }
 
+    //tested
+    public void solveInverseDynamics(DriveDynamics dynamics) {
+        // Determine the necessary torques on the left and right wheels to produce the desired wheel accelerations.
+        dynamics.wheel_torque.left = wheel_radius_ / 2.0 * (dynamics.chassisAcceleration.linear * mass_ -
+                dynamics.chassisAcceleration.angular * moi_ / effective_wheelbase_radius_ -
+                dynamics.chassisVelocity.angular * angular_drag_ / effective_wheelbase_radius_);
 
-    private void solveInverseDynamics(DriveDynamics dynamics){
-        
-        dynamics.wheel_torque.left = wheel_radius_/2*( (-dynamics.chassisAcceleration.angular *moi_ - dynamics.chassisVelocity.angular *
+        System.out.println(dynamics.wheel_torque.left);
+
+        dynamics.wheel_torque.left = wheel_radius_ / 2*( (-dynamics.chassisAcceleration.angular *moi_ - dynamics.chassisVelocity.angular *
         angular_drag_)/ effective_wheelbase_radius_ + mass_ *dynamics.chassisAcceleration.linear);
+
+        System.out.println(dynamics.wheel_torque.left);
+
+
+        dynamics.wheel_torque.right = wheel_radius_ / 2.0 * (dynamics.chassisAcceleration.linear * mass_ +
+                dynamics.chassisAcceleration.angular * moi_ / effective_wheelbase_radius_ +
+                dynamics.chassisVelocity.angular * angular_drag_ / effective_wheelbase_radius_);
+
+        // Solve for input voltages.
+        dynamics.voltage.left = leftTransmission.get_voltage_for_torque(dynamics.wheelVelocity.left, dynamics
+                .wheel_torque.left);
+        dynamics.voltage.right = rightTransmission.get_voltage_for_torque(dynamics.wheelVelocity.right, dynamics
+                .wheel_torque.right);
+    }
+
+    /*
+    public void solveInverseDynamics(DriveDynamics dynamics){
+        
+        dynamics.wheel_torque.left = wheel_radius_ / 2*( (-dynamics.chassisAcceleration.angular *moi_ - dynamics.chassisVelocity.angular *
+        angular_drag_)/ effective_wheelbase_radius_ + mass_ *dynamics.chassisAcceleration.linear);
+
+        System.out.println(dynamics.wheel_torque.left);
         
         dynamics.wheel_torque.right = wheel_radius_/2*( (dynamics.chassisAcceleration.angular *moi_ + dynamics.chassisVelocity.angular *
         angular_drag_)/ effective_wheelbase_radius_ + mass_ *dynamics.chassisAcceleration.linear);
@@ -195,6 +240,7 @@ public class DifferentialDrive {
         dynamics.voltage.right = rightTransmission.get_voltage_for_torque(dynamics.wheelVelocity.right, dynamics.wheel_torque.right);
 
     }
+    */
 
     public static class WheelState{
         
@@ -237,12 +283,28 @@ public class DifferentialDrive {
     public static class DriveDynamics{
         public double curvature = 0.0;
         public double dcurvature = 0.0;
-        public ChassisState chassisVelocity;
-        public ChassisState chassisAcceleration;
-        public WheelState wheelVelocity;
-        public WheelState wheelAcceleration;
-        public WheelState voltage;
-        public WheelState wheel_torque;
+        public ChassisState chassisVelocity = new ChassisState();
+        public ChassisState chassisAcceleration = new ChassisState();
+        public WheelState wheelVelocity = new WheelState();
+        public WheelState wheelAcceleration = new WheelState();
+        public WheelState voltage = new WheelState();
+        public WheelState wheel_torque = new WheelState();
+
+        @Override
+        public String toString(){
+            String s ;
+            s = "Dynamics:\n";
+            s += "\tVelocity: " + wheelVelocity.toString() + "\n";
+            s += "\tAcceleration: " + wheelAcceleration.toString() + "\n";
+            s += "\tTorque: " + wheel_torque.toString() + "\n";
+            s += "\tVoltage: " + voltage.toString() + "\n";
+            s += "\tChassis Velocity: " + chassisVelocity.toString() + "\n";
+            s += "\tChassis Acceleration: " + chassisAcceleration.toString() + "\n";
+            s += "\tChassis curvature: " + curvature + "\n";
+            s += "\tChassis dcurvature: " + dcurvature+ "\n";     
+            return s;       
+        }
+
     }
 
 

@@ -67,13 +67,13 @@ public class DCMotorTransmission {
 
     public double get_voltage_for_torque(double outputspeed,double torque){
         if (outputspeed > Util.kEpsilon){
-            return (outputspeed / speed_per_volt_ + (torque + friction_volt_) / torque_per_volt_);
+            return (outputspeed / speed_per_volt_ + (torque) / torque_per_volt_ + friction_volt_);
         }else if (outputspeed < -Util.kEpsilon){
-            return (outputspeed / speed_per_volt_ + (torque - friction_volt_) / torque_per_volt_);
+            return (outputspeed / speed_per_volt_ + (torque ) / torque_per_volt_- friction_volt_);
         }else if (torque > Util.kEpsilon){
-            return (outputspeed / speed_per_volt_ + (torque + friction_volt_) / torque_per_volt_); 
+            return (outputspeed / speed_per_volt_ + (torque ) / torque_per_volt_+ friction_volt_); 
         }else if (torque < -Util.kEpsilon){
-            return (outputspeed / speed_per_volt_ + (torque - friction_volt_) / torque_per_volt_);
+            return (outputspeed / speed_per_volt_ + (torque ) / torque_per_volt_- friction_volt_);
         }else {
             return 0;
         }
