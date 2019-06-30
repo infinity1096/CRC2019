@@ -201,38 +201,15 @@ public class DifferentialDrive {
 
     //tested
     public void solveInverseDynamics(DriveDynamics dynamics) {
-        // Determine the necessary torques on the left and right wheels to produce the desired wheel accelerations.
-        dynamics.wheel_torque.left = wheel_radius_ / 2.0 * (dynamics.chassisAcceleration.linear * mass_ -
-                dynamics.chassisAcceleration.angular * moi_ / effective_wheelbase_radius_ -
-                dynamics.chassisVelocity.angular * angular_drag_ / effective_wheelbase_radius_);
-
-        dynamics.wheel_torque.right = wheel_radius_ / 2.0 * (dynamics.chassisAcceleration.linear * mass_ +
-                dynamics.chassisAcceleration.angular * moi_ / effective_wheelbase_radius_ +
-                dynamics.chassisVelocity.angular * angular_drag_ / effective_wheelbase_radius_);
-
-        // Solve for input voltages.
-        dynamics.voltage.left = leftTransmission.get_voltage_for_torque(dynamics.wheelVelocity.left, dynamics
-                .wheel_torque.left);
-        dynamics.voltage.right = rightTransmission.get_voltage_for_torque(dynamics.wheelVelocity.right, dynamics
-                .wheel_torque.right);
-    }
-
-    /*
-    public void solveInverseDynamics(DriveDynamics dynamics){
-        
         dynamics.wheel_torque.left = wheel_radius_ / 2*( (-dynamics.chassisAcceleration.angular *moi_ - dynamics.chassisVelocity.angular *
         angular_drag_)/ effective_wheelbase_radius_ + mass_ *dynamics.chassisAcceleration.linear);
-
-        System.out.println(dynamics.wheel_torque.left);
         
         dynamics.wheel_torque.right = wheel_radius_/2*( (dynamics.chassisAcceleration.angular *moi_ + dynamics.chassisVelocity.angular *
         angular_drag_)/ effective_wheelbase_radius_ + mass_ *dynamics.chassisAcceleration.linear);
 
         dynamics.voltage.left = leftTransmission.get_voltage_for_torque(dynamics.wheelVelocity.left, dynamics.wheel_torque.left);
         dynamics.voltage.right = rightTransmission.get_voltage_for_torque(dynamics.wheelVelocity.right, dynamics.wheel_torque.right);
-
     }
-    */
 
     public static class WheelState{
         
