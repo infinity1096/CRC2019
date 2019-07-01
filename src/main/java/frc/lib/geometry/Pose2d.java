@@ -24,7 +24,41 @@ public class Pose2d {
         return this.translation;
     }
 
-    
+    public Pose2d(){
+        this.translation = new Translation2d();
+        this.rotation = new Rotation2d();
+    }
 
+    public Pose2d(double x, double y, Rotation2d rotation){
+        this.translation = new Translation2d(x,y);
+        this.rotation = rotation;
+    }
+
+    public Pose2d(Translation2d translation, Rotation2d rotation){
+        this.translation = translation;
+        this.rotation = rotation;
+    }
+
+    public Pose2d(Pose2d other){
+        this.translation = other.translation;
+        this.rotation = other.rotation;
+    }
+
+    public Pose2d (Translation2d translation){
+        this.translation = translation;
+        this.rotation = new Rotation2d();
+    }
+
+    public Pose2d (Rotation2d rotation){
+        this.translation = new Translation2d();
+        this.rotation = rotation;
+    }
+
+    public String toString(){
+        String s = "Pose:\n";
+        s += translation.toString();
+        s += rotation.toString();
+        return s;
+    }
 
 }

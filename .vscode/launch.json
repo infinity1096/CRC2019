@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "CodeLens (Launch) - testPose",
+      "request": "launch",
+      "mainClass": "frc.test.testPose",
+      "projectName": "CRC2019"
+    },
+    {
+      "type": "java",
       "name": "CodeLens (Launch) - testDC",
       "request": "launch",
       "mainClass": "frc.test.testDC",

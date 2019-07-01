@@ -24,9 +24,12 @@ public class Rotation2d implements IRotation {
         this.sin_angle = 0;
     }
 
+    //tested
     public Rotation2d (double x, double y, boolean normalize){
         if (normalize){
             double mag = Math.hypot(x, y);
+            this.cos_angle = x;
+            this.sin_angle = y;
             if (mag > Util.kEpsilon){
                 this.cos_angle /= mag;
                 this.sin_angle /= mag;
@@ -49,14 +52,21 @@ public class Rotation2d implements IRotation {
         this(translation.x,translation.y,true);
     }
 
-    public Rotation2d fromRad(double Rad){
+    public Rotation2d (double andleRAD){
+        this(
+            Math.cos(andleRAD),
+            Math.sin(andleRAD),
+            false);
+    }
+
+    public static Rotation2d fromRad(double Rad){
         return new Rotation2d(
                 Math.cos(Rad),
                 Math.sin(Rad),
                 false);
     }
 
-    public Rotation2d fromDeg(double Deg){
+    public static Rotation2d fromDeg(double Deg){
         return fromRad(Math.toRadians(Deg));
     }
 
@@ -68,6 +78,7 @@ public class Rotation2d implements IRotation {
         return this.cos_angle;
     }
 
+    //tested
     public double tan(){
         if (Math.abs(cos_angle) < Util.kEpsilon){
             if (sin_angle >= 0){
@@ -84,21 +95,29 @@ public class Rotation2d implements IRotation {
         return Math.atan2(sin_angle, cos_angle);
     }
 
-    public Rotation2d RotateBy(Rotation2d other){
+    //tested
+    public Rotation2d rotateBy(Rotation2d other){
         //Rotation Matrix: [cos -sin]
         //                 [sin  cos]
         return new Rotation2d(
                 cos_angle * other.cos_angle - sin_angle * other.sin_angle,
-                sin_angle * other.cos_angle + cos_angle * other.sin_angle,
+                cos_angle * other.sin_angle + sin_angle * other.cos_angle,
                 true);
     }
 
+    //tested
     public Rotation2d inverse(){
         return new Rotation2d(cos_angle,-sin_angle,false);
     }
 
     public Rotation2d getRotation(){
         return this;
+    }
+
+    public String toString(){
+        String s = "Rotation:\n";
+        s += "\ttheta RAD: " + ((int)(getRad() *1000/ Math.PI))/1000.0d  + " * PI\n";
+        return s;
     }
 
 
