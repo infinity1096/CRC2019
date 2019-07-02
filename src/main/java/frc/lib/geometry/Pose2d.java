@@ -13,8 +13,8 @@ package frc.lib.geometry;
 public class Pose2d {
 
     //pose consists two parts: rotation(direction) and translation
-    protected Rotation2d rotation;
-    protected Translation2d translation;
+    public Rotation2d rotation;
+    public Translation2d translation;
 
     public static double Keps = 1e-9;
 

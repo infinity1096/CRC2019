@@ -15,6 +15,7 @@ import frc.lib.geometry.Rotation2d;
 import frc.lib.geometry.Translation2d;
 import frc.lib.path.Curve;
 import frc.lib.path.Line;
+import frc.lib.path.LineCurveGenerator;
 
 /**
  * Add your docs here.
@@ -24,23 +25,18 @@ public class testCurve {
         
     Translation2d translation1 = new Translation2d(0,0);
     Translation2d translation2 = new Translation2d(1,0);
+    Translation2d translation3 = new Translation2d(1,1);
 
-    //System.out.println(translation1.rotateBy(Rotation2d.fromRad(Math.PI/2.0d)));
-
-    Rotation2d rotation1 = new Rotation2d(-Math.PI/6);
-    Rotation2d rotation2 = new Rotation2d(Math.PI/6);
-
-    Pose2d pose1,pose2;
-
-    pose1 = new Pose2d(translation1,rotation1);
-    pose2 = new Pose2d(translation2,rotation2);
-
-    Curve curve = new Curve(pose1,pose2);
+    Line line1 = new Line(translation1,translation2);
+    Line line2 = new Line(translation2,translation3);
     
-    List<PoseWithCurvature> list = curve.interpolate(0.1);
+    LineCurveGenerator generator = new LineCurveGenerator(new double[][]{{0}});
+    generator.generate(line1, line2, 0.5);
+
+    List<PoseWithCurvature> wayPoints = generator.poseList;
     
-    for (int i = 0; i < list.size();++i){
-        System.out.println(list.get(i).toString());
+    for (int i = 0; i < wayPoints.size();++i){
+        System.out.println(wayPoints.get(i).toString());
     }
 
     }
