@@ -114,4 +114,12 @@ public class Pose2d {
         return s;
     }
 
+    public double[] RottoArray(){
+        return new double[]{rotation.cos_angle,rotation.sin_angle};
+    }
+
+    public double[] TranstoArray(){
+        return new double[]{translation.x,translation.y};
+    }
+
 }

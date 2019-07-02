@@ -12,5 +12,43 @@ package frc.lib.geometry;
  */
 public class PoseWithCurvature {
 
+    protected Pose2d pose;
+    protected double curvature;
+    protected double dcurvature;
+
+    public PoseWithCurvature(Pose2d pose,double curvature,double dcurvature){
+        this.pose = pose;
+        this.curvature = curvature;
+        this.dcurvature = dcurvature;
+    }
+
+    public PoseWithCurvature(Translation2d translation){
+        this.pose = new Pose2d(translation);
+        this.curvature = 0;
+        this.dcurvature = 0;
+    }
+
+    public Pose2d pose(){
+        return pose;
+    }
+
+    public double curvature(){
+        return curvature;
+    }
+
+    public double dcurvature(){
+        return dcurvature;
+    }
+
+    public String toString(){
+        String s = pose.toString();
+        s += "Curvature: ";
+        s += curvature;
+        s += "dCurvature: ";
+        s += dcurvature;
+        return s;
+    }
+    
+
     
 }
