@@ -84,7 +84,6 @@ public class PoseWithCovariance {
                 this.covariance
         );
 
-        System.out.println(K);
 
         RealVector pose_combined = pose1.add(K.preMultiply(pose2.subtract(pose1)));
         RealMatrix covariance_ =  

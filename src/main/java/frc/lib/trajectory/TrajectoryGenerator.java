@@ -11,4 +11,5 @@ package frc.lib.trajectory;
  * Add your docs here.
  */
 public class TrajectoryGenerator {
+    
 }
