@@ -22,6 +22,13 @@ public class PoseWithCurvature {
         this.dcurvature = dcurvature;
     }
 
+    public PoseWithCurvature(Translation2d translation, Rotation2d rotation){
+        this.pose = new Pose2d(translation,rotation);
+        this.curvature = 0;
+        this.dcurvature = 0;
+    }
+
+
     public PoseWithCurvature(Translation2d translation){
         this.pose = new Pose2d(translation);
         this.curvature = 0;

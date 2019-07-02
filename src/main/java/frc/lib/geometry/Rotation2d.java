@@ -110,8 +110,26 @@ public class Rotation2d implements IRotation {
         return new Rotation2d(cos_angle,-sin_angle,false);
     }
 
+    public Rotation2d interpolate(final Rotation2d other, double x) {
+        if (x <= 0) {
+            return new Rotation2d(this);
+        } else if (x >= 1) {
+            return new Rotation2d(other);
+        }
+        double angle_diff = inverse().rotateBy(other).getRad();
+        return this.rotateBy(Rotation2d.fromRad(angle_diff * x));
+    }
+
+    public double angleDiff(Rotation2d other){
+        return this.inverse().rotateBy(other).getRad();
+    }
+
     public Rotation2d getRotation(){
         return this;
+    }
+
+    public double dot(Rotation2d other){
+        return cos_angle * other.cos_angle + sin_angle * other.sin_angle;
     }
 
     public String toString(){

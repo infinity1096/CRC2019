@@ -7,6 +7,7 @@
 
 package frc.lib.path;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
@@ -28,6 +29,9 @@ public class Curve {
     protected Pose2d start;
     protected Pose2d end;
 
+    public Curve(){
+        
+    }
 
     public Curve(Pose2d start, Pose2d end){
         this.start = start;
@@ -36,7 +40,11 @@ public class Curve {
 
     @Deprecated //two vectors and their direction over-defined the arc.
                 //User MUST ensure both pose belongs to the arc.
-    public void interpolate(double dtheta){
+
+                //When I wrote this code, only god and I knows how it works
+                //Now, only god knows. 
+    public List<PoseWithCurvature> interpolate(double dtheta){
+
         RealVector theta1 = new ArrayRealVector(start.RottoArray());
         RealVector theta2 = new ArrayRealVector(end.RottoArray());
 
@@ -56,6 +64,22 @@ public class Curve {
         double[] center = mat1inv.preMultiply(matrix2).getRow(0); //solve for center of circle
         double r = Math.hypot(center[0]-start.TranstoArray()[0], center[1]-start.TranstoArray()[1]);
         
+        Translation2d center_to_startpos = new Translation2d(start.getTranslation().x() - center[0], 
+                                                            start.getTranslation().y() - center[1]);
+        Translation2d center_ = new Translation2d(center[0],center[1]);
+
+        int num = (int) (Math.ceil(Math.abs(end.getRotation().angleDiff(start.getRotation())) / dtheta) + 1);
+
+        List<PoseWithCurvature> list = new ArrayList<>(num);
+        
+        for (int i = 0; i <= num; ++i){
+            Rotation2d rot = start.getRotation().interpolate(end.getRotation(), (double)i/(double)num);
+            list.add(new PoseWithCurvature(
+                center_to_startpos.rotateBy(rot.rotateBy(start.getRotation().inverse())).add(center_),
+                rot
+            ));
+        }
+        return list;
     }
 
 

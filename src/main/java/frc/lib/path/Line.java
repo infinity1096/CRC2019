@@ -27,6 +27,11 @@ public class Line {
         this.end = end;
     }
 
+    public Line(Translation2d start,Translation2d end){
+        this.start = new Pose2d(start);
+        this.end = new Pose2d (end);
+    }
+
     public List<PoseWithCurvature> interpolate(double dx){
        double l =  (new Translation2d(start.getTranslation(),end.getTranslation())).norm();
 

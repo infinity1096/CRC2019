@@ -23,12 +23,12 @@ public class testCurve {
     public static void main(String[] args){
         
     Translation2d translation1 = new Translation2d(0,0);
-    Translation2d translation2 = new Translation2d(1,1);
+    Translation2d translation2 = new Translation2d(1,0);
 
     //System.out.println(translation1.rotateBy(Rotation2d.fromRad(Math.PI/2.0d)));
 
-    Rotation2d rotation1 = new Rotation2d(-Math.PI/4);
-    Rotation2d rotation2 = new Rotation2d(Math.PI/4);
+    Rotation2d rotation1 = new Rotation2d(-Math.PI/6);
+    Rotation2d rotation2 = new Rotation2d(Math.PI/6);
 
     Pose2d pose1,pose2;
 
@@ -37,14 +37,11 @@ public class testCurve {
 
     Curve curve = new Curve(pose1,pose2);
     
-    Line line = new Line(pose1,pose2);
-
-    List<PoseWithCurvature> list =  line.interpolate(0.05);
+    List<PoseWithCurvature> list = curve.interpolate(0.1);
     
     for (int i = 0; i < list.size();++i){
         System.out.println(list.get(i).toString());
     }
 
-    
     }
 }

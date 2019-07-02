@@ -34,10 +34,23 @@ public class Translation2d implements ITranslation{
         this.y = other.y;
     }
 
+    public Translation2d(Rotation2d rotation){
+        this.x = rotation.cos_angle;
+        this.y = rotation.sin_angle;
+    }
+
     //tested
     public Translation2d(Translation2d start,Translation2d end){
         this.x = end.x - start.x;
         this.y = end.y - start.y;
+    }
+
+    public double x(){
+        return x;
+    }
+
+    public double y(){
+        return y;
     }
 
     //tested
