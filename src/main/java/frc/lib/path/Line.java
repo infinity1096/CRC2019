@@ -44,8 +44,9 @@ public class Line {
 
         for (int i = 0; i < num+1; ++i){
             list.add(new PoseWithCurvature(start.getTranslation().interpolate(
-                    end.getTranslation(), (double)i/(double)num)));
+                    end.getTranslation(), (double)i/(double)num),start.getRotation()));
         }
+        
         return list;
     }
 

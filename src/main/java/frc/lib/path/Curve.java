@@ -71,13 +71,22 @@ public class Curve {
         int num = (int) (Math.ceil(Math.abs(end.getRotation().angleDiff(start.getRotation())) / dtheta) + 1);
 
         List<PoseWithCurvature> list = new ArrayList<>(num);
+
+        double curve = 1/r;
+
+        if (!(end.getRotation().angleDiff(start.getRotation()) > 0)){
+            curve = -1/r;
+        }
+
         
         for (int i = 0; i <= num; ++i){
             Rotation2d rot = start.getRotation().interpolate(end.getRotation(), (double)i/(double)num);
-            list.add(new PoseWithCurvature(
+            PoseWithCurvature pose_ =  new PoseWithCurvature(
                 center_to_startpos.rotateBy(rot.rotateBy(start.getRotation().inverse())).add(center_),
                 rot
-            ));
+            );
+            pose_.curvature(curve);
+            list.add(pose_);
         }
         return list;
     }

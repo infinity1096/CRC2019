@@ -30,8 +30,10 @@ public class testCurve {
     Line line1 = new Line(translation1,translation2);
     Line line2 = new Line(translation2,translation3);
     
-    LineCurveGenerator generator = new LineCurveGenerator(new double[][]{{0}});
-    generator.generate(line1, line2, 0.5);
+    LineCurveGenerator generator = new LineCurveGenerator(new double[][]
+            {{0,2,4,6},
+             {0,2,2,4}},0.4);
+    generator.generate();
 
     List<PoseWithCurvature> wayPoints = generator.poseList;
     

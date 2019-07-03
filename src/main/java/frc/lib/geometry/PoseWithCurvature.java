@@ -43,6 +43,10 @@ public class PoseWithCurvature {
         return curvature;
     }
 
+    public void curvature(double input){
+        this.curvature = input;
+    }
+
     public double dcurvature(){
         return dcurvature;
     }
@@ -53,6 +57,11 @@ public class PoseWithCurvature {
         s += curvature;
         s += "dCurvature: ";
         s += dcurvature;
+        return s;
+    }
+
+    public String toString2(){
+        String s = pose.translation.x + "\t" + pose.translation.y; 
         return s;
     }
     

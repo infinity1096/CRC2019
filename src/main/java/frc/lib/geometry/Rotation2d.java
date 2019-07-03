@@ -134,7 +134,7 @@ public class Rotation2d implements IRotation {
 
     public String toString(){
         String s = "Rotation:\n";
-        s += "\ttheta RAD: " + ((int)(getRad() *1000/ Math.PI))/1000.0d  + " * PI\n";
+        s += "\ttheta RAD: " + ((int)(getRad() *100000/ Math.PI))/100000.0d  + " * PI\n";
         return s;
     }
 

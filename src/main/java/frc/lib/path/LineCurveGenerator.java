@@ -29,23 +29,23 @@ public class LineCurveGenerator {
         this.wayPoints = wayPoints;
         num = wayPoints[0].length;
         radius = new double[num-2];
-        for (int i = 0; i < num; ++i){
+        for (int i = 0; i < num-2; ++i){
             radius[i] = 0.4;
         }
     }
 
-    LineCurveGenerator(double[][] wayPoints,double radius){
+    public LineCurveGenerator(double[][] wayPoints,double radius){
         this.wayPoints = wayPoints;
         num = wayPoints[0].length;
         this.radius = new double[num-2];
-        for (int i = 0; i < num; ++i){
+        for (int i = 0; i < num-2; ++i){
             this.radius[i] = radius;
         }
     }
 
-    //TODO TEST THIS
+    //tested
     public void generate(){
-        //in total, we have n-1 curves:
+        //in total, we have n-2 curves:
         Line startLine = new Line(new Translation2d(wayPoints[0][0], wayPoints[1][0]),
                                   new Translation2d(wayPoints[0][1], wayPoints[1][1]));
 
