@@ -15,8 +15,17 @@ public class StampedState<T> {
     protected T state;
     protected double time_stamp; //  time assiciated with this pose, seconds
 
-    
+    public StampedState(T state,double time_stamp){
+        this.state = state;
+        this.time_stamp = time_stamp;
+    }
 
+    public T getState(){
+        return this.state;
+    }
 
+    public double getTime(){
+        return this.time_stamp;
+    }
 
 }

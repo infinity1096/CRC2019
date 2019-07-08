@@ -5,38 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.lib.trajectory;
+package frc.lib.spline;
 
-import java.util.List;
-
-import frc.lib.geometry.PoseWithCurvature;
-import frc.lib.geometry.StampedState;
+import org.apache.commons.math3.linear.ArrayRealVector;
 
 /**
  * Add your docs here.
  */
-public class TrajectoryGenerator {
+public class CubicSpline {
 
-    private List<PoseWithCurvature> list;
-
-    public TrajectoryGenerator(){
-
-    }
-
-    void load(List<PoseWithCurvature> list){
-        this.list = list;
-    }
-
-
-    List<StampedState<PoseWithCurvature>> generate(){
-        
-
-
-
-
-        return null;
-    }
-
+    ArrayRealVector P0,P1,P2,P3;
 
     
+
+
 }

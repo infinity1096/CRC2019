@@ -156,7 +156,7 @@ public class DifferentialDrive {
 
         
 
-        //curveture = omega / v
+        //curvature = omega / v
 
         dynamics.curvature = dynamics.chassisVelocity.angular / dynamics.chassisVelocity.linear;
         
@@ -209,6 +209,35 @@ public class DifferentialDrive {
 
         dynamics.voltage.left = leftTransmission.get_voltage_for_torque(dynamics.wheelVelocity.left, dynamics.wheel_torque.left);
         dynamics.voltage.right = rightTransmission.get_voltage_for_torque(dynamics.wheelVelocity.right, dynamics.wheel_torque.right);
+    }
+
+    public double getMaxVelocity(double curvature,double voltage){
+        
+        //1. get max speed for left and right drivetrain
+        double Vl_max = leftTransmission.free_speed_at_voltage(voltage);
+        double Vr_max = rightTransmission.free_speed_at_voltage(voltage);
+
+        //2. suppose left drivetrain is now at full speed, calculate the speed of the right drive train
+        //  using the curvature constraint: (Vr - Vl) / (2Wb*(Vr + Vl)) = k
+        // -> Vr = (1 + k * Wb) / (1 - k * Wb) * Vl
+        double Vr_if_Vl_max = (1 + curvature * effective_wheelbase_radius_)
+                /(1 - curvature * effective_wheelbase_radius_) * Vl_max;
+
+        if (Math.abs(Vr_if_Vl_max) < Vr_max + Util.kEpsilon){
+            //left side is constraint
+            return (Vr_if_Vl_max + Vl_max) / 2.0d;
+        }else{
+            //right side is constraint
+            double Vl_if_Vr_max = (1 - curvature * effective_wheelbase_radius_)
+            /(1 + curvature * effective_wheelbase_radius_) * Vr_max;
+            return (Vl_if_Vr_max + Vr_max) / 2.0d;
+        }
+        
+    }
+
+    public double getMaxAccelcration(){
+
+        return 0;
     }
 
     public static class WheelState{

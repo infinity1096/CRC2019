@@ -5,38 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.lib.trajectory;
-
-import java.util.List;
+package frc.lib.trajectory.constraints;
 
 import frc.lib.geometry.PoseWithCurvature;
-import frc.lib.geometry.StampedState;
 
 /**
  * Add your docs here.
  */
-public class TrajectoryGenerator {
+public class DifferentialDriveDynamicsConstraints implements IConstraints<PoseWithCurvature> {
 
-    private List<PoseWithCurvature> list;
+    
 
-    public TrajectoryGenerator(){
-
+    @Override
+    public double getMaxSpeed(PoseWithCurvature state) {
+        return 0;
     }
 
-    void load(List<PoseWithCurvature> list){
-        this.list = list;
-    }
-
-
-    List<StampedState<PoseWithCurvature>> generate(){
-        
-
-
-
-
+    @Override
+    public MinMaxAccelcration getMaxAcceleration(double velocity, PoseWithCurvature state) {
         return null;
     }
 
 
-    
 }
