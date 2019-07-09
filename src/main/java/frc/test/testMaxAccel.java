@@ -20,16 +20,16 @@ public class testMaxAccel {
     public static void main(String args[]){
 
         DCMotorTransmission left,right;
-        left = new DCMotorTransmission(7.407, 24.7844, 1.055);
-        right = new DCMotorTransmission(7.407, 24.7844, 1.055);
+        left = new DCMotorTransmission(2.4, 24.7844, 1.055);
+        right = new DCMotorTransmission(2.4, 24.7844, 1.055);
 
         DifferentialDrive drive = new DifferentialDrive(60,10,12,0.3,0.90,left, right);
 
         ChassisState velocity = new ChassisState(1, 0);
 
-        MinMax limit = drive.getMaxAccelcration(velocity, 0, 5);
+        double speed = drive.getMaxVelocity(0, 10);
 
-        System.out.println(limit.toString());
+        System.out.println(speed);
 
     }
 

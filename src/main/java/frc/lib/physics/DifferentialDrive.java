@@ -227,12 +227,12 @@ public class DifferentialDrive {
 
         if (Math.abs(Vr_if_Vl_max) < Vr_max + Util.kEpsilon){
             //left side is constraint
-            return (Vr_if_Vl_max + Vl_max) / 2.0d;
+            return (Vr_if_Vl_max + Vl_max) / 2.0d * wheel_radius_;
         }else{
             //right side is constraint
             double Vl_if_Vr_max = (1 - curvature * effective_wheelbase_radius_)
             /(1 + curvature * effective_wheelbase_radius_) * Vr_max;
-            return (Vl_if_Vr_max + Vr_max) / 2.0d;
+            return (Vl_if_Vr_max + Vr_max) / 2.0d * wheel_radius_;
         }
         
     }
