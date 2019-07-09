@@ -26,8 +26,8 @@ public class CentripetalAccelerationConstraint implements IConstraints<PoseWithC
     }
 
     @Override
-    public MinMaxAccelcration getMaxAcceleration(double velocity, PoseWithCurvature state) {
-        return MinMaxAccelcration.kNoLimits;
+    public MinMax getMaxAcceleration(double velocity, PoseWithCurvature state) {
+        return MinMax.kNoLimits;
     }
 
 }

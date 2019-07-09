@@ -22,7 +22,7 @@ public class DifferentialDriveDynamicsConstraints implements IConstraints<PoseWi
     }
 
     @Override
-    public MinMaxAccelcration getMaxAcceleration(double velocity, PoseWithCurvature state) {
+    public MinMax getMaxAcceleration(double velocity, PoseWithCurvature state) {
         return null;
     }
 

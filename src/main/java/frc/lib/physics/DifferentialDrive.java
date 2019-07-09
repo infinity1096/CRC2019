@@ -8,8 +8,10 @@
 package frc.lib.physics;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 import frc.lib.Util;
+import frc.lib.trajectory.constraints.IConstraints.MinMax;
 
 /**
  * Add your docs here.
@@ -235,9 +237,56 @@ public class DifferentialDrive {
         
     }
 
-    public double getMaxAccelcration(){
+    public MinMax getMaxAccelcration(ChassisState chassisVelocity,double curvature, double maxVoltage){
 
-        return 0;
+        WheelState wheelVelocity = solveInverseKinematics(chassisVelocity);
+        MinMax minmaxAccel = new MinMax();
+        MinMax leftTorque, rightTorque;
+
+        leftTorque = new MinMax(
+                leftTransmission.get_torque_for_voltage(
+                        wheelVelocity.left, -maxVoltage),
+                leftTransmission.get_torque_for_voltage(
+                        wheelVelocity.left, maxVoltage));
+        
+        rightTorque = new MinMax(
+                rightTransmission.get_torque_for_voltage(
+                        wheelVelocity.right, -maxVoltage),
+                rightTransmission.get_torque_for_voltage(
+                        wheelVelocity.right, maxVoltage));
+
+
+
+        // we know that (Tl + Tr) / Wr = m*a
+        // and          (Tr - Tl) / Wr - f * omega = I * k
+        // we have 3 unknowns: Tl, Tr, a and two equations
+        // so that we could get the relationship between Tl and Tr
+        // by eliminating a:
+        // Tl = (m - I*k/Wb) / (m + I*k/Wb) * Tr - f*omega*Wr/Wb/(m + I*k/Wb)
+        // Tl = C1 * Tr + C0
+
+        // and we have torque constraints:
+        // right_min_torque <= Tr <= right_max_torque
+        // left_min_torque <= Tl = C1 * Tr + C0 <= left_max_torque
+        // (left_min_torque - C0) / C1 <> Tr <> (left_max_torque - C0) / C1 
+        // (Direction of the more / less sign depends on the sign of C1!) 
+
+        //when we have the limits of Tr, we can calculate the limits of a
+
+        double angularTerm = moi_ * curvature / effective_wheelbase_radius_;
+        double C0, C1;
+
+        C1 = (mass_ - angularTerm) / (mass_ + angularTerm);
+        C0 = -angular_drag_ *chassisVelocity.angular * wheel_radius_ / effective_wheelbase_radius_
+        / (mass_ + angularTerm);
+
+        minmaxAccel = minmaxAccel.intersect(rightTorque);
+        
+        minmaxAccel = minmaxAccel.intersect(leftTorque.sclarAdd(-C0).scale(1/C1)); // <- limit of Tr
+
+        // re-scale to acceleration
+        minmaxAccel = minmaxAccel.scale(C1 + 1).sclarAdd(C0).scale(1/(wheel_radius_ * mass_));
+        return minmaxAccel;
     }
 
     public static class WheelState{

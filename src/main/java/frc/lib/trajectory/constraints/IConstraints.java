@@ -13,32 +13,61 @@ package frc.lib.trajectory.constraints;
 public interface IConstraints<S> {
 
     public double getMaxSpeed(S state);
-    public MinMaxAccelcration getMaxAcceleration(double velocity, S state);
+    public MinMax getMaxAcceleration(double velocity, S state);
 
-    public static class MinMaxAccelcration{
+    public static class MinMax{
         
-        double minAcceleration;
-        double maxAcceleration;
+        public double min;
+        public double max;
 
-        public static MinMaxAccelcration kNoLimits = new MinMaxAccelcration();
+        public static MinMax kNoLimits = new MinMax();
 
-        public MinMaxAccelcration(){
-            this.minAcceleration = Double.NEGATIVE_INFINITY;
-            this.maxAcceleration = Double.POSITIVE_INFINITY;
+        public MinMax(){
+            this.min = Double.NEGATIVE_INFINITY;
+            this.max = Double.POSITIVE_INFINITY;
         }
 
-        public MinMaxAccelcration(double minAcceleration,double maxAcceleration){
-            this.minAcceleration = minAcceleration;
-            this.maxAcceleration = maxAcceleration;
+        public MinMax(double min,double max){
+            this.min = min;
+            this.max = max;
         }
 
-        public double minAcceleration(){
-            return this.minAcceleration;
+        public MinMax intersect(MinMax other){
+            double min, max;
+            min = Math.max(this.min,other.min);
+            max = Math.min(this.max,other.max);
+            return new MinMax(min,max);
         }
 
-        public double maxAcceleration(){
-            return this.maxAcceleration;
+        public MinMax sclarAdd(double sclar){
+            return new MinMax(this.min + sclar,this.max + sclar);
         }
+
+        public MinMax scale(double sclar){
+            if (Math.signum(sclar) == 1) {
+                return new MinMax(this.min * sclar, this.max * sclar);
+            }else{
+                return new MinMax(this.max * sclar, this.min * sclar);
+            }
+        }
+
+        public double min(){
+            return this.min;
+        }
+
+        public double max(){
+            return this.max;
+        }
+
+        public String toString(){
+            String s = "";
+            s += this.min;
+            s += "\t";
+            s += this.max;
+            s += "\n";
+            return s;
+        }
+
     }
 
 
