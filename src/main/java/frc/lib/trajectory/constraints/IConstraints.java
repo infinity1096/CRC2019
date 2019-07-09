@@ -7,13 +7,15 @@
 
 package frc.lib.trajectory.constraints;
 
+import frc.lib.physics.DifferentialDrive.ChassisState;
+
 /**
  * Add your docs here.
  */
 public interface IConstraints<S> {
 
     public double getMaxSpeed(S state);
-    public MinMax getMaxAcceleration(double velocity, S state);
+    public MinMax getMaxAcceleration(ChassisState chassisState, S state);
 
     public static class MinMax{
         

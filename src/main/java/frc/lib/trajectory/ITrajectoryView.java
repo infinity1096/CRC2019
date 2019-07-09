@@ -7,38 +7,17 @@
 
 package frc.lib.trajectory;
 
-import java.util.List;
-
 import frc.lib.geometry.PoseWithCurvature;
-import frc.lib.geometry.StampedState;
 
 /**
  * Add your docs here.
  */
-public class TrajectoryGenerator {
+public interface ITrajectoryView {
 
-    private DistanceView traj;
+    PoseWithCurvature sample(double x);
 
-    
+    PoseWithCurvature getFirstPoint();
 
-    public TrajectoryGenerator(){
-
-    }
-
-    void load(List<PoseWithCurvature> list){
-        this.list = list;
-    }
-
-
-    List<StampedState<PoseWithCurvature>> generate(){
-        
-
-
-
-
-        return null;
-    }
-
-
+    PoseWithCurvature getLastPoint();
     
 }

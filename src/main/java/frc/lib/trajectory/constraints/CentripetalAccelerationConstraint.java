@@ -8,6 +8,7 @@
 package frc.lib.trajectory.constraints;
 
 import frc.lib.geometry.PoseWithCurvature;
+import frc.lib.physics.DifferentialDrive.ChassisState;
 
 /**
  * Add your docs here.
@@ -26,7 +27,7 @@ public class CentripetalAccelerationConstraint implements IConstraints<PoseWithC
     }
 
     @Override
-    public MinMax getMaxAcceleration(double velocity, PoseWithCurvature state) {
+    public MinMax getMaxAcceleration(ChassisState chassisState, PoseWithCurvature state) {
         return MinMax.kNoLimits;
     }
 

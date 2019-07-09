@@ -7,24 +7,32 @@
 
 package frc.lib.trajectory.constraints;
 
+
 import frc.lib.geometry.PoseWithCurvature;
+import frc.lib.physics.DifferentialDrive;
+import frc.lib.physics.DifferentialDrive.ChassisState;
 
 /**
  * Add your docs here.
  */
 public class DifferentialDriveDynamicsConstraints implements IConstraints<PoseWithCurvature> {
 
-    
+    double maxVoltage;
+    DifferentialDrive drive;
+
+    public DifferentialDriveDynamicsConstraints(DifferentialDrive drive,double maxVoltage){
+        this.drive = drive;
+        this.maxVoltage = maxVoltage;
+    }
 
     @Override
     public double getMaxSpeed(PoseWithCurvature state) {
-        return 0;
+        return drive.getMaxVelocity(state.curvature(), maxVoltage);
     }
 
     @Override
-    public MinMax getMaxAcceleration(double velocity, PoseWithCurvature state) {
-        return null;
+    public MinMax getMaxAcceleration(ChassisState chassisState,PoseWithCurvature state) {
+        return drive.getMaxAccelcration(chassisState, state.curvature(), maxVoltage);
     }
-
 
 }
