@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -22,12 +23,24 @@ public class Chassis extends Subsystem {
   TalonSRX talonrf = new TalonSRX(7);
   TalonSRX talonrb = new TalonSRX(8);
 
+void arcadeDrive(double v,double omega){
+  double left = v-omega/2;
+  double right = v+omega/2;
+
+
+  talonlb.set(ControlMode.PercentOutput, left);
+  talonlf.set(ControlMode.PercentOutput, left);
+  talonrb.set(ControlMode.PercentOutput, right);
+  talonrf.set(ControlMode.PercentOutput, right);
+}
+
+
 
 
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-     setDefaultCommand(new MySpecialCommand());
+     //setDefaultCommand(new MySpecialCommand());
   }
 }
