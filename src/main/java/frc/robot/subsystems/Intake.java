@@ -1,3 +1,4 @@
+
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
@@ -40,8 +41,5 @@ import edu.wpi.first.wpilibj.command.Subsystem;
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    public double getCurrent() {
-      return talonf2.getOutputCurrent();
-    }
   }
 }

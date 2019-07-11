@@ -209,9 +209,15 @@ public class TrajectoryGenerator {
         successor = constrainedState;
         }
         
+        /*
+            for (int i = 0; i < num; i++){
+            System.out.println(constrainedStates.get(i).velocityLimit);
+        }
+        */
+
         //Integration Step
-
-
+        
+        
         return null;
     }
 

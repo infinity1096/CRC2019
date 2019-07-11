@@ -16,7 +16,7 @@ import frc.robot.Robot;
 public class ChassisA extends Command {
   public ChassisA() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.Chassis);
+    requires(Robot.chassis);
 
   }
 
