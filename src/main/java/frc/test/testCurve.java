@@ -67,14 +67,12 @@ public class testCurve {
             new DistanceView(new Trajectory(wayPoints)),
             constraints,
             5,
-            10,
+            20,
             0,
             0,
             0.02);
     
     generatorTraj.generate();
-
-
 
 
     }
