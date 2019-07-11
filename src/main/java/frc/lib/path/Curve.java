@@ -32,17 +32,15 @@ public class Curve {
     public Curve(){
         
     }
-
+    
+    @Deprecated //two vectors and their direction over-defined the arc.
+                //User MUST ensure both pose belongs to the arc. 
     public Curve(Pose2d start, Pose2d end){
         this.start = start;
         this.end = end;
     }
 
-    @Deprecated //two vectors and their direction over-defined the arc.
-                //User MUST ensure both pose belongs to the arc.
 
-                //When I wrote this code, only god and I knows how it works
-                //Now, only god knows. 
     public List<PoseWithCurvature> interpolate(double dtheta){
 
         RealVector theta1 = new ArrayRealVector(start.RottoArray());
