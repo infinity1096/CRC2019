@@ -14,7 +14,7 @@ import frc.lib.physics.DifferentialDrive.ChassisState;
  */
 public interface IConstraints<S> {
 
-    public double getMaxSpeed(S state);
+    public MinMax getMaxSpeed(S state);
     public MinMax getMaxAcceleration(ChassisState chassisState, S state);
 
     public static class MinMax{

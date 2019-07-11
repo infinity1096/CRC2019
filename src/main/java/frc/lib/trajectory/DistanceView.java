@@ -33,6 +33,11 @@ public class DistanceView implements ITrajectoryView{
 
     @Override
     public PoseWithCurvature sample(double distance) {
+
+        if (distance >= getLastPoint()){
+            return trajectory.getState(trajectory.points.size()-1);
+        }
+
         for (int i = 0; i < trajectory.points.size(); ++i){
             if (this.distance[i] > distance){
                 //found!

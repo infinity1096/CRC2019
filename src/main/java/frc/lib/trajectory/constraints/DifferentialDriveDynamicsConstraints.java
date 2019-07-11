@@ -26,12 +26,14 @@ public class DifferentialDriveDynamicsConstraints implements IConstraints<PoseWi
     }
 
     @Override
-    public double getMaxSpeed(PoseWithCurvature state) {
-        return drive.getMaxVelocity(state.curvature(), maxVoltage);
+    public MinMax getMaxSpeed(PoseWithCurvature state) {
+        return new MinMax(-drive.getMaxVelocity(state.curvature(), maxVoltage),
+                drive.getMaxVelocity(state.curvature(), maxVoltage));
     }
 
     @Override
     public MinMax getMaxAcceleration(ChassisState chassisState,PoseWithCurvature state) {
+
         return drive.getMaxAccelcration(chassisState, state.curvature(), maxVoltage);
     }
 

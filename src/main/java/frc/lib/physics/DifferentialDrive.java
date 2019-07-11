@@ -281,7 +281,7 @@ public class DifferentialDrive {
         / (mass_ + angularTerm);
 
         minmaxAccel = minmaxAccel.intersect(rightTorque);
-        
+
         minmaxAccel = minmaxAccel.intersect(leftTorque.sclarAdd(-C0).scale(1/C1)); // <- limit of Tr
 
         // re-scale to acceleration

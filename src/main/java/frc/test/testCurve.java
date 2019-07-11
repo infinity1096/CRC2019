@@ -7,7 +7,9 @@
 
 package frc.test;
 
+import java.util.ArrayList;
 import java.util.List;
+
 
 import frc.lib.geometry.Pose2d;
 import frc.lib.geometry.PoseWithCurvature;
@@ -16,11 +18,20 @@ import frc.lib.geometry.Translation2d;
 import frc.lib.path.Curve;
 import frc.lib.path.Line;
 import frc.lib.path.LineCurveGenerator;
+import frc.lib.physics.DCMotorTransmission;
+import frc.lib.physics.DifferentialDrive;
+import frc.lib.trajectory.DistanceView;
+import frc.lib.trajectory.Trajectory;
+import frc.lib.trajectory.TrajectoryGenerator;
+import frc.lib.trajectory.constraints.CentripetalAccelerationConstraint;
+import frc.lib.trajectory.constraints.DifferentialDriveDynamicsConstraints;
+import frc.lib.trajectory.constraints.IConstraints;
 
 /**
  * Add your docs here.
  */
 public class testCurve {
+    
     public static void main(String[] args){
         
     Translation2d translation1 = new Translation2d(0,0);
@@ -36,10 +47,35 @@ public class testCurve {
     generator.generate();
 
     List<PoseWithCurvature> wayPoints = generator.poseList;
-    
+    /*
     for (int i = 0; i < wayPoints.size();++i){
         System.out.println(wayPoints.get(i).toString());
     }
+    */
+    DCMotorTransmission left,right;
+    left = new DCMotorTransmission(2.4, 24.7844, 1.055);
+    right = new DCMotorTransmission(2.4, 24.7844, 1.055);
+
+    DifferentialDrive drive = new DifferentialDrive(60,10,12,0.3,0.90,left, right);
+
+    List<IConstraints<PoseWithCurvature>> constraints = new ArrayList<IConstraints<PoseWithCurvature>>(2);
+    constraints.add(new CentripetalAccelerationConstraint(5));
+    constraints.add(new DifferentialDriveDynamicsConstraints(drive, 12));
+
+
+    TrajectoryGenerator generatorTraj = new TrajectoryGenerator(
+            new DistanceView(new Trajectory(wayPoints)),
+            constraints,
+            5,
+            10,
+            0,
+            0,
+            0.02);
+    
+    generatorTraj.generate();
+
+
+
 
     }
 }

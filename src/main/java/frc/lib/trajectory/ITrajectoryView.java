@@ -16,8 +16,8 @@ public interface ITrajectoryView {
 
     PoseWithCurvature sample(double x);
 
-    PoseWithCurvature getFirstPoint();
+    double getFirstPoint();
 
-    PoseWithCurvature getLastPoint();
+    double getLastPoint();
     
 }
