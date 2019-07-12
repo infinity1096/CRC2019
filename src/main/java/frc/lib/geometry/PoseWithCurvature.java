@@ -51,6 +51,17 @@ public class PoseWithCurvature {
         return dcurvature;
     }
 
+    public double distance(PoseWithCurvature other){
+        return Math.hypot(this.pose.translation.x() - other.pose.translation.x,
+                this.pose.translation.y() - other.pose.translation.y());
+    }
+
+    public PoseWithCurvature intrapolate(PoseWithCurvature other, double x){
+        return new PoseWithCurvature(pose.interpolate(other.pose, x), 
+                (1-x) * curvature + x * other.curvature,
+                (1-x) * dcurvature + x * other.dcurvature);
+    }
+
     public String toString(){
         String s = pose.toString();
         s += "Curvature: ";
@@ -64,7 +75,5 @@ public class PoseWithCurvature {
         String s = pose.translation.x + "\t" + pose.translation.y; 
         return s;
     }
-    
 
-    
 }

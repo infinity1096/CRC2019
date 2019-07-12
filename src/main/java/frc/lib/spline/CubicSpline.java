@@ -5,18 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.Odometry;
+package frc.lib.spline;
+
+import org.apache.commons.math3.linear.ArrayRealVector;
 
 /**
  * Add your docs here.
  */
-public class Odometry implements Runnable {
+public class CubicSpline {
+
+    ArrayRealVector P0,P1,P2,P3;
 
     
-    
 
-    @Override
-    public void run() {
 
-    }
 }

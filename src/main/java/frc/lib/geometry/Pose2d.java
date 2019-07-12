@@ -56,6 +56,18 @@ public class Pose2d {
         this.rotation = rotation;
     }
 
+    public Pose2d interpolate(Pose2d other,double x){
+        if (x < 0){
+            return this;
+        } else if (x > 1){
+            return other;
+        } else{
+            return new Pose2d(
+                translation.interpolate(other.translation, x),
+                rotation.interpolate(other.rotation, x));
+        }
+    }
+
     /**
      * Obtain a new Pose2d from a (constant curvature) velocity. See:
      * https://github.com/strasdat/Sophus/blob/master/sophus/se2.hpp

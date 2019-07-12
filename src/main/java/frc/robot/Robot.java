@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.sensors.AbsoluteEncoder;
 import frc.robot.subsystems.Chassis;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lift;
 
 /**
@@ -26,8 +26,9 @@ import frc.robot.subsystems.Lift;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static Intake intake = new Intake();
-  public static OI oi = new OI();
+  public static OI m_oi;
+  public static Chassis chassis = new Chassis();
+  public static AbsoluteEncoder encoder = new AbsoluteEncoder(Port.kOnboardCS0);
   public static Lift lift = new Lift();
   public static Chassis chassis = new Chassis();
 

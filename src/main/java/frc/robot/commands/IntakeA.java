@@ -11,14 +11,12 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class IntakeA extends Command {
-  
   public double current;
   public double currentLast;
-  
-  public IntakeA(double current) {
-    // Use requires() here to declare subsystem dependencies
-    this.current = current;
 
+  public IntakeA() {
+    // Use requires() here to declare subsystem dependencies
+      
   }
 
   // Called just before this Command runs the first time
@@ -26,9 +24,6 @@ public class IntakeA extends Command {
   protected void initialize() {
 
 
-    Robot.intake.takeIn();
-    Robot.intake.getCurrentCommand();
-    current = Robot.intake.getCurrent();
 
   }
 
@@ -49,7 +44,6 @@ public class IntakeA extends Command {
 
 
   
-    currentLast = Robot.intake.getCurrent();
 
     if(currentLast>current+5){
       return true;
@@ -60,7 +54,6 @@ public class IntakeA extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.intake.hold();
   }
 
 }

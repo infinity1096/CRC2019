@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "CodeLens (Launch) - testMaxAccel",
+      "request": "launch",
+      "mainClass": "frc.test.testMaxAccel",
+      "projectName": "CRC2019"
+    },
+    {
+      "type": "java",
       "name": "CodeLens (Launch) - testIntrapolate",
       "request": "launch",
       "mainClass": "frc.test.testIntrapolate",

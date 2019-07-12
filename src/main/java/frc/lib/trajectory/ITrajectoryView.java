@@ -5,18 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.Odometry;
+package frc.lib.trajectory;
+
+import frc.lib.geometry.PoseWithCurvature;
 
 /**
  * Add your docs here.
  */
-public class Odometry implements Runnable {
+public interface ITrajectoryView {
 
+    PoseWithCurvature sample(double x);
+
+    double getFirstPoint();
+
+    double getLastPoint();
     
-    
-
-    @Override
-    public void run() {
-
-    }
 }

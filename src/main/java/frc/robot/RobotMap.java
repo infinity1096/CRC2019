@@ -14,26 +14,46 @@ package frc.robot;
  * floating around.
  */
 public class RobotMap {
-  // For example to map the left and right motors, you could define the
-  // following variables to use with your drivetrain subsystem.
-  // public static int leftMotor = 1;
-  // public static int rightMotor = 2;
 
-  // If you are using multiple modules, make sure to define both the port
-  // number and the module. For example you with a rangefinder:
-  // public static int rangefinderPort = 1;
-  // public static int rangefinderModule = 1;
+   //Software parameters 
 
+  //Chassis - autonomous
+
+
+
+
+
+
+  //Port definition - DO NOT modify code under this line unless actual wire connection is changed
+
+  
+  //Chassis
+  public static final int CHASSIS_LFMOTOR_PORT = 1;
+  public static final int CHASSIS_LBMOTOR_PORT = 2;
+  public static final int CHASSIS_RFMOTOR_PORT = 3;
+  public static final int CHASSIS_RBMOTOR_PORT = 4;
+  public static final int CHASSIS_LEFTMASTER_PORT = 5;
+  public static final int CHASSIS_RIGHTMASTER_PORT = 6;
 
   //Lift
-  public static final int LIFT_MOTOR1_PORT = 1;
-  public static final int LIFT_MOTOR2_PORT = 2;
-  public static final int LIFT_MOTOR3_PORT = 3;
-  public static final int LIFT_MOTOR4_PORT = 4;
-  public static final int LIFT_MOTOR5_PORT = 5;
-  public static final int LIFT_MOTOR6_PORT = 6;
-  public static final int LIFT_MOTOR7_PORT = 7;
-  public static final int LIFT_MOTOR8_PORT = 8;
+  public static final int LIFT_MOTOR1_PORT = 7;
+  public static final int LIFT_MOTOR2_PORT = 8;
+  public static final int LIFT_MOTOR3_PORT = 9;
+  public static final int LIFT_MOTOR4_PORT = 10;
 
-  public static final int LIFT_MOTOR12_PORT = 12;
+  //Holder
+  public static final int HOLDER_MOTOR_PORT = 11;
+
+  //Intake
+  public static final int INTAKE_MOTOR_PORT = 12;
+
+//Pneumatics
+  
+
+
+
+
+
+
+
 }
