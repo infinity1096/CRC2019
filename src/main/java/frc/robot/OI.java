@@ -6,8 +6,12 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.ChassisA;
+import frc.robot.commands.TakeIn;
+import frc.robot.commands.TakeIn;
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -22,8 +26,8 @@ public class OI {
   // Button button = new JoystickButton(stick, buttonNumber);
 
   public Joystick stick = new Joystick(0);
-  public JoystickButton button = new JoystickButton(stick, 10);
-  
+  public JoystickButton button = new JoystickButton(stick, 1);
+  public JoystickButton button2 = new JoystickButton(stick, 2);
   // There are a few additional built in buttons you can use. Additionally,
   // by subclassing Button you can create custom triggers and bind those to
   // commands the same as any other Button.
@@ -36,6 +40,7 @@ public class OI {
   // until it is finished as determined by it's isFinished method.
   public OI() {
     button.whenPressed(new ChassisA());
+    button2.whenPressed(new TakeIn());
   }
   // Run the command while the button )is being held down and interrupt it once
   // the button is released.

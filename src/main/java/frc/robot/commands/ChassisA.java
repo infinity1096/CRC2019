@@ -30,10 +30,11 @@ public class ChassisA extends Command {
   @Override
   protected void execute() {
     
+    System.out.println("Im working!!!");
 
     double inputx = Robot.oi.stick.getRawAxis(0)*0.2;
     double inputy = Robot.oi.stick.getRawAxis(1)*0.2;
-    Robot.chassis.arcadeDrive(inputy,inputy);
+    Robot.chassis.arcadeDrive(inputx,inputy);
   
 
   }

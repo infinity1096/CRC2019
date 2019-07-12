@@ -9,8 +9,11 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap;
 
 /**
  * An example subsystem.  You can replace me with your own Subsystem.
@@ -18,20 +21,20 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Chassis extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  TalonSRX talonlf = new TalonSRX(5);
-  TalonSRX talonlb = new TalonSRX(6);
-  TalonSRX talonrf = new TalonSRX(7);
-  TalonSRX talonrb = new TalonSRX(8);
+  CANSparkMax talonlf = new CANSparkMax(RobotMap.CHASSIS_LFMOTOR_PORT,MotorType.kBrushless);
+  CANSparkMax talonlb = new CANSparkMax(RobotMap.CHASSIS_LBMOTOR_PORT,MotorType.kBrushless);
+  CANSparkMax talonrf = new CANSparkMax(RobotMap.CHASSIS_RFMOTOR_PORT,MotorType.kBrushless);
+  CANSparkMax talonrb = new CANSparkMax(RobotMap.CHASSIS_RBMOTOR_PORT,MotorType.kBrushless);
 
 public void arcadeDrive(double v,double omega){
   double left = v-omega/2;
   double right = v+omega/2;
 
 
-  talonlb.set(ControlMode.PercentOutput, left);
-  talonlf.set(ControlMode.PercentOutput, left);
-  talonrb.set(ControlMode.PercentOutput, right);
-  talonrf.set(ControlMode.PercentOutput, right);
+  talonlb.set( left);
+  talonlf.set(left);
+  talonrb.set( right);
+  talonrf.set(right);
 
 
 }

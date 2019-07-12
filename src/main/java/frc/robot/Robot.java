@@ -14,8 +14,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.sensors.AbsoluteEncoder;
+import frc.robot.Sensors.AbsoluteEncoder;
 import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lift;
 
 /**
@@ -26,12 +27,13 @@ import frc.robot.subsystems.Lift;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static OI m_oi;
+
   public static Chassis chassis = new Chassis();
   public static AbsoluteEncoder encoder = new AbsoluteEncoder(Port.kOnboardCS0);
   public static Lift lift = new Lift();
-  public static Chassis chassis = new Chassis();
-
+  public static OI oi = new  OI();
+  public static Intake intake = new Intake();
+  
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -42,7 +44,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-   oi = new OI();
+
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
   }
@@ -71,7 +73,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
-  }
+  }  
 
   /**
    * This autonomous (along with the chooser code above) shows how to select
@@ -126,8 +128,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    
-
   }
 
   /**
