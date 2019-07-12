@@ -11,6 +11,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
@@ -25,17 +26,25 @@ public class Lift extends Subsystem {
   TalonSRX Motor3 = new TalonSRX(RobotMap.LIFT_MOTOR3_PORT);
   TalonSRX Motor4 = new TalonSRX(RobotMap.LIFT_MOTOR4_PORT);
 
+  Solenoid ElevatorClimberChanger = new Solenoid(4);
+
+  boolean is_elevator_mode = true; // output shaft connected to elevator or climber
+
   public Lift(){
     Motor2.follow(Motor1);
     Motor3.follow(Motor1);
     Motor4.follow(Motor1); 
   }
 
-  public void move(double inputpower){
-
+  public void moveElevator(double inputpower){
+    ElevatorClimberChanger.set(false);
     Motor1.set(ControlMode.PercentOutput, inputpower);
   }
 
+  public void moveClimber(double inputpower){
+    ElevatorClimberChanger.set(true);
+    Motor1.set(ControlMode.PercentOutput, inputpower);
+  }
 
   public void resetincolder(){
     Motor1.setSelectedSensorPosition(0);

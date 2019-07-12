@@ -55,7 +55,6 @@ public class TrajectoryGenerator {
         //calc the number of states needed given dx
 
         int num =  (int)Math.ceil(disView.getLastPoint() / dl) + 1;
-        System.out.println(num);
         List<PoseWithCurvature> states = new ArrayList<PoseWithCurvature>(num);
         for (int i = 0; i < num; i++){
             states.add(disView.sample(Math.min(i * dl,disView.getLastPoint())));
@@ -117,10 +116,7 @@ public class TrajectoryGenerator {
             if (ds < Util.kEpsilon) {
                 break;
             }
-            // If the max acceleration for this constraint state is more conservative than what we had applied, we
-            // need to reduce the max accel at the predecessor state and try again.
-            // TODO: Simply using the new max acceleration is guaranteed to be valid, but may be too conservative.
-            // Doing a search would be better.
+
             final double actual_acceleration = (constrainedState.velocityLimit.max * constrainedState.velocityLimit.max
                     - predecessor.velocityLimit.max * predecessor.velocityLimit.max) / (2.0 * ds);
 
@@ -165,7 +161,7 @@ public class TrajectoryGenerator {
 
             //enforce global acceleration constraint
             constrainedState.accelLimit = constrainedState.accelLimit.intersect(
-                    new MinMax(-2*maxAccel,2*maxAccel)   
+                    new MinMax(-maxAccel,maxAccel)   
             );
 
             //enforce all velocity constraints in "constraints"
@@ -210,15 +206,41 @@ public class TrajectoryGenerator {
         }
         
         /*
-            for (int i = 0; i < num; i++){
+                for (int i = 0; i < num; i++){
             System.out.println(constrainedStates.get(i).velocityLimit);
-        }
-        */
+        }*/
+        
 
         //Integration Step
+
+        List<StampedState<PoseWithCurvature>> generatedPoints = new ArrayList<StampedState<PoseWithCurvature>>(num);
+        double t = 0;
+        double s = 0;
+        double v = startSpeed;
+
+        for (int i = 0; i < num; ++i){
+            ConstrainedState constrainedState = constrainedStates.get(i);
+            double ds = constrainedState.distance - s;
+            double dt = 0d;
+            //calculate dt
+            if (i > 0){
+                double accel = (constrainedState.velocityLimit.max * constrainedState.velocityLimit.max - v * v) / (2.0 * ds);
+                if (Math.abs(accel) > Util.kEpsilon){
+                    dt = (constrainedState.velocityLimit.max - v) / accel;
+                }else if (Math.abs(v) > Util.kEpsilon){
+                    dt = ds / v;
+                }else{
+                    throw new RuntimeException();
+                }
+
+            }
+            t += dt;
+            s = constrainedState.distance;
+            v = constrainedState.velocityLimit.max;
+            generatedPoints.add(new StampedState<PoseWithCurvature>(constrainedState.state,t,v,s));
+        }
         
-        
-        return null;
+        return generatedPoints;
     }
 
     public class ConstrainedState{

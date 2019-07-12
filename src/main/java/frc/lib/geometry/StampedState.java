@@ -13,19 +13,44 @@ package frc.lib.geometry;
 public class StampedState<T> {
     
     protected T state;
-    protected double time_stamp; //  time assiciated with this pose, seconds
+    protected double t; //  time assiciated with this pose, seconds
+    protected double v; //  time assiciated with this pose, m/s
+    protected double s; //  time assiciated with this pose, seconds
 
-    public StampedState(T state,double time_stamp){
+    public StampedState(T state,double t,double v,double s){
         this.state = state;
-        this.time_stamp = time_stamp;
+        this.t = t;
+        this.v = v;
+        this.s = s;
     }
 
     public T getState(){
         return this.state;
     }
 
-    public double getTime(){
-        return this.time_stamp;
+    public double t(){
+        return this.t;
+    }
+
+    public double v(){
+        return this.v;
+    }
+
+    public double s(){
+        return this.s;
+    }
+
+    public String toString(){
+        String s = "";
+        s += "distance:\t";
+        s += s;
+        s += "\ntime:\t";
+        s += t;
+        s += "\nvelocity:\t";
+        s += v;
+        s += "\n";
+        return s;
+
     }
 
 }

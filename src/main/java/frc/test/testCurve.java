@@ -14,6 +14,7 @@ import java.util.List;
 import frc.lib.geometry.Pose2d;
 import frc.lib.geometry.PoseWithCurvature;
 import frc.lib.geometry.Rotation2d;
+import frc.lib.geometry.StampedState;
 import frc.lib.geometry.Translation2d;
 import frc.lib.path.Curve;
 import frc.lib.path.Line;
@@ -70,10 +71,12 @@ public class testCurve {
             20,
             0,
             0,
-            0.02);
+            0.005);
     
-    generatorTraj.generate();
 
-
+    List<StampedState<PoseWithCurvature>> generatedPoints = generatorTraj.generate();
+    for (int i = 0; i < generatedPoints.size();i++){
+        System.out.println(generatedPoints.get(i));
+    }
     }
 }
