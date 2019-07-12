@@ -34,4 +34,6 @@ public class RobotMap {
   public static final int LIFT_MOTOR6_PORT = 6;
   public static final int LIFT_MOTOR7_PORT = 7;
   public static final int LIFT_MOTOR8_PORT = 8;
+
+  public static final int LIFT_MOTOR12_PORT = 12;
 }

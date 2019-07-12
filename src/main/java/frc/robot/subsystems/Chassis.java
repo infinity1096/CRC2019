@@ -23,7 +23,7 @@ public class Chassis extends Subsystem {
   TalonSRX talonrf = new TalonSRX(7);
   TalonSRX talonrb = new TalonSRX(8);
 
-void arcadeDrive(double v,double omega){
+public void arcadeDrive(double v,double omega){
   double left = v-omega/2;
   double right = v+omega/2;
 
@@ -32,15 +32,23 @@ void arcadeDrive(double v,double omega){
   talonlf.set(ControlMode.PercentOutput, left);
   talonrb.set(ControlMode.PercentOutput, right);
   talonrf.set(ControlMode.PercentOutput, right);
+
+
 }
 
 
 
 
 
+
+
   @Override
+ 
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
      //setDefaultCommand(new MySpecialCommand());
+
+
+	  
   }
 }

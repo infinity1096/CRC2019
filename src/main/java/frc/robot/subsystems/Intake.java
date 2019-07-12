@@ -9,6 +9,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -16,32 +18,32 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Add your docs here.
  */
   public class Intake extends Subsystem {
-    TalonSRX  talonf = new TalonSRX(11);
-    TalonSRX  talonf2 = new TalonSRX(12);
+    CANSparkMax csm = new CANSparkMax(11,MotorType.kBrushless);
+    
     
   public void takeIn (){
-    talonf.set(ControlMode.PercentOutput, -1);
-    talonf2.set(ControlMode.PercentOutput, 1);
+    csm.set(-1);
+  
   }
   public void hold(){
   
-    talonf2.set(ControlMode.PercentOutput, 0.1);
-    talonf.set(ControlMode.PercentOutput, 0);
+   
+    csm.set(0);
     
   }
   public void shoot(){
   
-    talonf2.set(ControlMode.PercentOutput, -1);
+    csm.set(1);
   }
 
+  public double getCurrent(){
+    return csm.getOutputCurrent();
+  }
   
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    public double getCurrent() {
-      return talonf2.getOutputCurrent();
-    }
   }
 }

@@ -8,14 +8,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 
 public class IntakeA extends Command {
-  public IntakeA() {
-    // Use requires() here to declare subsystem dependencies
-    
+  
   public double current;
   public double currentLast;
-  }}
+  
+  public IntakeA(double current) {
+    // Use requires() here to declare subsystem dependencies
+    this.current = current;
+
+  }
 
   // Called just before this Command runs the first time
   @Override
@@ -23,7 +27,7 @@ public class IntakeA extends Command {
 
 
     Robot.intake.takeIn();
-    Robot.intake.getCurrent();
+    Robot.intake.getCurrentCommand();
     current = Robot.intake.getCurrent();
 
   }
