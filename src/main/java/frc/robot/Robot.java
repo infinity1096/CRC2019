@@ -14,7 +14,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Sensors.AbsoluteEncoder;
+import frc.robot.commands.lift.CalibrateLift;
+import frc.robot.commands.lift.MoveToDown;
+import frc.robot.commands.lift.MoveToUp;
+import frc.robot.sensors.AbsoluteEncoder;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lift;
@@ -128,6 +131,13 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    //lift.moveElevator(-0.20 * oi.stick.getRawAxis(1));
+    //SmartDashboard.putNumber("shit1", lift.getEncodervalue()[0]);
+    //SmartDashboard.putNumber("shit2", lift.getEncodervalue()[1]);
+    
+    SmartDashboard.putData(new MoveToDown());
+    SmartDashboard.putData(new MoveToUp());
+    SmartDashboard.putData(new CalibrateLift());
   }
 
   /**

@@ -24,17 +24,16 @@ public class ChassisA extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+   Robot.chassis.start();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    
-    System.out.println("Im working!!!");
-
-    double inputx = Robot.oi.stick.getRawAxis(0)*0.2;
-    double inputy = Robot.oi.stick.getRawAxis(1)*0.2;
-    Robot.chassis.arcadeDrive(inputx,inputy);
+  
+    double inputx = -Robot.oi.stick.getRawAxis(1)*0.2;
+    double inputy = -Robot.oi.stick.getRawAxis(5)*0.2;
+    Robot.chassis.tankDrive(inputx,inputy);
   
 
   }
@@ -48,11 +47,13 @@ public class ChassisA extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.chassis.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.chassis.stop();
   }
 }

@@ -5,38 +5,46 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.lift;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 
+public class CalibrateLift extends Command {
 
-public class MoveClimber extends Command {
-  public MoveClimber() {
-    // Use requires() here to declare subsystem dependencies
-    requires(Robot.lift);
+  public double thresh = RobotMap.LIFT_CALIBRATION_CURRENT_THRESHOLD;
+  public double accumThresh = RobotMap.LIFT_CALIBRATION_ACCUM_THRESHOLD;
+
+  public double accum = 0;
+
+  public CalibrateLift() {
+    requires(Robot.lift);  
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.lift.moveElevator(-0.1);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.lift.moveClimber(Robot.oi.stick.getRawAxis(0)*0.2);
+    this.accum += Math.max(0,Robot.lift.getCurrent() - thresh) * 0.02d;
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return accum > accumThresh;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.lift.resetEncoder();
+    Robot.lift.moveElevator(0);
   }
 
   // Called when another command which requires one or more of the same

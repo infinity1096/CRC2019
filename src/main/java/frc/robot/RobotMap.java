@@ -19,7 +19,11 @@ public class RobotMap {
 
   //Chassis - autonomous
 
+  //lift
+  public static final double LIFT_CALIBRATION_CURRENT_THRESHOLD = 3.00;
+  public static final double LIFT_CALIBRATION_ACCUM_THRESHOLD = 0.50;
 
+  public static final double LIFT_OFFSET = 480.00; // mm
 
 
 

@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Solenoid;
@@ -31,31 +32,41 @@ public class Lift extends Subsystem {
   boolean is_elevator_mode = true; // output shaft connected to elevator or climber
 
   public Lift(){
-    Motor2.follow(Motor1);
-    Motor3.follow(Motor1);
-    Motor4.follow(Motor1); 
+    Motor1.follow(Motor2);
+    Motor3.follow(Motor2);
+    Motor4.follow(Motor2); 
+
+    Motor2.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    Motor2.setSensorPhase(true);
+
   }
 
   public void moveElevator(double inputpower){
     ElevatorClimberChanger.set(false);
-    Motor1.set(ControlMode.PercentOutput, inputpower);
+    Motor2.set(ControlMode.PercentOutput, inputpower);
   }
 
   public void moveClimber(double inputpower){
     ElevatorClimberChanger.set(true);
-    Motor1.set(ControlMode.PercentOutput, inputpower);
+    Motor2.set(ControlMode.PercentOutput, inputpower);
   }
 
-  public void resetincolder(){
-    Motor1.setSelectedSensorPosition(0);
+  public void resetEncoder(){
+    Motor2.setSelectedSensorPosition(0);
   }
 
 
   public double[] getEncodervalue() {
-    double realliftdistance =((Motor1.getSelectedSensorPosition()) / 0.972) + 475;
-    double encodervelocity =Motor1.getSelectedSensorVelocity();
+    double realliftdistance =((Motor2.getSelectedSensorPosition())) + RobotMap.LIFT_OFFSET;
+    double encodervelocity =Motor2.getSelectedSensorVelocity();
     double [] encodervalue = {realliftdistance,encodervelocity};
     return encodervalue ;
+  }
+
+  public void moveTo(double height){
+    double motorHeight = height - RobotMap.LIFT_OFFSET;
+    Motor2.selectProfileSlot(0, 0);
+    Motor2.set(ControlMode.MotionMagic, motorHeight);
   }
 
   public double getCurrent() {

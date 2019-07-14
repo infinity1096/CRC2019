@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
@@ -26,24 +27,41 @@ public class Chassis extends Subsystem {
   CANSparkMax talonrf = new CANSparkMax(RobotMap.CHASSIS_RFMOTOR_PORT,MotorType.kBrushless);
   CANSparkMax talonrb = new CANSparkMax(RobotMap.CHASSIS_RBMOTOR_PORT,MotorType.kBrushless);
 
+  TalonSRX leftMaster = new TalonSRX(RobotMap.CHASSIS_LEFTMASTER_PORT);
+  TalonSRX rightMaster = new TalonSRX(RobotMap.CHASSIS_RIGHTMASTER_PORT);
+
+  Notifier notifier = new Notifier(() ->{
+    double left = leftMaster.getMotorOutputVoltage()/12.0d;
+    double right = rightMaster.getMotorOutputVoltage()/12.0d;
+    talonlf.set(left);
+    talonlb.set(left);
+    talonrf.set(right);
+    talonrb.set(right);
+  });
+
+public Chassis(){
+  //rightMaster.setInverted(true);
+}
+
+public void start(){
+  notifier.startPeriodic(0.01);
+}
+
+public void stop(){
+  notifier.stop();
+}
+
 public void arcadeDrive(double v,double omega){
   double left = v-omega/2;
   double right = v+omega/2;
-
-
-  talonlb.set( left);
-  talonlf.set(left);
-  talonrb.set( right);
-  talonrf.set(right);
-
-
+  leftMaster.set(ControlMode.PercentOutput,left);
+  rightMaster.set(ControlMode.PercentOutput,-right);
 }
 
-
-
-
-
-
+public void tankDrive(double left,double right){
+  leftMaster.set(ControlMode.PercentOutput,left);
+  rightMaster.set(ControlMode.PercentOutput,-right);
+}
 
   @Override
  

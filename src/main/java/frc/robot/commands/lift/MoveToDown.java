@@ -5,33 +5,32 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.lift;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-
-public class MoveClimber extends Command {
-  public MoveClimber() {
-    // Use requires() here to declare subsystem dependencies
+public class MoveToDown extends Command {
+  public MoveToDown() {
     requires(Robot.lift);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.lift.moveTo(800);
+    System.out.println("IM WORKING");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.lift.moveClimber(Robot.oi.stick.getRawAxis(0)*0.2);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
