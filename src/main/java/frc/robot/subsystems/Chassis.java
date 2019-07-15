@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -40,7 +41,13 @@ public class Chassis extends Subsystem {
   });
 
 public Chassis(){
-  //rightMaster.setInverted(true);
+  rightMaster.setInverted(true);
+  leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+  rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+  leftMaster.setSelectedSensorPosition(0);
+  rightMaster.setSelectedSensorPosition(0);
+  
+  
 }
 
 public void start(){
@@ -63,8 +70,32 @@ public void tankDrive(double left,double right){
   rightMaster.set(ControlMode.PercentOutput,-right);
 }
 
-  @Override
- 
+public double[][] getEncoder(){
+  double[][] val = {{0,0},{0,0}}; // {{Left dis,Right dis},{left vel, right vel}} RAD! RAD/S!
+  val[0][0] = leftMaster.getSelectedSensorPosition() * RobotMap.CHASSIS_ENCUNIT_TO_RAD_CONSTANT;
+  val[0][1] = rightMaster.getSelectedSensorPosition() * RobotMap.CHASSIS_ENCUNIT_TO_RAD_CONSTANT;
+  val[1][0] = leftMaster.getSelectedSensorVelocity() * RobotMap.CHASSIS_ENCUNIT_TO_RAD_CONSTANT * 10.0; // getSelectedVelocity returns unit / 100ms
+  val[1][1] = rightMaster.getSelectedSensorVelocity() * RobotMap.CHASSIS_ENCUNIT_TO_RAD_CONSTANT * 10.0;
+  return val;
+}
+
+public double[] getVoltage(){
+  double[] val = {0,0};
+  val[0] = Math.signum(
+    leftMaster.getMotorOutputVoltage()) * 
+    Math.pow(Math.abs(leftMaster.getMotorOutputVoltage()/12.0),1/2)*12;
+  val[1] = Math.signum(
+    rightMaster.getMotorOutputVoltage()) * 
+    Math.pow(Math.abs(rightMaster.getMotorOutputVoltage()/12.0),1/2)*12;
+  return val;
+}
+
+public void startMotionProfile(double[][] left, double[][] right){
+  leftMaster.startMotionProfile(stream, minBufferedPts, motionProfControlMode)
+}
+
+
+  @Override 
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
      //setDefaultCommand(new MySpecialCommand());

@@ -27,6 +27,7 @@ import frc.lib.trajectory.TrajectoryGenerator;
 import frc.lib.trajectory.constraints.CentripetalAccelerationConstraint;
 import frc.lib.trajectory.constraints.DifferentialDriveDynamicsConstraints;
 import frc.lib.trajectory.constraints.IConstraints;
+import frc.robot.RobotMap;
 
 /**
  * Add your docs here.
@@ -43,8 +44,8 @@ public class testCurve {
     Line line2 = new Line(translation2,translation3);
     
     LineCurveGenerator generator = new LineCurveGenerator(new double[][]
-            {{0,2,4,6},
-             {0,2,2,4}},0.4);
+            {{0,0},
+             {0,4}},0.4);
     generator.generate();
 
     List<PoseWithCurvature> wayPoints = generator.poseList;
@@ -54,10 +55,20 @@ public class testCurve {
     }
     */
     DCMotorTransmission left,right;
-    left = new DCMotorTransmission(2.4, 24.7844, 1.055);
-    right = new DCMotorTransmission(2.4, 24.7844, 1.055);
+    left = new DCMotorTransmission(RobotMap.DRIVETRAIN_SPEED_PRE_VOLT,
+                                    RobotMap.DRIVETRAIN_TORQUE_PER_VOLT,
+                                    RobotMap.DRIVETRAIN_FRICTION_VOLT);
+    right = new DCMotorTransmission(RobotMap.DRIVETRAIN_SPEED_PRE_VOLT,
+                                    RobotMap.DRIVETRAIN_TORQUE_PER_VOLT,
+                                    RobotMap.DRIVETRAIN_FRICTION_VOLT);
 
-    DifferentialDrive drive = new DifferentialDrive(60,10,12,0.3,0.90,left, right);
+    
+    DifferentialDrive drive = new DifferentialDrive(
+            RobotMap.DRIVETRAIN_MASS,
+            RobotMap.DRIVETRAIN_MOI,
+            RobotMap.DRIVETRAIN_ANGULAR_DRAG,
+            RobotMap.DRIVETRAIN_WHEEL_RADIUS,
+            RobotMap.DRIVETRAIN_WHEELBASE_RADIUS,left, right);
 
     List<IConstraints<PoseWithCurvature>> constraints = new ArrayList<IConstraints<PoseWithCurvature>>(2);
     constraints.add(new CentripetalAccelerationConstraint(5));
@@ -67,16 +78,15 @@ public class testCurve {
     TrajectoryGenerator generatorTraj = new TrajectoryGenerator(
             new DistanceView(new Trajectory(wayPoints)),
             constraints,
+            drive,
             5,
-            20,
+            5,
             0,
             0,
             0.005);
     
 
     List<StampedState<PoseWithCurvature>> generatedPoints = generatorTraj.generate();
-    for (int i = 0; i < generatedPoints.size();i++){
-        System.out.println(generatedPoints.get(i));
-    }
+    generatorTraj.printLeft();
     }
 }

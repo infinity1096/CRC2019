@@ -131,13 +131,16 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    String s = "";
+    s += chassis.getVoltage()[0];
+    s += "\t";
+    s += chassis.getEncoder()[1][0];
+    s += "\n";
+    System.out.println(s);
     //lift.moveElevator(-0.20 * oi.stick.getRawAxis(1));
     //SmartDashboard.putNumber("shit1", lift.getEncodervalue()[0]);
     //SmartDashboard.putNumber("shit2", lift.getEncodervalue()[1]);
-    
-    SmartDashboard.putData(new MoveToDown());
-    SmartDashboard.putData(new MoveToUp());
-    SmartDashboard.putData(new CalibrateLift());
+
   }
 
   /**

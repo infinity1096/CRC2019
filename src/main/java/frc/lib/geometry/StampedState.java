@@ -12,7 +12,7 @@ package frc.lib.geometry;
  */
 public class StampedState<T> {
     
-    protected T state;
+    public T state;
     protected double t; //  time assiciated with this pose, seconds
     protected double v; //  time assiciated with this pose, m/s
     protected double s; //  time assiciated with this pose, seconds
