@@ -11,6 +11,12 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.ChassisA;
 import frc.robot.commands.TakeIn;
+import frc.robot.commands.lift.MoveToDown;
+import frc.robot.commands.lift.MoveToMid;
+import frc.robot.commands.lift.MoveToUp;
+import frc.robot.commands.paneltaker.ExtendTaker;
+import frc.robot.commands.paneltaker.NipPanel;
+import frc.robot.commands.paneltaker.TurnHolder;
 import frc.robot.commands.TakeIn;
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -26,8 +32,15 @@ public class OI {
   // Button button = new JoystickButton(stick, buttonNumber);
 
   public Joystick stick = new Joystick(0);
-  public JoystickButton button = new JoystickButton(stick, 1);
-  public JoystickButton button2 = new JoystickButton(stick, 2);
+  public Joystick stick2 = new Joystick(1);
+  public JoystickButton holderFront = new JoystickButton(stick2, 8);
+  public JoystickButton holderUp = new JoystickButton(stick2, 10);
+  public JoystickButton holderBack = new JoystickButton(stick2,12);
+  public JoystickButton liftUp = new JoystickButton(stick2,7);
+  public JoystickButton liftMid = new JoystickButton(stick2,9);
+  public JoystickButton liftDown = new JoystickButton(stick2,11);
+  public JoystickButton nip = new JoystickButton(stick2,5);
+  public JoystickButton extend = new JoystickButton(stick2,3);
   // There are a few additional built in buttons you can use. Additionally,
   // by subclassing Button you can create custom triggers and bind those to
   // commands the same as any other Button.
@@ -39,8 +52,16 @@ public class OI {
   // Start the command when the button is pressed and let it run the command
   // until it is finished as determined by it's isFinished method.
   public OI() {
-    button.whenPressed(new ChassisA());
-    button2.whenPressed(new TakeIn());
+    holderFront.whenPressed(new TurnHolder(-90));
+    holderUp.whenPressed(new TurnHolder(0));
+    holderBack.whenPressed(new TurnHolder(90));
+    liftUp.whenPressed(new MoveToUp());
+    liftMid.whenPressed(new MoveToMid());
+    liftDown.whenPressed(new MoveToDown());
+    nip.whenPressed(new NipPanel());
+    extend.whenPressed(new ExtendTaker());
+
+    //button2.whenPressed(new HolderToBack());
   }
   // Run the command while the button )is being held down and interrupt it once
   // the button is released.

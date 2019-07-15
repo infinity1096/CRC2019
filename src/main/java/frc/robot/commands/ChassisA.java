@@ -31,10 +31,10 @@ public class ChassisA extends Command {
   @Override
   protected void execute() {
   
-    double inputx = -Robot.oi.stick.getRawAxis(1)*1;
-    double inputy = -Robot.oi.stick.getRawAxis(5)*1;
-    Robot.chassis.tankDrive(inputx,-inputx);
-    
+    double inputx = -Robot.oi.stick.getRawAxis(1)*0.5;
+    double inputy = -Robot.oi.stick.getRawAxis(2)*0.2;
+    Robot.chassis.arcadeDrive(inputx,inputy);
+  
 
   }
 

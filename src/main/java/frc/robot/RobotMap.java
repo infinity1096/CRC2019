@@ -18,19 +18,6 @@ public class RobotMap {
    //Software parameters 
 
   //Chassis - autonomous
-  public static final double CHASSIS_ENCUNIT_TO_RAD_CONSTANT = Math.PI * 2.0 / 4000.0;
-  public static final double DRIVETRAIN_TORQUE_PER_VOLT = 3.00733; //stall torque: 36.08
-  public static final double DRIVETRAIN_FRICTION_VOLT = 0.2; 
-  public static final double DRIVETRAIN_SPEED_PRE_VOLT = 6.82556; // wheel output shaft! rad / s
-
-  public static final double DRIVETRAIN_WHEEL_RADIUS = 0.0522848; //m
-  public static final double DRIVETRAIN_WHEELBASE_RADIUS = 0.3186466; //m
-  public static final double DRIVETRAIN_MASS = 45.00; //kg
-  public static final double DRIVETRAIN_MOI = 30.00; //kg * m
-  public static final double DRIVETRAIN_ANGULAR_DRAG = 1.920; //N*m / rad/s
-  
-
-
 
   //lift
   public static final double LIFT_CALIBRATION_CURRENT_THRESHOLD = 3.00;
@@ -60,6 +47,11 @@ public class RobotMap {
 
   //Holder
   public static final int HOLDER_MOTOR_PORT = 11;
+  public static final int TAKER_EXTENDER_PORT = 1;
+  public static final int TAKER_NIPPER_PORT = 5;
+  public static final double HOLDER_BACK_DEGREES = 47;
+  public static final double HOLDER_FRONT_DEGREES = 315;
+  public static final double HOLDER_UP_DEGREES = 180;
 
   //Intake
   public static final int INTAKE_MOTOR_PORT = 12;

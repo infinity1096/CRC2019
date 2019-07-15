@@ -18,8 +18,8 @@ public class MoveToDown extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.lift.moveTo(800);
-    System.out.println("IM WORKING");
+    Robot.lift.moveTo(480);
+    //System.out.println("IM WORKING");
   }
 
   // Called repeatedly when this Command is scheduled to run

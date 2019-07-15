@@ -10,15 +10,15 @@ package frc.robot.commands.lift;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class MoveToUp extends Command {
-  public MoveToUp() {
+public class MoveToMid extends Command {
+  public MoveToMid() {
     requires(Robot.lift);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.lift.moveTo(1902);
+    Robot.lift.moveTo(1192);
   }
 
   // Called repeatedly when this Command is scheduled to run

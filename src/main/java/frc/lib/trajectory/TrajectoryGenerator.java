@@ -10,13 +10,10 @@ package frc.lib.trajectory;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import frc.lib.Util;
 import frc.lib.geometry.PoseWithCurvature;
 import frc.lib.geometry.StampedState;
-import frc.lib.physics.DifferentialDrive;
 import frc.lib.physics.DifferentialDrive.ChassisState;
-import frc.lib.physics.DifferentialDrive.WheelState;
 import frc.lib.trajectory.constraints.IConstraints;
 import frc.lib.trajectory.constraints.IConstraints.MinMax;
 
@@ -27,16 +24,11 @@ public class TrajectoryGenerator {
 
     private DistanceView disView;
     private List<IConstraints<PoseWithCurvature>> constraints;
-    private List<StampedState<PoseWithCurvature>> generatedList_;
-    private double[][] leftList;
-    private double[][] rightList;
-    private DifferentialDrive drive;
     private double maxSpeed;
     private double maxAccel;
     private double startSpeed;
     private double endSpeed;
     private double dl;
-    private int num;
 
     public TrajectoryGenerator(){
 
@@ -45,7 +37,6 @@ public class TrajectoryGenerator {
     public TrajectoryGenerator(
             DistanceView disView,
             List<IConstraints<PoseWithCurvature>> constraints,
-            DifferentialDrive drive,
             double maxSpeed,
             double maxAccel,
             double startSpeed,
@@ -53,7 +44,6 @@ public class TrajectoryGenerator {
             double dl){
         this.disView = disView;
         this.constraints = constraints;
-        this.drive = drive;
         this.maxSpeed = maxSpeed;
         this.maxAccel = maxAccel;
         this.startSpeed = startSpeed;
@@ -65,7 +55,6 @@ public class TrajectoryGenerator {
         //calc the number of states needed given dx
 
         int num =  (int)Math.ceil(disView.getLastPoint() / dl) + 1;
-        this.num = num;
         List<PoseWithCurvature> states = new ArrayList<PoseWithCurvature>(num);
         for (int i = 0; i < num; i++){
             states.add(disView.sample(Math.min(i * dl,disView.getLastPoint())));
@@ -250,75 +239,9 @@ public class TrajectoryGenerator {
             v = constrainedState.velocityLimit.max;
             generatedPoints.add(new StampedState<PoseWithCurvature>(constrainedState.state,t,v,s));
         }
-        generatedList_ = generatedPoints;
-        toWheelSpeed();
+        
         return generatedPoints;
     }
-
-    private void toWheelSpeed(){
-        int num = generatedList_.size();
-        double t = 0;
-        double sl = 0;
-        double sr = 0;
-        double dt = 0;
-        leftList = new double[num][3];
-        rightList = new double[num][3];
-        for (int i = 0; i < num; i++){
-            WheelState WheelVel = drive.solveInverseKinematics(new ChassisState(
-                    generatedList_.get(i).v(),generatedList_.get(i).v() * generatedList_.get(i).state.curvature()
-            ));
-
-            if (i == num-1){
-                dt = dt;
-            }else{
-                dt = (generatedList_.get(i+1).t() - t) * 1000;
-                t = generatedList_.get(i+1).t();
-            }
-
-            leftList[i][2] = dt;
-            rightList[i][2] = dt;
-            leftList[i][1] = WheelVel.left;
-            rightList[i][1] = WheelVel.right;
-            leftList[i][0] = sl;
-            rightList[i][0] = sr;
-            sl += WheelVel.left*dt;
-            sr += WheelVel.right*dt;
-        }
-    }
-
-    public double[][] leftlist(){
-        return leftList;
-    }
-
-    public double[][] rightlist(){
-        return rightList;
-    }
-
-    public void printLeft(){
-        for (int i = 0; i < num; ++i){
-            String s = "";
-            s += leftList[i][0];
-            s += "\t";
-            s += leftList[i][1];
-            s += "\t";
-            s += leftList[i][2];
-            System.out.println(s);
-        }
-    }
-
-    public void printRight(){
-        for (int i = 0; i < num; ++i){
-            String s = "";
-            s += rightList[i][0];
-            s += "\t";
-            s += rightList[i][1];
-            s += "\t";
-            s += rightList[i][2];
-            System.out.println(s);
-        }
-    }
-
-
 
     public class ConstrainedState{
         PoseWithCurvature state;

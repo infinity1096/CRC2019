@@ -17,10 +17,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.lift.CalibrateLift;
 import frc.robot.commands.lift.MoveToDown;
 import frc.robot.commands.lift.MoveToUp;
+import frc.robot.commands.paneltaker.TurnHolder;
 import frc.robot.sensors.AbsoluteEncoder;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lift;
+import frc.robot.subsystems.PanelTaker;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -32,10 +34,11 @@ import frc.robot.subsystems.Lift;
 public class Robot extends TimedRobot {
 
   public static Chassis chassis = new Chassis();
-  public static AbsoluteEncoder encoder = new AbsoluteEncoder(Port.kOnboardCS0);
+  public static AbsoluteEncoder absoluteEncoder = new AbsoluteEncoder(Port.kOnboardCS0);
   public static Lift lift = new Lift();
-  public static OI oi = new  OI();
   public static Intake intake = new Intake();
+  public static PanelTaker paneltaker = new PanelTaker();
+  public static OI oi = new OI();
   
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -131,15 +134,18 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    String s = "";
-    s += chassis.getVoltage()[0];
-    s += "\t";
-    s += chassis.getEncoder()[1][0];
-    s += "\n";
-    System.out.println(s);
     //lift.moveElevator(-0.20 * oi.stick.getRawAxis(1));
     //SmartDashboard.putNumber("shit1", lift.getEncodervalue()[0]);
     //SmartDashboard.putNumber("shit2", lift.getEncodervalue()[1]);
+    
+    SmartDashboard.putData(new MoveToDown());
+    SmartDashboard.putData(new MoveToUp());
+    SmartDashboard.putData(new CalibrateLift());
+    SmartDashboard.putData("to 0",new TurnHolder(0));
+    SmartDashboard.putData("to 90",new TurnHolder(90));
+    SmartDashboard.putData("to -90",new TurnHolder(-90));
+    SmartDashboard.putNumber("holder deg", Robot.absoluteEncoder.getDeg());
+        
 
   }
 
