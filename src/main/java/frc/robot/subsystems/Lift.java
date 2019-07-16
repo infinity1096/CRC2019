@@ -15,6 +15,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.commands.LiftA;
 
 /**
  * Add your docs here.
@@ -69,6 +70,10 @@ public class Lift extends Subsystem {
     Motor2.set(ControlMode.MotionMagic, motorHeight);
   }
 
+  public void setPower(double power){
+    Motor2.set(ControlMode.PercentOutput, power);
+  }
+
   public double getCurrent() {
     double current1 = Motor1.getOutputCurrent();
     double current2 = Motor2.getOutputCurrent();
@@ -91,5 +96,8 @@ public class Lift extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+
+    //For Test
+    setDefaultCommand(new LiftA());
   }
 }

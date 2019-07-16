@@ -36,9 +36,10 @@ public class OI {
   public JoystickButton holderFront = new JoystickButton(stick2, 8);
   public JoystickButton holderUp = new JoystickButton(stick2, 10);
   public JoystickButton holderBack = new JoystickButton(stick2,12);
-  public JoystickButton liftUp = new JoystickButton(stick2,7);
-  public JoystickButton liftMid = new JoystickButton(stick2,9);
-  public JoystickButton liftDown = new JoystickButton(stick2,11);
+  //DANGEROUS!!!
+  //public JoystickButton liftUp = new JoystickButton(stick2,7);
+  //public JoystickButton liftMid = new JoystickButton(stick2,9);
+  //public JoystickButton liftDown = new JoystickButton(stick2,11);
   public JoystickButton nip = new JoystickButton(stick2,5);
   public JoystickButton extend = new JoystickButton(stick2,3);
   // There are a few additional built in buttons you can use. Additionally,
@@ -55,11 +56,13 @@ public class OI {
     holderFront.whenPressed(new TurnHolder(-90));
     holderUp.whenPressed(new TurnHolder(0));
     holderBack.whenPressed(new TurnHolder(90));
-    liftUp.whenPressed(new MoveToUp());
-    liftMid.whenPressed(new MoveToMid());
-    liftDown.whenPressed(new MoveToDown());
+    //DANGEROUS!!!
+    //liftUp.whenPressed(new MoveToUp());
+    //liftMid.whenPressed(new MoveToMid());
+    //liftDown.whenPressed(new MoveToDown());
     nip.whenPressed(new NipPanel());
     extend.whenPressed(new ExtendTaker());
+    
 
     //button2.whenPressed(new HolderToBack());
   }
