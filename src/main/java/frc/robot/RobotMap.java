@@ -56,6 +56,9 @@ public class RobotMap {
   //Intake
   public static final int INTAKE_MOTOR_PORT = 12;
 
+  //Aiming Line for CV
+  public static final double AIMING_LINE = 999.99999;
+
 //Pneumatics
   
 
