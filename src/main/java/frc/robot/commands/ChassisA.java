@@ -31,8 +31,8 @@ public class ChassisA extends Command {
   @Override
   protected void execute() {
   
-    double inputx = -Robot.oi.stick.getRawAxis(1)*0.5;
-    double inputy = -Robot.oi.stick.getRawAxis(2)*0.2;
+    double inputx = -Robot.oi.stick.getRawAxis(1)*0.8;
+    double inputy = -Robot.oi.stick.getRawAxis(2)*0.4;
     Robot.chassis.arcadeDrive(inputx,inputy);
   
 
@@ -54,6 +54,5 @@ public class ChassisA extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.chassis.stop();
   }
 }

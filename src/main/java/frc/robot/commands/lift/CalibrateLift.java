@@ -32,6 +32,7 @@ public class CalibrateLift extends Command {
   @Override
   protected void execute() {
     this.accum += Math.max(0,Robot.lift.getCurrent() - thresh) * 0.02d;
+    System.out.println(accum);
   }
 
   // Make this return true when this Command no longer needs to run execute()

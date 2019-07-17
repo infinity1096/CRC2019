@@ -33,6 +33,7 @@ public class OI {
 
   public Joystick stick = new Joystick(0);
   public Joystick stick2 = new Joystick(1);
+  
   public JoystickButton holderFront = new JoystickButton(stick2, 8);
   public JoystickButton holderUp = new JoystickButton(stick2, 10);
   public JoystickButton holderBack = new JoystickButton(stick2,12);
