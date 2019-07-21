@@ -15,7 +15,6 @@ public class PanelTaker extends Subsystem{
 
     Solenoid takerExtender;
     Solenoid takerNipper;
-    TalonSRX holderTurner;
 
     private boolean isExtended = false;
     private boolean isNipped = false;
@@ -24,14 +23,8 @@ public class PanelTaker extends Subsystem{
     {
         takerExtender = new Solenoid(RobotMap.TAKER_EXTENDER_PORT);
         takerNipper = new Solenoid(RobotMap.TAKER_NIPPER_PORT);
-        holderTurner = new TalonSRX(RobotMap.HOLDER_MOTOR_PORT);
-        holderTurner.setInverted(true);
     }
 
-    public void turn(double power)
-    {
-        holderTurner.set(ControlMode.PercentOutput,power);
-    }
 
     public void extend()
     {
@@ -40,11 +33,6 @@ public class PanelTaker extends Subsystem{
         else
             takerExtender.set(false);
         isExtended = !isExtended;
-    }
-
-    public double get_encoder_value()
-    {
-        return Robot.absoluteEncoder.getDeg() * 2.0 / 3.0 - 120;
     }
 
     public void nip()

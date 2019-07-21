@@ -9,10 +9,13 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-
-import frc.robot.commands.lift_P;
-import frc.robot.commands.lift_P1;
-import frc.robot.commands.lift_down;
+import frc.robot.commands.Intake.PanelReady;
+import frc.robot.commands.lift.MoveToDown;
+import frc.robot.commands.lift.MoveToMid;
+import frc.robot.commands.lift.MoveToUp;
+import frc.robot.commands.paneltaker.ExtendTaker;
+import frc.robot.commands.paneltaker.NipPanel;
+import frc.robot.commands.paneltaker.TurnHolder;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -29,10 +32,15 @@ public class OI {
   public Joystick stick2 = new Joystick(1);
 
   // Button button = new JoystickButton(stick, buttonNumber);
-  public JoystickButton button_liftUp = new JoystickButton(stick, 1);
-  public JoystickButton button_liftTo_0 = new JoystickButton(stick, 2);
-  public JoystickButton button_liftDown = new JoystickButton(stick, 3);
-
+  public JoystickButton button_MoveToUp= new JoystickButton(stick, 8);
+  public JoystickButton button_MoveToMid = new JoystickButton(stick, 10);
+  public JoystickButton button_MoveToDown = new JoystickButton(stick, 12);
+  public JoystickButton button_panelForward = new JoystickButton(stick,7);
+  public JoystickButton button_panelUpward = new JoystickButton(stick,9);
+  public JoystickButton button_panelBackward = new JoystickButton(stick,11);
+  public JoystickButton button_ExtendPanel = new JoystickButton(stick,5);
+  public JoystickButton button_NipPanel = new JoystickButton(stick,3);
+  public JoystickButton button_PanelReady = new JoystickButton(stick,6);
 
   
 
@@ -50,9 +58,15 @@ public class OI {
 
   // button.whenPressed(new ExampleCommand());
   OI(){
-    button_liftUp.whenPressed(new lift_P());
-    button_liftTo_0.whenPressed(new lift_P1());
-    button_liftDown.whenPressed(new lift_down());
+    button_MoveToUp.whenPressed(new MoveToUp());
+    button_MoveToMid.whenPressed(new MoveToMid());
+    button_MoveToDown.whenPressed(new MoveToDown());
+    button_panelForward.whenPressed(new TurnHolder(90));
+    button_panelUpward.whenPressed(new TurnHolder(0));
+    button_panelBackward.whenPressed(new TurnHolder(-90));
+    button_ExtendPanel.whenPressed(new ExtendTaker());
+    button_NipPanel.whenPressed(new NipPanel());
+    button_PanelReady.whenPressed(new PanelReady());
   }
    
 

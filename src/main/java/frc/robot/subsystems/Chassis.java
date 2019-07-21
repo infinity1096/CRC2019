@@ -70,6 +70,22 @@ public void tankDrive(double left,double right){
   rightMaster.set(ControlMode.PercentOutput,-right);
 }
 
+public double[][] getWheelEncoderValue(){
+  double[][] val = {{0,0},{0,0}};
+  val[0][0] = leftMaster.getSelectedSensorPosition();
+  val[0][1] = leftMaster.getSelectedSensorVelocity();
+  val[1][0] = rightMaster.getSelectedSensorPosition();
+  val[1][1] = rightMaster.getSelectedSensorVelocity();
+
+  val[0][0] = val[0][0] * RobotMap.encoderToMm;
+  val[0][1] = val[0][1] * RobotMap.encoderToMm;
+  val[1][0] = val[1][0] * RobotMap.encoderToMm;
+  val[1][1] = val[1][1] * RobotMap.encoderToMm;
+  
+  return val;
+
+}
+
 public void startMP(){
   //BufferedTrajectoryPointStream traj;
 }

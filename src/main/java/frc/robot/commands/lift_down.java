@@ -48,7 +48,7 @@ public class lift_down extends Command {
   @Override
   protected void end() {
     Robot.lift.move(0);
-    Robot.lift.resetencoder();
+    Robot.lift.resetEncoder();
   }
 
   // Called when another command which requires one or more of the same

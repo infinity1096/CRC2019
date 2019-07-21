@@ -19,13 +19,13 @@ public class TurnHolder extends Command{
 
     public TurnHolder(double target)
     {
-        requires(Robot.paneltaker);
+        requires(Robot.rotary);
         this.target = target;
     }
 
     @Override
     protected void initialize() {
-        error = target - Robot.paneltaker.get_encoder_value();
+        error = target - Robot.rotary.get_encoder_value();
         
     }
     @Override
@@ -48,21 +48,21 @@ public class TurnHolder extends Command{
         }
 
         
-        double errordot = target-Robot.paneltaker.get_encoder_value();
+        double errordot = target-Robot.rotary.get_encoder_value();
         errordot = errordot - error;
         
 
         double comp = -GravComp * Math.sin(
-                Math.toRadians(Robot.paneltaker.get_encoder_value()));
+                Math.toRadians(Robot.rotary.get_encoder_value()));
 
 
-        double assistComp = Math.sin(Math.toRadians(Robot.paneltaker.get_encoder_value())) / 
-        Math.sqrt(1325 - 700 * Math.cos(Math.toRadians(Robot.paneltaker.get_encoder_value()))) * 6.0;
+        double assistComp = Math.sin(Math.toRadians(Robot.rotary.get_encoder_value())) / 
+        Math.sqrt(1325 - 700 * Math.cos(Math.toRadians(Robot.rotary.get_encoder_value()))) * 6.0;
 
         double Poutput = Kp * error;
         double Doutput = Kd * errordot;
         Poutput = range(Poutput,-0.5,0.5);
-        error = target - Robot.paneltaker.get_encoder_value();
+        error = target - Robot.rotary.get_encoder_value();
 
         if (Math.abs(error) > Izone){
             accum = 0;
@@ -77,7 +77,7 @@ public class TurnHolder extends Command{
 
         double output = Poutput + Ioutput+ Doutput + comp +assistComp;
 
-        Robot.paneltaker.turn(output);
+        Robot.rotary.turn(output);
     }
 
     private double range(double val,double min,double max){

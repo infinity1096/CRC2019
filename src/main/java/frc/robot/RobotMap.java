@@ -18,6 +18,7 @@ public class RobotMap {
    //Software parameters 
 
   //Chassis - autonomous
+  public static final double encoderToMm = 0.08186;
 
   //lift
   public static final double LIFT_CALIBRATION_CURRENT_THRESHOLD = 4.00;

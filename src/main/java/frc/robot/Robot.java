@@ -19,7 +19,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import frc.robot.commands.lift_P;
+import frc.robot.commands.lift_P1;
+import frc.robot.commands.lift_down;
 import frc.robot.commands.Auto.TakePanel;
 import frc.robot.commands.lift.CalibrateLift;
 import frc.robot.commands.lift.MoveToDown;
@@ -30,6 +32,7 @@ import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.PanelTaker;
+import frc.robot.subsystems.Rotary;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -46,6 +49,7 @@ public class Robot extends TimedRobot {
   public static Lift lift = new Lift();
   public static Intake intake = new Intake();
   public static PanelTaker paneltaker = new PanelTaker();
+  public static Rotary rotary = new Rotary();
   public static OI oi = new OI();
   public static NetworkTable CVtable =
   NetworkTableInstance.getDefault().getTable("VisionBoard");
@@ -64,9 +68,6 @@ public class Robot extends TimedRobot {
 
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
-    SmartDashboard.putData("liftTo_0",new lift_P1());
-    SmartDashboard.putData("liftTo_500",new lift_P());
-    SmartDashboard.putData("lift_down",new lift_down());
     
   }
 
