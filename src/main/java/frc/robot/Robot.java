@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.lift_P;
 import frc.robot.commands.lift_P1;
 import frc.robot.commands.lift_down;
-import frc.robot.commands.Auto.TakePanel;
+import frc.robot.commands.auto.TakePanel;
 import frc.robot.commands.lift.CalibrateLift;
 import frc.robot.commands.lift.MoveToDown;
 import frc.robot.commands.lift.MoveToUp;
