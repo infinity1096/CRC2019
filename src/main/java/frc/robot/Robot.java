@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.SPI.Port;
@@ -14,9 +16,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.sensors.AbsoluteEncoder;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.Sensors.AbsoluteEncoder;
+import frc.robot.commands.lift_P;
+import frc.robot.commands.lift_P1;
+import frc.robot.commands.lift_down;
+import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Lift;
 
 /**
@@ -27,10 +31,11 @@ import frc.robot.subsystems.Lift;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
-  public static OI m_oi;
+  
   public static AbsoluteEncoder encoder = new AbsoluteEncoder(Port.kOnboardCS0);
   public static Lift lift = new Lift();
+  public static Chassis chassis = new Chassis();
+  public static OI m_oi = new OI();
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -42,10 +47,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_oi = new OI();
-    m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
+    
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
+    SmartDashboard.putData("liftTo_0",new lift_P1());
+    SmartDashboard.putData("liftTo_500",new lift_P());
+    SmartDashboard.putData("lift_down",new lift_down());
+    
   }
 
   /**
@@ -119,6 +127,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    lift.resetencoder();
+
   }
 
   /**
@@ -128,7 +139,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     
-    SmartDashboard.putNumber("encval", encoder.getDeg());
+    //SmartDashboard.putNumber("encval", encoder.getDeg());
 
   }
 

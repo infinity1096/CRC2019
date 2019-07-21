@@ -8,7 +8,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
@@ -19,30 +21,36 @@ public class Lift extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   TalonSRX Motor1 = new TalonSRX(RobotMap.LIFT_MOTOR1_PORT);
-  TalonSRX Motor2 = new TalonSRX(RobotMap.LIFT_MOTOR2_PORT);
+  public TalonSRX Motor2 = new TalonSRX(RobotMap.LIFT_MOTOR2_PORT);
   TalonSRX Motor3 = new TalonSRX(RobotMap.LIFT_MOTOR3_PORT);
   TalonSRX Motor4 = new TalonSRX(RobotMap.LIFT_MOTOR4_PORT);
 
+  Solenoid ElevatorClimberChanger = new Solenoid(4);
+
   public Lift(){
-    Motor2.follow(Motor1);
-    Motor3.follow(Motor1);
-    Motor4.follow(Motor1); 
+    Motor1.follow(Motor2);
+    Motor3.follow(Motor2);
+    Motor4.follow(Motor2); 
+
+    Motor2.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    Motor2.setSensorPhase(true);
+    System.out.println("Im called");
   }
 
   public void move(double inputpower){
-
-    Motor1.set(ControlMode.PercentOutput, inputpower);
+    ElevatorClimberChanger.set(false);
+    Motor2.set(ControlMode.PercentOutput, inputpower);
   }
 
 
-  public void resetincolder(){
-    Motor1.setSelectedSensorPosition(0);
+  public void resetencoder(){
+    Motor2.setSelectedSensorPosition(0);
   }
 
 
   public double[] getEncodervalue() {
-    double realliftdistance =((Motor1.getSelectedSensorPosition()) / 0.972) + 475;
-    double encodervelocity =Motor1.getSelectedSensorVelocity();
+    double realliftdistance =((Motor2.getSelectedSensorPosition()) / 0.972) + 475;
+    double encodervelocity =Motor2.getSelectedSensorVelocity();
     double [] encodervalue = {realliftdistance,encodervelocity};
     return encodervalue ;
   }
