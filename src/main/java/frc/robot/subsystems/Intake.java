@@ -24,6 +24,8 @@ import frc.robot.RobotMap;
     CANSparkMax csm = new CANSparkMax(RobotMap.INTAKE_MOTOR_PORT,MotorType.kBrushless);
     Solenoid IntakeLifter = new Solenoid(2);
     Solenoid IntakeOpen = new Solenoid(3);
+    
+    public static boolean isDown = false;
 
     public Intake()
     {
@@ -52,17 +54,23 @@ import frc.robot.RobotMap;
   
   public void intakeDown(){
      IntakeLifter.set(true);
+     isDown = true;
   }
 
   public void intakeUp(){
     IntakeLifter.set(false);
+    isDown = false;
+ }
+
+ public boolean isDown(){
+   return isDown;
  }
 
   public void IntakeOpen(){
     IntakeOpen.set(false);
  }
 
- public void intakeOff(){
+ public void intakeClose(){
   IntakeOpen.set(true);
 }
   @Override

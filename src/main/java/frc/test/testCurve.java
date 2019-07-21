@@ -10,6 +10,7 @@ package frc.test;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ctre.phoenix.motion.BufferedTrajectoryPointStream;
 
 import frc.lib.geometry.Pose2d;
 import frc.lib.geometry.PoseWithCurvature;
@@ -67,16 +68,30 @@ public class testCurve {
     TrajectoryGenerator generatorTraj = new TrajectoryGenerator(
             new DistanceView(new Trajectory(wayPoints)),
             constraints,
+            drive,
             5,
             20,
             0,
             0,
             0.005);
+    /*
+    BufferedTrajectoryPointStream leftTraj = new BufferedTrajectoryPointStream();
+    BufferedTrajectoryPointStream rightTraj = new BufferedTrajectoryPointStream();
+    
+
+    leftTraj.Write(generatorTraj.getLeftTrajPts());
+    rightTraj.Write(generatorTraj.getRightTrajPts());
+    
+    System.out.println(leftTraj.toString());
+    */
     
 
     List<StampedState<PoseWithCurvature>> generatedPoints = generatorTraj.generate();
+    
+    /*
     for (int i = 0; i < generatedPoints.size();i++){
         System.out.println(generatedPoints.get(i));
-    }
+    }*/
+
     }
 }

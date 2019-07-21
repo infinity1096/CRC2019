@@ -148,7 +148,10 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    lift.moveClimber(-0.30 * oi.stick2.getRawAxis(1));
+    //lift.moveElevator(-0.20 * oi.stick2.getRawAxis(1));
+
+
+
     //SmartDashboard.putNumber("shit1", lift.getEncodervalue()[0]);
     //SmartDashboard.putNumber("shit2", lift.getEncodervalue()[1]);
     /*

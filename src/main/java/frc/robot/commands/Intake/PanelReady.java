@@ -5,53 +5,43 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.lift;
+package frc.robot.commands.Intake;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
 
-public class CalibrateLift extends Command {
+public class PanelReady extends Command {
 
-  public double epsilon = 1;
-  public double accumTurn = 4;
-  public double accum = 0;
-  public double lastPos = 0;
+  Timer timer = new Timer();
 
-  public CalibrateLift() {
-    requires(Robot.lift);  
+  public PanelReady() {
+    requires(Robot.intake);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.lift.moveElevator(-0.2);
-    lastPos = Robot.lift.getEncodervalue()[0]+epsilon;
+    Robot.intake.intakeDown();
+    Robot.intake.intakeClose();
+    timer.reset();
+    timer.start();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println(Robot.lift.getEncodervalue()[0] - lastPos);
-    if (Math.abs(Robot.lift.getEncodervalue()[0] - lastPos) < epsilon){
-      this.accum ++;
-    }else{
-      accum = 0;
-    }
-    lastPos = Robot.lift.getEncodervalue()[0];
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return accum > accumTurn;
+    return timer.get() > 0.3;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.lift.resetEncoder();
-    Robot.lift.moveElevator(0);
   }
 
   // Called when another command which requires one or more of the same

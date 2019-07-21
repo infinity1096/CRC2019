@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motion.BufferedTrajectoryPointStream;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
@@ -69,6 +70,9 @@ public void tankDrive(double left,double right){
   rightMaster.set(ControlMode.PercentOutput,-right);
 }
 
+public void startMP(){
+  //BufferedTrajectoryPointStream traj;
+}
 
 
   @Override

@@ -10,10 +10,15 @@ package frc.lib.trajectory;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ctre.phoenix.motion.BufferedTrajectoryPointStream;
+import com.ctre.phoenix.motion.TrajectoryPoint;
+
 import frc.lib.Util;
 import frc.lib.geometry.PoseWithCurvature;
 import frc.lib.geometry.StampedState;
+import frc.lib.physics.DifferentialDrive;
 import frc.lib.physics.DifferentialDrive.ChassisState;
+import frc.lib.physics.DifferentialDrive.WheelState;
 import frc.lib.trajectory.constraints.IConstraints;
 import frc.lib.trajectory.constraints.IConstraints.MinMax;
 
@@ -24,11 +29,16 @@ public class TrajectoryGenerator {
 
     private DistanceView disView;
     private List<IConstraints<PoseWithCurvature>> constraints;
+    private DifferentialDrive drive;
     private double maxSpeed;
     private double maxAccel;
     private double startSpeed;
     private double endSpeed;
     private double dl;
+
+    BufferedTrajectoryPointStream leftStream = new BufferedTrajectoryPointStream();
+    BufferedTrajectoryPointStream rightStream = new BufferedTrajectoryPointStream();
+    
 
     public TrajectoryGenerator(){
 
@@ -37,6 +47,7 @@ public class TrajectoryGenerator {
     public TrajectoryGenerator(
             DistanceView disView,
             List<IConstraints<PoseWithCurvature>> constraints,
+            DifferentialDrive drive,
             double maxSpeed,
             double maxAccel,
             double startSpeed,
@@ -44,6 +55,7 @@ public class TrajectoryGenerator {
             double dl){
         this.disView = disView;
         this.constraints = constraints;
+        this.drive = drive;
         this.maxSpeed = maxSpeed;
         this.maxAccel = maxAccel;
         this.startSpeed = startSpeed;
@@ -240,7 +252,69 @@ public class TrajectoryGenerator {
             generatedPoints.add(new StampedState<PoseWithCurvature>(constrainedState.state,t,v,s));
         }
         
+        toTrajectoryPts(generatedPoints,num);
         return generatedPoints;
+    }
+
+    public void toTrajectoryPts(List<StampedState<PoseWithCurvature>> generatedPoints,int num){
+             
+
+        
+
+        //initialize predecessor
+        TrajectoryPoint predecessorL = new TrajectoryPoint();
+        TrajectoryPoint predecessorR = new TrajectoryPoint();
+        
+        WheelState wheelVel_ = drive.solveInverseKinematics(
+                generatedPoints.get(0).toChassisState()
+        );
+
+        predecessorL.position = generatedPoints.get(0).s();
+        predecessorR.position = generatedPoints.get(0).s();
+
+        predecessorL.velocity = wheelVel_.left;
+        predecessorR.velocity = wheelVel_.right;
+
+        predecessorL.timeDur = 10;
+        predecessorR.timeDur = 10;
+
+        leftStream.Write(predecessorL);
+        rightStream.Write(predecessorR);
+        
+        
+        for (int i = 1; i < num; i++){
+            
+            TrajectoryPoint trajectoryPointL = new TrajectoryPoint();
+            TrajectoryPoint trajectoryPointR = new TrajectoryPoint();
+            
+            WheelState wheelVel = drive.solveInverseKinematics(
+                generatedPoints.get(i).toChassisState()
+            );
+
+            trajectoryPointL.velocity = wheelVel.left;
+            trajectoryPointR.velocity = wheelVel.right;
+
+            trajectoryPointL.timeDur = (int)Math.round(generatedPoints.get(i).t() - generatedPoints.get(i-1).t());
+            trajectoryPointR.timeDur = trajectoryPointL.timeDur;
+
+            trajectoryPointL.position = predecessorL.position + trajectoryPointL.velocity * trajectoryPointL.timeDur/1000.0;
+            trajectoryPointR.position = predecessorR.position + trajectoryPointR.velocity * trajectoryPointR.timeDur/1000.0;
+            
+            leftStream.Write(trajectoryPointL);
+            rightStream.Write(trajectoryPointR);
+
+            predecessorL = trajectoryPointL;
+            predecessorR = trajectoryPointR;
+        }
+
+    }
+
+    public BufferedTrajectoryPointStream getLeftStream() {
+        return this.leftStream;
+    }
+
+    public BufferedTrajectoryPointStream getRightStream() {
+        return this.rightStream;
     }
 
     public class ConstrainedState{
