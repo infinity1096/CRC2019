@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -18,6 +19,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import frc.robot.commands.Auto.TakePanel;
 import frc.robot.commands.lift.CalibrateLift;
 import frc.robot.commands.lift.MoveToDown;
@@ -37,6 +39,7 @@ import frc.robot.subsystems.PanelTaker;
  * project.
  */
 public class Robot extends TimedRobot {
+
 
   public static Chassis chassis = new Chassis();
   public static AbsoluteEncoder absoluteEncoder = new AbsoluteEncoder(Port.kOnboardCS0);
@@ -61,6 +64,10 @@ public class Robot extends TimedRobot {
 
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
+    SmartDashboard.putData("liftTo_0",new lift_P1());
+    SmartDashboard.putData("liftTo_500",new lift_P());
+    SmartDashboard.putData("lift_down",new lift_down());
+    
   }
 
   /**
@@ -136,10 +143,12 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
+
     Robot.lift.setPower(0);
     new CalibrateLift().start();
     Robot.intake.intakeUp();
     Robot.intake.IntakeOpen();
+
   }
 
   /**
@@ -148,23 +157,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    //lift.moveElevator(-0.20 * oi.stick2.getRawAxis(1));
 
-
-
-    //SmartDashboard.putNumber("shit1", lift.getEncodervalue()[0]);
-    //SmartDashboard.putNumber("shit2", lift.getEncodervalue()[1]);
-    /*
-
-    SmartDashboard.putData(new CalibrateLift());
-
-    SmartDashboard.putNumber("holder deg", Robot.absoluteEncoder.getDeg());
-    */
-    /*
-    SmartDashboard.putData("to 0",new TurnHolder(0));
-    SmartDashboard.putData("to 90",new TurnHolder(90));
-    SmartDashboard.putData("to -90",new TurnHolder(-90));
-    */
 
   }
 

@@ -40,10 +40,12 @@ public class RobotMap {
   public static final int CHASSIS_RIGHTMASTER_PORT = 6;
 
   //Lift
+
   public static final int LIFT_MOTOR1_PORT = 7;
   public static final int LIFT_MOTOR2_PORT = 8;
   public static final int LIFT_MOTOR3_PORT = 9;
   public static final int LIFT_MOTOR4_PORT = 10;
+
 
   //Holder
   public static final int HOLDER_MOTOR_PORT = 11;
@@ -61,7 +63,6 @@ public class RobotMap {
 
 //Pneumatics
   
-
 
 
 

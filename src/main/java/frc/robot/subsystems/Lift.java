@@ -24,7 +24,7 @@ public class Lift extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   TalonSRX Motor1 = new TalonSRX(RobotMap.LIFT_MOTOR1_PORT);
-  TalonSRX Motor2 = new TalonSRX(RobotMap.LIFT_MOTOR2_PORT);
+  public TalonSRX Motor2 = new TalonSRX(RobotMap.LIFT_MOTOR2_PORT);
   TalonSRX Motor3 = new TalonSRX(RobotMap.LIFT_MOTOR3_PORT);
   TalonSRX Motor4 = new TalonSRX(RobotMap.LIFT_MOTOR4_PORT);
 
@@ -37,8 +37,14 @@ public class Lift extends Subsystem {
     Motor3.follow(Motor2);
     Motor4.follow(Motor2); 
 
+
     Motor2.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     Motor2.setSensorPhase(true);
+  }
+
+  public void move(double inputpower){
+    ElevatorClimberChanger.set(false);
+    Motor2.set(ControlMode.PercentOutput, inputpower);
 
   }
 
@@ -46,6 +52,7 @@ public class Lift extends Subsystem {
     ElevatorClimberChanger.set(false);
     Motor2.set(ControlMode.PercentOutput, inputpower);
   }
+
 
   public void moveClimber(double inputpower){
     ElevatorClimberChanger.set(true);
@@ -58,7 +65,9 @@ public class Lift extends Subsystem {
 
 
   public double[] getEncodervalue() {
+
     double realliftdistance =((Motor2.getSelectedSensorPosition())) + RobotMap.LIFT_OFFSET;
+
     double encodervelocity =Motor2.getSelectedSensorVelocity();
     double [] encodervalue = {realliftdistance,encodervelocity};
     return encodervalue ;
