@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.ChassisA;
 import frc.robot.commands.TakeIn;
+import frc.robot.commands.Intake.MoveIntake;
+import frc.robot.commands.Intake.PanelReady;
 import frc.robot.commands.lift.MoveToDown;
 import frc.robot.commands.lift.MoveToMid;
 import frc.robot.commands.lift.MoveToUp;
@@ -33,13 +35,17 @@ public class OI {
 
   public Joystick stick = new Joystick(0);
   public Joystick stick2 = new Joystick(1);
+  
+
+  public JoystickButton panelReady = new JoystickButton(stick2, 6);
+  public JoystickButton moveIntake = new JoystickButton(stick2, 1);
   public JoystickButton holderFront = new JoystickButton(stick2, 8);
   public JoystickButton holderUp = new JoystickButton(stick2, 10);
   public JoystickButton holderBack = new JoystickButton(stick2,12);
   //DANGEROUS!!!
-  //public JoystickButton liftUp = new JoystickButton(stick2,7);
-  //public JoystickButton liftMid = new JoystickButton(stick2,9);
-  //public JoystickButton liftDown = new JoystickButton(stick2,11);
+  public JoystickButton liftUp = new JoystickButton(stick2,7);
+  public JoystickButton liftMid = new JoystickButton(stick2,9);
+  public JoystickButton liftDown = new JoystickButton(stick2,11);
   public JoystickButton nip = new JoystickButton(stick2,5);
   public JoystickButton extend = new JoystickButton(stick2,3);
   // There are a few additional built in buttons you can use. Additionally,
@@ -53,13 +59,14 @@ public class OI {
   // Start the command when the button is pressed and let it run the command
   // until it is finished as determined by it's isFinished method.
   public OI() {
+    panelReady.whenPressed(new PanelReady());
+    moveIntake.whenPressed(new MoveIntake());
     holderFront.whenPressed(new TurnHolder(-90));
     holderUp.whenPressed(new TurnHolder(0));
     holderBack.whenPressed(new TurnHolder(90));
-    //DANGEROUS!!!
-    //liftUp.whenPressed(new MoveToUp());
-    //liftMid.whenPressed(new MoveToMid());
-    //liftDown.whenPressed(new MoveToDown());
+    liftUp.whenPressed(new MoveToUp());
+    liftMid.whenPressed(new MoveToMid());
+    liftDown.whenPressed(new MoveToDown());
     nip.whenPressed(new NipPanel());
     extend.whenPressed(new ExtendTaker());
     

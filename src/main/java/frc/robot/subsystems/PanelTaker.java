@@ -56,6 +56,20 @@ public class PanelTaker extends Subsystem{
         isNipped = !isNipped;
     }
 
+    /**
+     * @return the isExtended
+     */
+    public boolean isExtended() {
+        return isExtended;
+    }
+    
+     /**
+     * @return the isNipped
+     */
+    public boolean isNipped() {
+        return isNipped;
+    }
+
     @Override
     protected void initDefaultCommand() {
         //setDefaultCommand(new TurnHolder(0));

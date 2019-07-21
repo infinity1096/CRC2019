@@ -7,6 +7,10 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.SPI.Port;
@@ -14,6 +18,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.Auto.TakePanel;
 import frc.robot.commands.lift.CalibrateLift;
 import frc.robot.commands.lift.MoveToDown;
 import frc.robot.commands.lift.MoveToUp;
@@ -39,6 +44,9 @@ public class Robot extends TimedRobot {
   public static Intake intake = new Intake();
   public static PanelTaker paneltaker = new PanelTaker();
   public static OI oi = new OI();
+  public static NetworkTable CVtable =
+  NetworkTableInstance.getDefault().getTable("VisionBoard");
+  public static AHRS gyro = new AHRS(Port.kMXP);
   
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -114,6 +122,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+
     Scheduler.getInstance().run();
   }
 
@@ -128,6 +137,9 @@ public class Robot extends TimedRobot {
     }
 
     Robot.lift.setPower(0);
+    new CalibrateLift().start();
+    Robot.intake.intakeUp();
+    Robot.intake.IntakeOpen();
   }
 
   /**
@@ -136,18 +148,23 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    //lift.moveElevator(-0.20 * oi.stick.getRawAxis(1));
+    //lift.moveElevator(-0.20 * oi.stick2.getRawAxis(1));
+
+
+
     //SmartDashboard.putNumber("shit1", lift.getEncodervalue()[0]);
     //SmartDashboard.putNumber("shit2", lift.getEncodervalue()[1]);
-    
-    SmartDashboard.putData(new MoveToDown());
-    SmartDashboard.putData(new MoveToUp());
+    /*
+
     SmartDashboard.putData(new CalibrateLift());
+
+    SmartDashboard.putNumber("holder deg", Robot.absoluteEncoder.getDeg());
+    */
+    /*
     SmartDashboard.putData("to 0",new TurnHolder(0));
     SmartDashboard.putData("to 90",new TurnHolder(90));
     SmartDashboard.putData("to -90",new TurnHolder(-90));
-    SmartDashboard.putNumber("holder deg", Robot.absoluteEncoder.getDeg());
-        
+    */
 
   }
 

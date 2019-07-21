@@ -98,6 +98,6 @@ public class Lift extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
 
     //For Test
-    setDefaultCommand(new LiftA());
+    //setDefaultCommand(new LiftA());
   }
 }

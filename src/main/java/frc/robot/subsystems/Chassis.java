@@ -7,9 +7,11 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motion.BufferedTrajectoryPointStream;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Notifier;
@@ -42,6 +44,10 @@ public class Chassis extends Subsystem {
 
 public Chassis(){
   //rightMaster.setInverted(true);
+  talonlf.setIdleMode(IdleMode.kBrake);
+  talonlb.setIdleMode(IdleMode.kBrake);
+  talonrf.setIdleMode(IdleMode.kBrake);
+  talonrb.setIdleMode(IdleMode.kBrake);
 }
 
 public void start(){
@@ -64,14 +70,16 @@ public void tankDrive(double left,double right){
   rightMaster.set(ControlMode.PercentOutput,-right);
 }
 
+public void startMP(){
+  //BufferedTrajectoryPointStream traj;
+}
+
+
   @Override
  
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
      //setDefaultCommand(new MySpecialCommand());
-     setDefaultCommand(new ChassisA());
-
-
-	  
+     //setDefaultCommand(new ChassisA());	  
   }
 }

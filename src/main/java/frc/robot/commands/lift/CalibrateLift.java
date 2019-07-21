@@ -13,10 +13,10 @@ import frc.robot.RobotMap;
 
 public class CalibrateLift extends Command {
 
-  public double thresh = RobotMap.LIFT_CALIBRATION_CURRENT_THRESHOLD;
-  public double accumThresh = RobotMap.LIFT_CALIBRATION_ACCUM_THRESHOLD;
-
+  public double epsilon = 1;
+  public double accumTurn = 4;
   public double accum = 0;
+  public double lastPos = 0;
 
   public CalibrateLift() {
     requires(Robot.lift);  
@@ -25,19 +25,26 @@ public class CalibrateLift extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.lift.moveElevator(-0.1);
+    Robot.lift.moveElevator(-0.2);
+    lastPos = Robot.lift.getEncodervalue()[0]+epsilon;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    this.accum += Math.max(0,Robot.lift.getCurrent() - thresh) * 0.02d;
+    System.out.println(Robot.lift.getEncodervalue()[0] - lastPos);
+    if (Math.abs(Robot.lift.getEncodervalue()[0] - lastPos) < epsilon){
+      this.accum ++;
+    }else{
+      accum = 0;
+    }
+    lastPos = Robot.lift.getEncodervalue()[0];
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return accum > accumThresh;
+    return accum > accumTurn;
   }
 
   // Called once after isFinished returns true

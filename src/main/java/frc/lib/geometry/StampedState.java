@@ -7,10 +7,12 @@
 
 package frc.lib.geometry;
 
+import frc.lib.physics.DifferentialDrive.ChassisState;
+
 /**
  * Add your docs here.
  */
-public class StampedState<T> {
+public class StampedState<T extends PoseWithCurvature> {
     
     protected T state;
     protected double t; //  time assiciated with this pose, seconds
@@ -38,6 +40,10 @@ public class StampedState<T> {
 
     public double s(){
         return this.s;
+    }
+
+    public ChassisState toChassisState(){
+        return new ChassisState(v, v *state.curvature);
     }
 
     public String toString(){
