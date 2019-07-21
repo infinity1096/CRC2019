@@ -7,12 +7,15 @@
 
 package frc.robot.subsystems;
 
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.commands.LiftA;
 
 /**
  * Add your docs here.
@@ -27,32 +30,57 @@ public class Lift extends Subsystem {
 
   Solenoid ElevatorClimberChanger = new Solenoid(4);
 
+  boolean is_elevator_mode = true; // output shaft connected to elevator or climber
+
   public Lift(){
     Motor1.follow(Motor2);
     Motor3.follow(Motor2);
     Motor4.follow(Motor2); 
 
+
     Motor2.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     Motor2.setSensorPhase(true);
-    System.out.println("Im called");
   }
 
   public void move(double inputpower){
     ElevatorClimberChanger.set(false);
     Motor2.set(ControlMode.PercentOutput, inputpower);
+
+  }
+
+  public void moveElevator(double inputpower){
+    ElevatorClimberChanger.set(false);
+    Motor2.set(ControlMode.PercentOutput, inputpower);
   }
 
 
-  public void resetencoder(){
+  public void moveClimber(double inputpower){
+    ElevatorClimberChanger.set(true);
+    Motor2.set(ControlMode.PercentOutput, inputpower);
+  }
+
+  public void resetEncoder(){
     Motor2.setSelectedSensorPosition(0);
   }
 
 
   public double[] getEncodervalue() {
-    double realliftdistance =((Motor2.getSelectedSensorPosition()) / 0.972) + 475;
+
+    double realliftdistance =((Motor2.getSelectedSensorPosition())) + RobotMap.LIFT_OFFSET;
+
     double encodervelocity =Motor2.getSelectedSensorVelocity();
     double [] encodervalue = {realliftdistance,encodervelocity};
     return encodervalue ;
+  }
+
+  public void moveTo(double height){
+    double motorHeight = height - RobotMap.LIFT_OFFSET;
+    Motor2.selectProfileSlot(0, 0);
+    Motor2.set(ControlMode.MotionMagic, motorHeight);
+  }
+
+  public void setPower(double power){
+    Motor2.set(ControlMode.PercentOutput, power);
   }
 
   public double getCurrent() {
@@ -77,5 +105,8 @@ public class Lift extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+
+    //For Test
+    //setDefaultCommand(new LiftA());
   }
 }

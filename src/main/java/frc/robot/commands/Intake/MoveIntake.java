@@ -5,50 +5,37 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.subsystems.Intake;
 
-public class P_lift extends Command {
+public class MoveIntake extends Command {
 
-    double refrence;
-    double liftpower;
-  public P_lift(double power) {
-    this.refrence= power;
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(Robot.lift);
+  public MoveIntake() {
+    requires(Robot.intake);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    if (Robot.intake.isDown()){
+      Robot.intake.intakeUp();
+    }else{
+      Robot.intake.intakeDown();
+    }
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    liftpower = (0.6/200) * (refrence - Robot.lift.getEncodervalue()[0]) + 0.16;
-    if(liftpower<0){
-      liftpower = liftpower*0.6;
-    }
-    if(liftpower>-0.5 && liftpower<0.5){
-      Robot.lift.moveElevator(liftpower);
-    }
-    if(liftpower<-0.5){
-      Robot.lift.moveElevator(-0.5);
-    }
-    if(liftpower>0.5){
-      Robot.lift.moveElevator(0.5);
-    }
-    
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true

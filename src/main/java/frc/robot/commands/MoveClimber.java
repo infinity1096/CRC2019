@@ -10,14 +10,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class P_lift extends Command {
 
-    double refrence;
-    double liftpower;
-  public P_lift(double power) {
-    this.refrence= power;
+public class MoveClimber extends Command {
+  public MoveClimber() {
     // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
     requires(Robot.lift);
   }
 
@@ -29,20 +25,7 @@ public class P_lift extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    liftpower = (0.6/200) * (refrence - Robot.lift.getEncodervalue()[0]) + 0.16;
-    if(liftpower<0){
-      liftpower = liftpower*0.6;
-    }
-    if(liftpower>-0.5 && liftpower<0.5){
-      Robot.lift.moveElevator(liftpower);
-    }
-    if(liftpower<-0.5){
-      Robot.lift.moveElevator(-0.5);
-    }
-    if(liftpower>0.5){
-      Robot.lift.moveElevator(0.5);
-    }
-    
+    Robot.lift.moveClimber(Robot.oi.stick.getRawAxis(0)*0.2);
   }
 
   // Make this return true when this Command no longer needs to run execute()

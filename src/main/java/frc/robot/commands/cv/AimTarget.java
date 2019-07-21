@@ -5,43 +5,40 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.cv;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 
-public class P_lift extends Command {
-
-    double refrence;
-    double liftpower;
-  public P_lift(double power) {
-    this.refrence= power;
+public class AimTarget extends Command {
+  public AimTarget() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.lift);
+    requires(Robot.chassis);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    liftpower = (0.6/200) * (refrence - Robot.lift.getEncodervalue()[0]) + 0.16;
-    if(liftpower<0){
-      liftpower = liftpower*0.6;
-    }
-    if(liftpower>-0.5 && liftpower<0.5){
-      Robot.lift.moveElevator(liftpower);
-    }
-    if(liftpower<-0.5){
-      Robot.lift.moveElevator(-0.5);
-    }
-    if(liftpower>0.5){
-      Robot.lift.moveElevator(0.5);
-    }
+    //Get Coordinates
+    double left_coorniate = SmartDashboard.getNumber("left_coordinate", 0.0);
+    double right_coorniate = SmartDashboard.getNumber("right_coordinate", 0.0);
+
+    double center_line = (left_coorniate + right_coorniate) / 2;
+    double aiming_line = RobotMap.AIMING_LINE;
+
+    double error = center_line - aiming_line;
+    //if error < 0, needs to move leftward
+    //if error > 0, needs to move rightward
+
     
   }
 

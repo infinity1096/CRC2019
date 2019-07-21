@@ -7,8 +7,11 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.SPI.Port;
@@ -16,12 +19,17 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Sensors.AbsoluteEncoder;
-import frc.robot.commands.lift_P;
-import frc.robot.commands.lift_P1;
-import frc.robot.commands.lift_down;
+
+import frc.robot.commands.Auto.TakePanel;
+import frc.robot.commands.lift.CalibrateLift;
+import frc.robot.commands.lift.MoveToDown;
+import frc.robot.commands.lift.MoveToUp;
+import frc.robot.commands.paneltaker.TurnHolder;
+import frc.robot.sensors.AbsoluteEncoder;
 import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lift;
+import frc.robot.subsystems.PanelTaker;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,12 +39,18 @@ import frc.robot.subsystems.Lift;
  * project.
  */
 public class Robot extends TimedRobot {
-  
-  public static AbsoluteEncoder encoder = new AbsoluteEncoder(Port.kOnboardCS0);
-  public static Lift lift = new Lift();
-  public static Chassis chassis = new Chassis();
-  public static OI m_oi = new OI();
 
+
+  public static Chassis chassis = new Chassis();
+  public static AbsoluteEncoder absoluteEncoder = new AbsoluteEncoder(Port.kOnboardCS0);
+  public static Lift lift = new Lift();
+  public static Intake intake = new Intake();
+  public static PanelTaker paneltaker = new PanelTaker();
+  public static OI oi = new OI();
+  public static NetworkTable CVtable =
+  NetworkTableInstance.getDefault().getTable("VisionBoard");
+  public static AHRS gyro = new AHRS(Port.kMXP);
+  
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -47,7 +61,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    
+
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
     SmartDashboard.putData("liftTo_0",new lift_P1());
@@ -80,7 +94,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
-  }
+  }  
 
   /**
    * This autonomous (along with the chooser code above) shows how to select
@@ -115,6 +129,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+
     Scheduler.getInstance().run();
   }
 
@@ -128,7 +143,11 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    lift.resetencoder();
+
+    Robot.lift.setPower(0);
+    new CalibrateLift().start();
+    Robot.intake.intakeUp();
+    Robot.intake.IntakeOpen();
 
   }
 
@@ -138,8 +157,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    
-    //SmartDashboard.putNumber("encval", encoder.getDeg());
+
 
   }
 

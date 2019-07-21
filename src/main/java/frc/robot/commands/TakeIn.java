@@ -7,53 +7,51 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class P_lift extends Command {
-
-    double refrence;
-    double liftpower;
-  public P_lift(double power) {
-    this.refrence= power;
+public class TakeIn extends Command {
+  
+  Timer timer = new Timer();
+  
+  public void SetTimer() {
     // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(Robot.lift);
+    requires(Robot.intake);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    timer.reset();
+    Robot.intake.intakeDown();
+    timer.start();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    liftpower = (0.6/200) * (refrence - Robot.lift.getEncodervalue()[0]) + 0.16;
-    if(liftpower<0){
-      liftpower = liftpower*0.6;
-    }
-    if(liftpower>-0.5 && liftpower<0.5){
-      Robot.lift.moveElevator(liftpower);
-    }
-    if(liftpower<-0.5){
-      Robot.lift.moveElevator(-0.5);
-    }
-    if(liftpower>0.5){
-      Robot.lift.moveElevator(0.5);
-    }
-    
+    if(timer.get()>0.5 && timer.get()<1){
+    Robot.intake.IntakeOpen();
+    Robot.intake.takeIn();
   }
+}
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    if(timer.get()>1
+    ){
+      return true;
+    }
     return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+
+    Robot.intake.hold();
   }
 
   // Called when another command which requires one or more of the same

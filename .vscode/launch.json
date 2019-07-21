@@ -4,18 +4,52 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - testMaxAccel",
+      "request": "launch",
+      "mainClass": "frc.test.testMaxAccel",
+      "projectName": "CRC2019"
+    },
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - testIntrapolate",
+      "request": "launch",
+      "mainClass": "frc.test.testIntrapolate",
+      "projectName": "CRC2019"
+    },
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - testCurve",
+      "request": "launch",
+      "mainClass": "frc.test.testCurve",
+      "projectName": "CRC2019"
+    },
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - testPose",
+      "request": "launch",
+      "mainClass": "frc.test.testPose",
+      "projectName": "CRC2019"
+    },
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - testDC",
+      "request": "launch",
+      "mainClass": "frc.test.testDC",
+      "projectName": "CRC2019"
+    },
     {
       "type": "wpilib",
       "name": "WPILib Desktop Debug",
       "request": "launch",
-      "desktop": true,
+      "desktop": true
     },
     {
       "type": "wpilib",
       "name": "WPILib roboRIO Debug",
       "request": "launch",
-      "desktop": false,
+      "desktop": false
     }
   ]
 }

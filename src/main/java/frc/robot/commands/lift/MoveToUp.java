@@ -5,50 +5,31 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.lift;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class P_lift extends Command {
-
-    double refrence;
-    double liftpower;
-  public P_lift(double power) {
-    this.refrence= power;
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+public class MoveToUp extends Command {
+  public MoveToUp() {
     requires(Robot.lift);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.lift.moveTo(1902);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    liftpower = (0.6/200) * (refrence - Robot.lift.getEncodervalue()[0]) + 0.16;
-    if(liftpower<0){
-      liftpower = liftpower*0.6;
-    }
-    if(liftpower>-0.5 && liftpower<0.5){
-      Robot.lift.moveElevator(liftpower);
-    }
-    if(liftpower<-0.5){
-      Robot.lift.moveElevator(-0.5);
-    }
-    if(liftpower>0.5){
-      Robot.lift.moveElevator(0.5);
-    }
-    
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
