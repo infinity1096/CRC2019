@@ -20,6 +20,21 @@ public class RobotMap {
   //Chassis - autonomous
   public static final double encoderToMm = 0.08186;
 
+  //software parameters
+  public static final double CHASSIS_POSDRIVE_I_ACTIVIATE_RANGE = 0.5;
+  public static final double CHASSIS_POSDRIVE_KP = 0.15;//KP > 0
+  public static final double CHASSIS_POSDRIVE_P_LIMIT = 0.4;
+  public static final double CHASSIS_POSDRIVE_P_OMEGA_LIMIT = 0.4;
+  public static final double CHASSIS_POSDRIVE_TURN_D_LIMIT = 0.2;
+  public static final double CHASSIS_POSDRIVE_TURN_I_LIMIT = 0.1;
+  public static final double CHASSIS_POSDRIVE_MOVE_I_LIMIT = 0.2;
+  
+  public static final double CHASSIS_POSDRIVE_KA = 0.5;//KA - KP > 0
+  public static final double CHASSIS_POSDRIVE_KB = -0.12;//KB < 0
+  public static final double CHASSIS_POSDRIVE_KD = 0.03;
+  public static final double CHASSIS_POSDRIVE_TURN_I = 0.01;
+  public static final double CHASSIS_POSDRIVE_MOVE_I = 0.04;
+
   //lift
   public static final double LIFT_CALIBRATION_CURRENT_THRESHOLD = 4.00;
   public static final double LIFT_CALIBRATION_ACCUM_THRESHOLD = 0.40;

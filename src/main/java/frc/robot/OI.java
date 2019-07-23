@@ -9,8 +9,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.TakeIn;
 import frc.robot.commands.Intake.PanelReady;
+import frc.robot.commands.Intake.TakeIn;
 import frc.robot.commands.lift.MoveToDown;
 import frc.robot.commands.lift.MoveToMid;
 import frc.robot.commands.lift.MoveToUp;

@@ -13,6 +13,9 @@ import frc.robot.Robot;
 
 public class TakeIn extends Command {
   
+  boolean is_triged = false;
+  double time = 999;
+  Timer timer = new Timer();
   
   public void SetTimer() {
     // Use requires() here to declare subsystem dependencies
@@ -23,6 +26,9 @@ public class TakeIn extends Command {
   @Override
   protected void initialize() {
     Robot.intake.intakeDown();
+    timer.reset();
+    timer.start();
+    is_triged = false;
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -30,23 +36,23 @@ public class TakeIn extends Command {
   protected void execute() {
     Robot.intake.IntakeOpen();
     Robot.intake.takeIn();
+
+    if ((!is_triged) && !Robot.intake.getDigitital()){
+      time = timer.get();
+      is_triged = true;
+    }
   
 }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(Robot.intake.getDigitital()){
-      return true;
-    }
-    return false;
-    
+    return timer.get() > time + 1;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-
     Robot.intake.hold();
   }
 
@@ -54,5 +60,6 @@ public class TakeIn extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.intake.hold();
   }
 }

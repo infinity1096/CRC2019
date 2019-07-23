@@ -36,12 +36,12 @@ import frc.robot.RobotMap;
     }
     
   public void takeIn (){
-    csm.set(-1);
+    System.out.println("Im called");
+    csm.set(-0.5);
   
   }
   public void hold(){
   
-   
     csm.set(0);
     
   }
