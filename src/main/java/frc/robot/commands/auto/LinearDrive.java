@@ -8,6 +8,7 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 public class LinearDrive extends Command {
@@ -16,9 +17,11 @@ public class LinearDrive extends Command {
   double error;
   double accum = 0;
   double preverror;
-  double Kp,Ki,Kd;
-  double Izone = 500; 
-  double maxAccum = 300;
+  double Kp=0.0007;
+  double Ki=0.001;
+  double Kd=0.0009;
+  double Izone = 100; 
+  double maxAccum = 50;
   double maxAllowableError = 20;
   double errordot;
 
@@ -37,6 +40,7 @@ public class LinearDrive extends Command {
     target += (Robot.chassis.getWheelEncoderValue()[0][0] + Robot.chassis.getWheelEncoderValue()[0][0])/2.0;
     error = target - (Robot.chassis.getWheelEncoderValue()[0][0] + Robot.chassis.getWheelEncoderValue()[0][0])/2.0;
     preverror = error;
+    accum = 0;
 
   }
 
@@ -45,16 +49,18 @@ public class LinearDrive extends Command {
   protected void execute() {
 
     error = target - (Robot.chassis.getWheelEncoderValue()[0][0] + Robot.chassis.getWheelEncoderValue()[0][0])/2.0;
-    errordot = preverror - error;
-
+    errordot = error - preverror;
+    SmartDashboard.putNumber("EncoderValue", (Robot.chassis.getWheelEncoderValue()[0][0] + Robot.chassis.getWheelEncoderValue()[0][0])/2.0);
     double Poutput = Kp * error;
     double Ioutput = Ki * accum;
     double Doutput = Kd * errordot;
     preverror = error;
+    SmartDashboard.putNumber("accum", accum);
 
     Poutput = range(Poutput,-0.5,0.5);
     Doutput = range(Doutput,-0.2,0.2);
     double output = Poutput + Ioutput + Doutput;
+    SmartDashboard.putNumber("Doutput", Doutput);
 
     if(Math.abs(error)<Izone){
       accum += error * 0.02;
@@ -64,7 +70,7 @@ public class LinearDrive extends Command {
       accum = 0;
     }
 
-    accum += error * 0.02;
+    
     Robot.chassis.arcadeDrive(output, 0);
   }
 

@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.TakeIn;
 import frc.robot.commands.Intake.PanelReady;
 import frc.robot.commands.lift.MoveToDown;
 import frc.robot.commands.lift.MoveToMid;
@@ -41,6 +42,8 @@ public class OI {
   public JoystickButton button_ExtendPanel = new JoystickButton(stick,5);
   public JoystickButton button_NipPanel = new JoystickButton(stick,3);
   public JoystickButton button_PanelReady = new JoystickButton(stick,6);
+  public JoystickButton button_Shoot = new JoystickButton(stick, 1);
+  public JoystickButton button_TakeIn = new JoystickButton(stick, 2);
 
   
 
@@ -67,6 +70,7 @@ public class OI {
     button_ExtendPanel.whenPressed(new ExtendTaker());
     button_NipPanel.whenPressed(new NipPanel());
     button_PanelReady.whenPressed(new PanelReady());
+    button_TakeIn.whenPressed(new TakeIn());
   }
    
 

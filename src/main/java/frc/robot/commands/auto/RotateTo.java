@@ -7,7 +7,10 @@
 
 package frc.robot.commands.auto;
 
+import javax.swing.text.StyleContext.SmallAttributeSet;
+
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 public class RotateTo extends Command {
@@ -16,10 +19,12 @@ public class RotateTo extends Command {
   double error;
   double accum = 0;
   double preverror;
-  double Kp,Ki,Kd;
-  double Izone = 500; 
-  double maxAccum = 300;
-  double maxAllowableError = 20;
+  double Kp = 0.5;
+  double Ki = 0.7;
+  double Kd = 0.15;
+  double Izone = 0.16; 
+  double maxAccum = 0.3456;
+  double maxAllowableError = 0.005556;
   double errordot;
 
   public RotateTo(double target) {
@@ -34,7 +39,7 @@ public class RotateTo extends Command {
   @Override
   protected void initialize() {
 
-    error = target - Math.toRadians(Robot.gyro.getAngle());
+    error = target -(- Math.toRadians(Robot.gyro.getAngle()));
     error = Math.atan2(Math.sin(error),Math.cos(error));
     preverror = error;
 
@@ -44,17 +49,25 @@ public class RotateTo extends Command {
   @Override
   protected void execute() {
 
-    error = target - Math.toRadians(Robot.gyro.getAngle());
+    error = target - (-Math.toRadians(Robot.gyro.getAngle()));
     error = Math.atan2(Math.sin(error),Math.cos(error));
-    errordot = preverror - error;
+    errordot = error - preverror;
+    SmartDashboard.putNumber("errordot", errordot);
+    
+    SmartDashboard.putNumber("gyrovalue", -Robot.gyro.getAngle());
 
     double Poutput = Kp * error;
     double Ioutput = Ki * accum;
     double Doutput = Kd * errordot;
     preverror = error;
 
+    if(Math.abs(errordot) > 6){
+      Poutput /= 1.4;
+    }
+
     Poutput = range(Poutput,-0.5,0.5);
     Doutput = range(Doutput,-0.2,0.2);
+    Ioutput = range1(Ioutput,-0.06,0.06);
     double output = Poutput + Ioutput + Doutput;
 
     if(Math.abs(error)<Izone){
@@ -64,8 +77,7 @@ public class RotateTo extends Command {
     else{
       accum = 0;
     }
-    
-    accum += error * 0.02;
+  
     Robot.chassis.arcadeDrive(0,output);
   }
 
@@ -80,8 +92,27 @@ public class RotateTo extends Command {
       else{
         return val;
       }
+    }
 
-  }
+    
+
+    double range1(double val,double min1,double max1){
+
+      if(val>0 && val<max1){
+        return max1;
+      }
+      else if(val>max1){
+        return val;
+      }
+      else if(val<min1){
+        return val;
+      }
+      else{
+        return min1;
+      }
+    }
+
+  
 
   // Make this return true when this Command no longer needs to run execute()
   @Override

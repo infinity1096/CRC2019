@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
@@ -24,6 +25,7 @@ import frc.robot.RobotMap;
     CANSparkMax csm = new CANSparkMax(RobotMap.INTAKE_MOTOR_PORT,MotorType.kBrushless);
     Solenoid IntakeLifter = new Solenoid(2);
     Solenoid IntakeOpen = new Solenoid(3);
+    DigitalInput d1 = new DigitalInput(0);
     
     public static boolean isDown = false;
 
@@ -68,6 +70,10 @@ import frc.robot.RobotMap;
 
   public void IntakeOpen(){
     IntakeOpen.set(false);
+ }
+
+ public boolean getDigitital(){
+   return d1.get();
  }
 
  public void intakeClose(){

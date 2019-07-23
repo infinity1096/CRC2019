@@ -16,11 +16,13 @@ public class AutoDrive extends CommandGroup {
    */
   public AutoDrive() {
 
-    addParallel(new MoveToMid());
-    addSequential(new LinearDrive(2000));
-
-    addSequential(new LinearDrive(2000));
-    addSequential(new RotateTo(Math.PI));
+    
+    addSequential(new LinearDrive(1000));
+    addSequential(new RotateTo(Math.PI*2/3));
+    addSequential(new LinearDrive(1000));
+    addSequential(new RotateTo(Math.PI*4/3));
+    addSequential(new LinearDrive(1000));
+    addSequential(new RotateTo(Math.PI*6/3));
 
     // Add Commands here:
     // e.g. addSequential(new Command1());

@@ -6,7 +6,10 @@ import frc.robot.Robot;
 
 public class TurnHolder extends Command{
 
-    private double Kp = 0.020;
+    private double Kp = 0.015;
+    private double prevError = 0;
+    private double errordotFused = 0;
+    private double expAverageCoeff = 0.2;
     private double Kd = 0.014;
     private double Ki = 0.02;
     private double accum = 0;
@@ -26,6 +29,7 @@ public class TurnHolder extends Command{
     @Override
     protected void initialize() {
         error = target - Robot.rotary.get_encoder_value();
+        prevError = error;
         
     }
     @Override
@@ -35,21 +39,24 @@ public class TurnHolder extends Command{
 
         if (Robot.paneltaker.isExtended()){
             if (Robot.paneltaker.isNipped()){
-                GravComp = 0.28;
+                GravComp = 0.38;
             }else{
                 GravComp = 0.16;
             }
         }else{
             if (Robot.paneltaker.isNipped()){
-                GravComp = 0.20;
+                GravComp = 0.30;
             }else{
                 GravComp = 0.09;
             }
         }
 
         
-        double errordot = target-Robot.rotary.get_encoder_value();
-        errordot = errordot - error;
+        
+        error = target - Robot.rotary.get_encoder_value();
+        double errordot = error - prevError;
+        errordotFused = expAverageCoeff * errordotFused + (1-expAverageCoeff) * errordot;
+        prevError = error;
         
 
         double comp = -GravComp * Math.sin(
@@ -60,9 +67,13 @@ public class TurnHolder extends Command{
         Math.sqrt(1325 - 700 * Math.cos(Math.toRadians(Robot.rotary.get_encoder_value()))) * 6.0;
 
         double Poutput = Kp * error;
-        double Doutput = Kd * errordot;
-        Poutput = range(Poutput,-0.5,0.5);
-        error = target - Robot.rotary.get_encoder_value();
+        double Doutput = Kd * errordotFused;
+        Poutput = range(Poutput,-0.4,0.4);
+
+        if (Math.abs(errordotFused) > 1.5){
+            Poutput /= 1.3;
+        }
+        
 
         if (Math.abs(error) > Izone){
             accum = 0;
@@ -73,7 +84,6 @@ public class TurnHolder extends Command{
 
         double Ioutput = Ki * accum;
 
-        System.out.println(Doutput);
 
         double output = Poutput + Ioutput+ Doutput + comp +assistComp;
 

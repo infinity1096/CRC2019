@@ -22,6 +22,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.lift_P;
 import frc.robot.commands.lift_P1;
 import frc.robot.commands.lift_down;
+import frc.robot.commands.auto.AutoDrive;
+import frc.robot.commands.auto.LinearDrive;
+import frc.robot.commands.auto.RotateTo;
 import frc.robot.commands.auto.TakePanel;
 import frc.robot.commands.lift.CalibrateLift;
 import frc.robot.commands.lift.MoveToDown;
@@ -149,17 +152,21 @@ public class Robot extends TimedRobot {
     new CalibrateLift().start();
     Robot.intake.intakeUp();
     Robot.intake.IntakeOpen();
+    gyro.reset();
 
   }
 
   /**
    * This function is called periodically during operator control.
    */
+  double i = 0;
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    
 
-
+    SmartDashboard.putData(new LinearDrive(3000));
+    SmartDashboard.putData(new AutoDrive());
   }
 
   /**
