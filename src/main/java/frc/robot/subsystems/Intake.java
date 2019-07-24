@@ -37,7 +37,7 @@ import frc.robot.RobotMap;
     
   public void takeIn (){
     System.out.println("Im called");
-    csm.set(-0.5);
+    csm.set(-0.35);
   
   }
   public void hold(){

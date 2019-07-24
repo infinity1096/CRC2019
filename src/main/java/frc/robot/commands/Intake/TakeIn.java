@@ -43,11 +43,11 @@ public class TakeIn extends Command {
     }
   
 }
-
+  
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return timer.get() > time + 1;
+    return timer.get() > time + 0.5;
   }
 
   // Called once after isFinished returns true
