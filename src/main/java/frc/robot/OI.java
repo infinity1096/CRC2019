@@ -9,19 +9,23 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.TakeIn;
+import frc.robot.commands.Intake.MoveIntake;
 import frc.robot.commands.Intake.PanelReady;
+import frc.robot.commands.Intake.TakeIn;
 import frc.robot.commands.lift.MoveToDown;
 import frc.robot.commands.lift.MoveToMid;
 import frc.robot.commands.lift.MoveToUp;
 import frc.robot.commands.paneltaker.ExtendTaker;
 import frc.robot.commands.paneltaker.NipPanel;
 import frc.robot.commands.paneltaker.TurnHolder;
+import frc.robot.commands.commandgroup.FlipToHigh;
+//import frc.robot.commands.commandgroup.FlipPanelToBack;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
+
 public class OI {
   //// CREATING BUTTONS
   // One type of button is a joystick button which is any button on a
@@ -33,21 +37,22 @@ public class OI {
   public Joystick stick2 = new Joystick(1);
 
   // Button button = new JoystickButton(stick, buttonNumber);
-  public JoystickButton button_MoveToUp= new JoystickButton(stick, 8);
-  public JoystickButton button_MoveToMid = new JoystickButton(stick, 10);
-  public JoystickButton button_MoveToDown = new JoystickButton(stick, 12);
-  public JoystickButton button_panelForward = new JoystickButton(stick,7);
-  public JoystickButton button_panelUpward = new JoystickButton(stick,9);
-  public JoystickButton button_panelBackward = new JoystickButton(stick,11);
-  public JoystickButton button_ExtendPanel = new JoystickButton(stick,5);
-  public JoystickButton button_NipPanel = new JoystickButton(stick,3);
-  public JoystickButton button_PanelReady = new JoystickButton(stick,6);
-  public JoystickButton button_Shoot = new JoystickButton(stick, 1);
-  public JoystickButton button_TakeIn = new JoystickButton(stick, 2);
+  public JoystickButton button_MoveToUp= new JoystickButton(stick2, 8);
+  public JoystickButton button_MoveToMid = new JoystickButton(stick2, 10);
+  public JoystickButton button_MoveToDown = new JoystickButton(stick2, 12);
+  public JoystickButton button_panelForward = new JoystickButton(stick2,7);
+  public JoystickButton button_panelUpward = new JoystickButton(stick2,9);
+  public JoystickButton button_panelBackward = new JoystickButton(stick2,11);
+  public JoystickButton button_ExtendPanel = new JoystickButton(stick2,5);
+  public JoystickButton button_NipPanel = new JoystickButton(stick2,3);
+  public JoystickButton button_PanelReady = new JoystickButton(stick2,6);
 
-  
+  public JoystickButton button_Shoot = new JoystickButton(stick2, 1);
+  public JoystickButton button_TakeIn = new JoystickButton(stick2, 2);
+  public JoystickButton button_MoveIntake = new JoystickButton(stick2, 4);
+  public boolean robotstate=false;
 
-
+  //public JoystickButton button_Switch = new JoystickButton(stick2, 4);
   // There are a few additional built in buttons you can use. Additionally,
   // by subclassing Button you can create custom triggers and bind those to
   // commands the same as any other Button.
@@ -60,6 +65,10 @@ public class OI {
   // until it is finished as determined by it's isFinished method.
 
   // button.whenPressed(new ExampleCommand());
+  public boolean Changestate(boolean changing){
+    if (changing == false) return true;
+    else return false;
+  }
   OI(){
     button_MoveToUp.whenPressed(new MoveToUp());
     button_MoveToMid.whenPressed(new MoveToMid());
@@ -71,6 +80,8 @@ public class OI {
     button_NipPanel.whenPressed(new NipPanel());
     button_PanelReady.whenPressed(new PanelReady());
     button_TakeIn.whenPressed(new TakeIn());
+    button_MoveIntake.whenPressed(new MoveIntake());
+    //button_Shoot.whenPressed(new );
   }
    
 

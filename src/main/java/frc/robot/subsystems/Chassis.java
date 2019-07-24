@@ -23,6 +23,9 @@ import frc.robot.commands.ChassisA;
  * An example subsystem.  You can replace me with your own Subsystem.
  */
 public class Chassis extends Subsystem {
+
+  public boolean isAuto = false;
+
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   CANSparkMax talonlf = new CANSparkMax(RobotMap.CHASSIS_LFMOTOR_PORT,MotorType.kBrushless);
@@ -67,6 +70,10 @@ public void arcadeDrive(double v,double omega){
   rightMaster.set(ControlMode.PercentOutput,-right);
 }
 
+public void arcadeDrive(double[] u){
+  arcadeDrive(u[0],u[1]);
+}
+
 public void tankDrive(double left,double right){
   leftMaster.set(ControlMode.PercentOutput,left);
   rightMaster.set(ControlMode.PercentOutput,-right);
@@ -75,8 +82,8 @@ public void tankDrive(double left,double right){
 public double[][] getWheelEncoderValue(){
   double[][] val = {{0,0},{0,0}};
   val[0][0] = leftMaster.getSelectedSensorPosition();
-  val[0][1] = leftMaster.getSelectedSensorVelocity();
-  val[1][0] = rightMaster.getSelectedSensorPosition();
+  val[1][0] = leftMaster.getSelectedSensorVelocity();
+  val[0][1] = rightMaster.getSelectedSensorPosition();
   val[1][1] = rightMaster.getSelectedSensorVelocity();
 
   val[0][0] = val[0][0] * RobotMap.encoderToMm;

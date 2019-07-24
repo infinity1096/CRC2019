@@ -3,7 +3,7 @@ package frc.robot.commands.paneltaker;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-
+import frc.robot.commands.Intake.PanelReady;
 public class TurnHolder extends Command{
 
     private double Kp = 0.015;
@@ -39,13 +39,16 @@ public class TurnHolder extends Command{
 
         if (Robot.paneltaker.isExtended()){
             if (Robot.paneltaker.isNipped()){
+                //new PanelReady();
                 GravComp = 0.38;
             }else{
                 GravComp = 0.16;
             }
         }else{
             if (Robot.paneltaker.isNipped()){
+                //new PanelReady();
                 GravComp = 0.30;
+        
             }else{
                 GravComp = 0.09;
             }

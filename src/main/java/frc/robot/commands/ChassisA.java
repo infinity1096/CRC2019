@@ -34,6 +34,10 @@ public class ChassisA extends Command {
     double inputx = -Robot.oi.stick.getRawAxis(1)*0.6;
     double inputy = -Robot.oi.stick.getRawAxis(2)*0.3;
 
+    if (Math.abs(Robot.oi.stick.getRawAxis(1)) < 0.1){
+      inputx = 0;
+    }
+
     if (Math.abs(Robot.oi.stick.getRawAxis(2)) < 0.1){
       inputy = 0;
     }

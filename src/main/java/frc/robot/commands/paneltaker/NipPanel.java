@@ -8,11 +8,14 @@ public class NipPanel extends Command
     public NipPanel()
     {
         requires(Robot.paneltaker);
+        //requires(Robot.intake);
     }
 
     @Override
     protected void initialize() {
         Robot.paneltaker.nip();
+        Robot.intake.intakeDown();
+        Robot.intake.intakeClose();
     }
 
     @Override

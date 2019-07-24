@@ -12,6 +12,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.SPI.Port;
@@ -19,6 +20,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Odometry.Odometry;
+import frc.robot.Odometry.UpdateOdometryPos;
 import frc.robot.commands.lift_P;
 import frc.robot.commands.lift_P1;
 import frc.robot.commands.lift_down;
@@ -26,6 +29,7 @@ import frc.robot.commands.auto.AutoDrive;
 import frc.robot.commands.auto.LinearDrive;
 import frc.robot.commands.auto.RotateTo;
 import frc.robot.commands.auto.TakePanel;
+import frc.robot.commands.chassis.PosDrive;
 import frc.robot.commands.lift.CalibrateLift;
 import frc.robot.commands.lift.MoveToDown;
 import frc.robot.commands.lift.MoveToUp;
@@ -56,6 +60,8 @@ public class Robot extends TimedRobot {
   public static OI oi = new OI();
   public static NetworkTable CVtable =
   NetworkTableInstance.getDefault().getTable("VisionBoard");
+  public static Notifier odometry_notifier;
+  public static Odometry odometry = new Odometry(0.02, chassis.getWheelEncoderValue()[0][0], chassis.getWheelEncoderValue()[0][1]);
   public static AHRS gyro = new AHRS(Port.kMXP);
   
   Command m_autonomousCommand;
@@ -68,10 +74,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
-    
+
   }
 
   /**
@@ -93,6 +98,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    if (odometry_notifier != null){
+      this.odometry_notifier.stop();
+    }
   }
 
   @Override
@@ -143,6 +151,10 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    odometry_notifier = new Notifier(odometry);
+    odometry_notifier.startPeriodic(0.02);
+    odometry.setPos(0, 0);
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -164,8 +176,15 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     
+    SmartDashboard.putNumber("Odom_x",odometry.get()[0]);
+    SmartDashboard.putNumber("Odom_y",odometry.get()[1]);
 
-    SmartDashboard.putData(new LinearDrive(3000));
+    SmartDashboard.putNumber("encL",chassis.getWheelEncoderValue()[0][0]);
+    SmartDashboard.putNumber("encR",chassis.getWheelEncoderValue()[0][1]);
+
+    SmartDashboard.putData(new UpdateOdometryPos());
+
+    SmartDashboard.putData(new PosDrive(80, 600, Math.PI/2));
     SmartDashboard.putData(new AutoDrive());
   }
 

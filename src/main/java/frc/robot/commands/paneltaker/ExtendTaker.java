@@ -14,6 +14,7 @@ public class ExtendTaker extends Command
     @Override
     protected void initialize() {
         Robot.paneltaker.extend();
+        
     }
 
     @Override
