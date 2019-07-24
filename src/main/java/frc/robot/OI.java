@@ -19,6 +19,7 @@ import frc.robot.commands.paneltaker.ExtendTaker;
 import frc.robot.commands.paneltaker.NipPanel;
 import frc.robot.commands.paneltaker.TurnHolder;
 import frc.robot.commands.commandgroup.FlipToHigh;
+import frc.robot.commands.Intake.Shoot;
 //import frc.robot.commands.commandgroup.FlipPanelToBack;
 
 /**
@@ -81,6 +82,7 @@ public class OI {
     button_PanelReady.whenPressed(new PanelReady());
     button_TakeIn.whenPressed(new TakeIn());
     button_MoveIntake.whenPressed(new MoveIntake());
+    button_Shoot.whenPressed(new Shoot());
     //button_Shoot.whenPressed(new );
   }
    

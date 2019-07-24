@@ -35,6 +35,7 @@ public class Shoot extends Command {
     Robot.intake.intakeClose();
     timer.start();
     Robot.intake.shoot();
+    Robot.intake.hold();
     if(timer.get()>0.3){
       Robot.intake.IntakeOpen();
       Robot.intake.hold();
