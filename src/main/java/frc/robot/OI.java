@@ -13,12 +13,17 @@ import frc.robot.Odometry.UpdateOdometryPos;
 import frc.robot.commands.Intake.MoveIntake;
 import frc.robot.commands.Intake.PanelReady;
 import frc.robot.commands.Intake.TakeIn;
+import frc.robot.commands.chassis.ChangeSpeed;
 import frc.robot.commands.chassis.PosDrive;
 import frc.robot.commands.commandgroup.FlipPanel;
 import frc.robot.commands.commandgroup.ResetPanel;
+import frc.robot.commands.commandgroup.cargoReady;
+import frc.robot.commands.lift.LockClimber;
+import frc.robot.commands.lift.MoveClimber;
 import frc.robot.commands.lift.MoveToDown;
 import frc.robot.commands.lift.MoveToMid;
 import frc.robot.commands.lift.MoveToUp;
+import frc.robot.commands.lift.ReleaseClimber;
 import frc.robot.commands.paneltaker.ExtendTaker;
 import frc.robot.commands.paneltaker.NipPanel;
 import frc.robot.commands.paneltaker.TurnHolder;
@@ -44,6 +49,7 @@ public class OI {
   //joystick1
   public JoystickButton button_UpdateOdometry = new JoystickButton(stick,3);
   public JoystickButton button_PosDrive = new JoystickButton(stick,5);
+  public JoystickButton button_ChangeSpeed = new JoystickButton(stick,2);
   //joystick2
   //lift
   public JoystickButton button_MoveToUp= new JoystickButton(stick2, 8);
@@ -82,7 +88,7 @@ public class OI {
     //joystick1
     button_UpdateOdometry.whenPressed(new UpdateOdometryPos());
     button_PosDrive.whenPressed(new PosDrive(80, 600, Math.PI/2));
-
+    button_ChangeSpeed.whenPressed(new ChangeSpeed());
     //joystick2
     //lift
     button_MoveToUp.whenPressed(new MoveToUp());
@@ -91,12 +97,12 @@ public class OI {
     //holder
     button_ExtendPanel.whenPressed(new ExtendTaker());
     button_NipPanel.whenPressed(new NipPanel());
-    button_FlipPanel.whenPressed(new FlipPanel());
-    button_ResetPanel.whenPressed(new ResetPanel());
+    button_FlipPanel.whenPressed(new FlipPanel());//lift will move to mid prior to flipping
+    button_ResetPanel.whenPressed(new ResetPanel());//holder and lift will move simultaneously do NOT move with panel
     button_HolderUp.whenPressed(new TurnHolder(0));
     //intake
-    button_TakeIn.whenPressed(new TakeIn());
-    button_Shoot.whenPressed(new Shoot());
+    button_TakeIn.whenPressed(new TakeIn());//intake will be lifted up after cargo is taken in
+    button_Shoot.whenPressed(new Shoot());//intake will be moved down about 1s after shooting
     //button_Shoot.whenPressed(new );
   }
    

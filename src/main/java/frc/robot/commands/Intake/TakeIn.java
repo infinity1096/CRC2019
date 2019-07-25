@@ -54,6 +54,7 @@ public class TakeIn extends Command {
   @Override
   protected void end() {
     Robot.intake.hold();
+    Robot.intake.intakeUp();
   }
 
   // Called when another command which requires one or more of the same

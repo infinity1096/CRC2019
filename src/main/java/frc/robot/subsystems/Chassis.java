@@ -33,10 +33,12 @@ public class Chassis extends Subsystem {
   CANSparkMax talonlb = new CANSparkMax(RobotMap.CHASSIS_LBMOTOR_PORT,MotorType.kBrushless);
   CANSparkMax talonrf = new CANSparkMax(RobotMap.CHASSIS_RFMOTOR_PORT,MotorType.kBrushless);
   CANSparkMax talonrb = new CANSparkMax(RobotMap.CHASSIS_RBMOTOR_PORT,MotorType.kBrushless);
-  //Solenoid speedShift = new Solenoid(RobotMap.CHASSIS_SPEEDSHIFT_);
+  Solenoid speedShift = new Solenoid(RobotMap.CHASSIS_SPEEDSHIFT_PORT);
 
   TalonSRX leftMaster = new TalonSRX(RobotMap.CHASSIS_LEFTMASTER_PORT);
   TalonSRX rightMaster = new TalonSRX(RobotMap.CHASSIS_RIGHTMASTER_PORT);
+
+  public static boolean isLowSpeed = false;
   
   Notifier notifier = new Notifier(() ->{
     double left = leftMaster.getMotorOutputVoltage()/12.0d;
@@ -70,6 +72,20 @@ public void arcadeDrive(double v,double omega){
   double right = v+omega/2;
   leftMaster.set(ControlMode.PercentOutput,left);
   rightMaster.set(ControlMode.PercentOutput,-right);
+}
+
+public void changeSpeed()
+{
+    if(isLowSpeed)
+      speedShift.set(false);
+    else
+      speedShift.set(true);
+    isLowSpeed = !isLowSpeed;
+}
+
+public boolean isLowSpeed()
+{
+    return isLowSpeed;
 }
 
 public void arcadeDrive(double[] u){

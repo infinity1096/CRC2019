@@ -5,54 +5,48 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Intake;
+package frc.robot.commands.lift;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.Intake;
 
-public class Shoot extends Command {
+
+public class ReleaseClimber extends Command {
+  public ReleaseClimber() {
+    // Use requires() here to declare subsystem dependencies
+    requires(Robot.lift);
+    //requires(Robot.chassis);
+  }
 
   Timer timer = new Timer();
-  
-  public Shoot() {
-    // Use requires() here to declare subsystem dependencies
-    requires(Robot.intake);
-  }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    timer.reset();
-    timer.start();
-    Robot.intake.intakeClose();
-    
+    Robot.lift.lockClimer();
+    //timer.reset();
+    //timer.start();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(timer.get()<=0.3)
-    Robot.intake.shoot();
-    if(timer.get()>0.3){
-      Robot.intake.IntakeOpen();
-      Robot.intake.hold();
-    if(timer.get()>1.3)
-      Robot.intake.intakeDown();
-      
-    }
+    Robot.lift.moveClimber(Robot.oi.stick2.getRawAxis(0));
+    
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return timer.get() > 1.5;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    //Robot.lift.moveClimber(0);
+    //Robot.chassis.arcadeDrive(0,0);
   }
 
   // Called when another command which requires one or more of the same

@@ -44,6 +44,12 @@ public class PanelTaker extends Subsystem{
         isNipped = !isNipped;
     }
 
+    public void forceRelease()
+    {
+        takerNipper.set(false);
+        isNipped = false;
+    }
+
     /**
      * @return the isExtended
      */

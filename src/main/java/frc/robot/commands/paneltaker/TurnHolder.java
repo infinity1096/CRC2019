@@ -40,7 +40,7 @@ public class TurnHolder extends Command{
         if (Robot.paneltaker.isExtended()){
             if (Robot.paneltaker.isNipped()){
                 //new PanelReady();
-                GravComp = 0.38;
+                GravComp = 0.444;
             }else{
                 GravComp = 0.16;
             }
@@ -50,13 +50,17 @@ public class TurnHolder extends Command{
                 GravComp = 0.30;
         
             }else{
-                GravComp = 0.09;
+                GravComp = 0.06;
             }
         }
 
         
         
         error = target - Robot.rotary.get_encoder_value();
+
+        if(Robot.paneltaker.isExtended() && Robot.paneltaker.isNipped()){
+            error *= 0.9;}
+
         double errordot = error - prevError;
         errordotFused = expAverageCoeff * errordotFused + (1-expAverageCoeff) * errordot;
         prevError = error;

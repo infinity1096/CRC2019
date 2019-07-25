@@ -54,6 +54,7 @@ public class RobotMap {
   public static final int CHASSIS_RBMOTOR_PORT = 4;
   public static final int CHASSIS_LEFTMASTER_PORT = 5;
   public static final int CHASSIS_RIGHTMASTER_PORT = 6;
+  public static final int CHASSIS_SPEEDSHIFT_PORT = 0;
 
   //Lift
 

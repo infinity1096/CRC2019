@@ -28,7 +28,7 @@ public class Rotary extends Subsystem {
   }
 
   public double get_encoder_value(){
-        return Robot.absoluteEncoder.getDeg() * 2.0 / 3.0 - 120;
+        return Robot.absoluteEncoder.getDeg() * 2.0 / 3.0 - 119;
   }
 
   public void turn(double power){

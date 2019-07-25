@@ -156,16 +156,17 @@ public class Robot extends TimedRobot {
     odometry_notifier = new Notifier(odometry);
     odometry_notifier.startPeriodic(0.02);
     odometry.setPos(0, 0);
-
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
 
 
-    Robot.lift.setPower(0);
+    Robot.lift.moveElevator(0);
     new CalibrateLift().start();
     Robot.intake.intakeUp();
     Robot.intake.IntakeOpen();
+    Robot.paneltaker.forceShrink();
+    Robot.paneltaker.forceRelease();
     gyro.reset();
 
   }
@@ -176,6 +177,7 @@ public class Robot extends TimedRobot {
   double i = 0;
   @Override
   public void teleopPeriodic() {
+    //Robot.lift.setPower(0);
     Scheduler.getInstance().run();
     //odometry
     SmartDashboard.putNumber("Odom_x",odometry.get()[0]);

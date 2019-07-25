@@ -83,6 +83,11 @@ public class Lift extends Subsystem {
     Motor2.set(ControlMode.PercentOutput, power);
   }
 
+  public void lockClimer()
+  {
+    ElevatorClimberChanger.set(true);
+  }
+
   public double getCurrent() {
     double current1 = Motor1.getOutputCurrent();
     double current2 = Motor2.getOutputCurrent();

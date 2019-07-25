@@ -13,7 +13,7 @@ public class ResetPanel extends CommandGroup{
     public ResetPanel(){
         addSequential(new PanelReady());
         addSequential(new ForceShrink());
-        addSequential(new TurnHolder(-90));
         addSequential(new MoveToDown());
+        addSequential(new TurnHolder(-90));
     }
 }
