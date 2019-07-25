@@ -9,16 +9,19 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.Odometry.UpdateOdometryPos;
 import frc.robot.commands.Intake.MoveIntake;
 import frc.robot.commands.Intake.PanelReady;
 import frc.robot.commands.Intake.TakeIn;
+import frc.robot.commands.chassis.PosDrive;
+import frc.robot.commands.commandgroup.FlipPanel;
+import frc.robot.commands.commandgroup.ResetPanel;
 import frc.robot.commands.lift.MoveToDown;
 import frc.robot.commands.lift.MoveToMid;
 import frc.robot.commands.lift.MoveToUp;
 import frc.robot.commands.paneltaker.ExtendTaker;
 import frc.robot.commands.paneltaker.NipPanel;
 import frc.robot.commands.paneltaker.TurnHolder;
-import frc.robot.commands.commandgroup.FlipToHigh;
 import frc.robot.commands.Intake.Shoot;
 //import frc.robot.commands.commandgroup.FlipPanelToBack;
 
@@ -38,19 +41,24 @@ public class OI {
   public Joystick stick2 = new Joystick(1);
 
   // Button button = new JoystickButton(stick, buttonNumber);
+  //joystick1
+  public JoystickButton button_UpdateOdometry = new JoystickButton(stick,3);
+  public JoystickButton button_PosDrive = new JoystickButton(stick,5);
+  //joystick2
+  //lift
   public JoystickButton button_MoveToUp= new JoystickButton(stick2, 8);
   public JoystickButton button_MoveToMid = new JoystickButton(stick2, 10);
   public JoystickButton button_MoveToDown = new JoystickButton(stick2, 12);
-  public JoystickButton button_panelForward = new JoystickButton(stick2,7);
-  public JoystickButton button_panelUpward = new JoystickButton(stick2,9);
-  public JoystickButton button_panelBackward = new JoystickButton(stick2,11);
+  //holder
   public JoystickButton button_ExtendPanel = new JoystickButton(stick2,5);
   public JoystickButton button_NipPanel = new JoystickButton(stick2,3);
-  public JoystickButton button_PanelReady = new JoystickButton(stick2,6);
-
+  public JoystickButton button_FlipPanel = new JoystickButton(stick2,7);
+  public JoystickButton button_ResetPanel = new JoystickButton(stick2,11);
+  public JoystickButton button_HolderUp = new JoystickButton(stick2,9);
+  //intake
   public JoystickButton button_Shoot = new JoystickButton(stick2, 1);
   public JoystickButton button_TakeIn = new JoystickButton(stick2, 2);
-  public JoystickButton button_MoveIntake = new JoystickButton(stick2, 4);
+
   public boolean robotstate=false;
 
   //public JoystickButton button_Switch = new JoystickButton(stick2, 4);
@@ -71,17 +79,23 @@ public class OI {
     else return false;
   }
   OI(){
+    //joystick1
+    button_UpdateOdometry.whenPressed(new UpdateOdometryPos());
+    button_PosDrive.whenPressed(new PosDrive(80, 600, Math.PI/2));
+
+    //joystick2
+    //lift
     button_MoveToUp.whenPressed(new MoveToUp());
     button_MoveToMid.whenPressed(new MoveToMid());
     button_MoveToDown.whenPressed(new MoveToDown());
-    button_panelForward.whenPressed(new TurnHolder(90));
-    button_panelUpward.whenPressed(new TurnHolder(0));
-    button_panelBackward.whenPressed(new TurnHolder(-90));
+    //holder
     button_ExtendPanel.whenPressed(new ExtendTaker());
     button_NipPanel.whenPressed(new NipPanel());
-    button_PanelReady.whenPressed(new PanelReady());
+    button_FlipPanel.whenPressed(new FlipPanel());
+    button_ResetPanel.whenPressed(new ResetPanel());
+    button_HolderUp.whenPressed(new TurnHolder(0));
+    //intake
     button_TakeIn.whenPressed(new TakeIn());
-    button_MoveIntake.whenPressed(new MoveIntake());
     button_Shoot.whenPressed(new Shoot());
     //button_Shoot.whenPressed(new );
   }

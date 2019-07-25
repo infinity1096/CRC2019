@@ -2,22 +2,16 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import edu.wpi.first.wpilibj.Solenoid;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
-import frc.robot.commands.paneltaker.TurnHolder;
-import frc.robot.sensors.AbsoluteEncoder;
 
 public class PanelTaker extends Subsystem{
 
     Solenoid takerExtender;
     Solenoid takerNipper;
 
-    private boolean isExtended = false;
-    private boolean isNipped = false;
+    public static boolean isExtended = false;
+    public boolean isNipped = false;
 
     public PanelTaker()
     {
@@ -33,6 +27,12 @@ public class PanelTaker extends Subsystem{
         else
             takerExtender.set(false);
         isExtended = !isExtended;
+    }
+
+    public void forceShrink()
+    {
+        takerExtender.set(false);
+        isExtended = false;
     }
 
     public void nip()

@@ -25,10 +25,12 @@ import frc.robot.Odometry.UpdateOdometryPos;
 import frc.robot.commands.lift_P;
 import frc.robot.commands.lift_P1;
 import frc.robot.commands.lift_down;
+import frc.robot.commands.Intake.IntakeStop;
+import frc.robot.commands.Intake.PanelReady;
 import frc.robot.commands.auto.AutoDrive;
 import frc.robot.commands.auto.LinearDrive;
 import frc.robot.commands.auto.RotateTo;
-import frc.robot.commands.auto.TakePanel;
+import frc.robot.commands.auto.AutoDrive;
 import frc.robot.commands.chassis.PosDrive;
 import frc.robot.commands.lift.CalibrateLift;
 import frc.robot.commands.lift.MoveToDown;
@@ -175,17 +177,21 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    
+    //odometry
     SmartDashboard.putNumber("Odom_x",odometry.get()[0]);
     SmartDashboard.putNumber("Odom_y",odometry.get()[1]);
-
+    //encoder
     SmartDashboard.putNumber("encL",chassis.getWheelEncoderValue()[0][0]);
     SmartDashboard.putNumber("encR",chassis.getWheelEncoderValue()[0][1]);
-
+    //cv track
     SmartDashboard.putData(new UpdateOdometryPos());
-
     SmartDashboard.putData(new PosDrive(80, 600, Math.PI/2));
-    SmartDashboard.putData(new AutoDrive());
+
+    //emergency stop buttons
+    SmartDashboard.putData(new IntakeStop());
+    SmartDashboard.putData(new PanelReady());
+    SmartDashboard.putData(new CalibrateLift());
+    //SmartDashboard.putData(new AutoDrive());
   }
 
   /**

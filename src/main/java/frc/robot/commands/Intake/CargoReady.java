@@ -11,14 +11,11 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class TakeIn extends Command {
-  
-  boolean is_triged = false;
-  double time = 999;
+public class CargoReady extends Command {
+
   Timer timer = new Timer();
-  
-  public TakeIn() {
-    // Use requires() here to declare subsystem dependencies
+
+  public CargoReady() {
     requires(Robot.intake);
   }
 
@@ -26,40 +23,30 @@ public class TakeIn extends Command {
   @Override
   protected void initialize() {
     Robot.intake.intakeDown();
+    Robot.intake.IntakeOpen();
     timer.reset();
     timer.start();
-    is_triged = false;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.intake.IntakeOpen();
-    Robot.intake.takeIn();
+  }
 
-    if ((!is_triged) && !Robot.intake.getDigitital()){
-      time = timer.get();
-      is_triged = true;
-    }
-  
-}
-  
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return timer.get() > time + 0.5;
+    return timer.get() > 0.3;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.intake.hold();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.intake.hold();
   }
 }

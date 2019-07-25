@@ -15,6 +15,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.ChassisA;
@@ -32,6 +33,7 @@ public class Chassis extends Subsystem {
   CANSparkMax talonlb = new CANSparkMax(RobotMap.CHASSIS_LBMOTOR_PORT,MotorType.kBrushless);
   CANSparkMax talonrf = new CANSparkMax(RobotMap.CHASSIS_RFMOTOR_PORT,MotorType.kBrushless);
   CANSparkMax talonrb = new CANSparkMax(RobotMap.CHASSIS_RBMOTOR_PORT,MotorType.kBrushless);
+  //Solenoid speedShift = new Solenoid(RobotMap.CHASSIS_SPEEDSHIFT_);
 
   TalonSRX leftMaster = new TalonSRX(RobotMap.CHASSIS_LEFTMASTER_PORT);
   TalonSRX rightMaster = new TalonSRX(RobotMap.CHASSIS_RIGHTMASTER_PORT);
