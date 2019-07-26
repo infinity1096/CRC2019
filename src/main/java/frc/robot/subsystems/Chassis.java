@@ -26,6 +26,7 @@ import frc.robot.commands.ChassisA;
 public class Chassis extends Subsystem {
 
   public boolean isAuto = false;
+  public boolean isVisionReady = false;
 
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
@@ -57,6 +58,7 @@ public Chassis(){
   talonrb.setIdleMode(IdleMode.kBrake);
   leftMaster.setSensorPhase(true);
   rightMaster.setSensorPhase(false);
+  isVisionReady = false;
 }
 
 public void start(){

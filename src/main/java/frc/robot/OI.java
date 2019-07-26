@@ -30,6 +30,7 @@ import frc.robot.commands.lift.ReleaseClimber;
 import frc.robot.commands.paneltaker.ExtendTaker;
 import frc.robot.commands.paneltaker.NipPanel;
 import frc.robot.commands.paneltaker.TurnHolder;
+import frc.robot.commands.auto.CvDrive;
 import frc.robot.commands.Intake.Shoot;
 //import frc.robot.commands.commandgroup.FlipPanelToBack;
 
@@ -56,6 +57,7 @@ public class OI {
   public JoystickButton button_Shoot = new JoystickButton(stick, 1);
   public JoystickButton button_autodrive = new JoystickButton(stick,11);
   public JoystickButton button_autoclimbup = new JoystickButton(stick,4);
+  public JoystickButton button_cvdrive = new JoystickButton(stick, 12);
   
   //joystick2
   //lift
@@ -102,6 +104,7 @@ public class OI {
     button_ChangeSpeed.whenPressed(new ChangeSpeed());
     button_Shoot.whenPressed(new Shoot());
     button_testAutoDrive.whenPressed(new AutoDrive());
+    button_cvdrive.whenPressed(new CvDrive());
     
     //joystick2
     //lift

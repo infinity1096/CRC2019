@@ -46,7 +46,9 @@ public class UpdateOdometryPos extends Command {
           System.out.println(delta_U);
           Robot.odometry.setPos(delta_U.toArray());
           Robot.chassis.isAuto = true;
+          Robot.chassis.isVisionReady = true;
         }else{
+          Robot.chassis.isVisionReady = false;
          //do nothing 
           Robot.chassis.isAuto = false;
         }
