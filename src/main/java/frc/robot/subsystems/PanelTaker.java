@@ -50,6 +50,18 @@ public class PanelTaker extends Subsystem{
         isNipped = false;
     }
 
+    public void realExtend(){
+        takerExtender.set(true);
+        isExtended = true;
+    }
+    public void realRetract(){
+        takerExtender.set(false);
+        isExtended = false;
+    }
+
+
+
+
     /**
      * @return the isExtended
      */

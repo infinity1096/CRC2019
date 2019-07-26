@@ -28,6 +28,7 @@ import frc.robot.commands.lift_down;
 import frc.robot.commands.Intake.IntakeStop;
 import frc.robot.commands.Intake.PanelReady;
 import frc.robot.commands.auto.AutoDrive;
+import frc.robot.commands.auto.LeftRocketAuto;
 import frc.robot.commands.auto.LinearDrive;
 import frc.robot.commands.auto.RotateTo;
 import frc.robot.commands.auto.AutoDrive;
@@ -134,10 +135,12 @@ public class Robot extends TimedRobot {
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      m_autonomousCommand.start();
+     // m_autonomousCommand.start();
     }
-
     gyro.reset();
+    new LeftRocketAuto().start();
+
+    
   }
 
   /**
