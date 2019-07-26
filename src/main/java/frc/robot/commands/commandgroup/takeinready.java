@@ -14,8 +14,8 @@ import frc.robot.commands.paneltaker.TurnHolder;
 public class takeinready extends CommandGroup{
     public takeinready(){
         addSequential(new ForceShrink());
-        addSequential(new TurnHolder(0));
-        System.out.println("abcdefghijklmn");
+        //addSequential(new TurnHolder(-180));
+        //System.out.println("abcdefghijklmn");
         addSequential(new TakeIn());
     }
 }

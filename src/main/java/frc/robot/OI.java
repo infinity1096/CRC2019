@@ -51,6 +51,8 @@ public class OI {
   public JoystickButton button_UpdateOdometry = new JoystickButton(stick,3);
   public JoystickButton button_PosDrive = new JoystickButton(stick,5);
   public JoystickButton button_ChangeSpeed = new JoystickButton(stick,2);
+  public JoystickButton button_Shoot = new JoystickButton(stick, 1);
+  
   //joystick2
   //lift
   public JoystickButton button_MoveToUp= new JoystickButton(stick2, 8);
@@ -63,7 +65,6 @@ public class OI {
   public JoystickButton button_ResetPanel = new JoystickButton(stick2,11);
   public JoystickButton button_HolderUp = new JoystickButton(stick2,9);
   //intake
-  public JoystickButton button_Shoot = new JoystickButton(stick2, 1);
   public JoystickButton button_TakeIn = new JoystickButton(stick2, 2);
 
   public boolean robotstate=false;
@@ -87,10 +88,13 @@ public class OI {
   }
   OI(){
     //joystick1
+    System.out.println(Robot.absoluteEncoder.getDeg());
     button_panelready.whenPressed(new PanelReady());
     button_UpdateOdometry.whenPressed(new UpdateOdometryPos());
     button_PosDrive.whenPressed(new PosDrive(80, 600, Math.PI/2));
     button_ChangeSpeed.whenPressed(new ChangeSpeed());
+    button_Shoot.whenPressed(new Shoot());
+    
     //joystick2
     //lift
     button_MoveToUp.whenPressed(new MoveToUp());
@@ -104,11 +108,9 @@ public class OI {
     button_HolderUp.whenPressed(new TurnHolder(0));
     //intake
     button_TakeIn.whenPressed(new takeinready());//intake will be lifted up after cargo is taken in
-    button_Shoot.whenPressed(new Shoot());//intake will be moved down about 1s after shooting
+    //intake will be moved down about 1s after shooting
     //button_Shoot.whenPressed(new );
   }
-   
-
   // the button is released.
     //button.whileHeld(new ExampleCommand());
 
