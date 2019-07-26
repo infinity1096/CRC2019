@@ -43,8 +43,8 @@ public class TurnHolder extends Command{
     protected void execute(){
         //if (((Robot.paneltaker.isNipped()) && 
         //(Math.abs(480.0-Robot.lift.getEncodervalue([0]))<=25))== false){
-            if( !Robot.paneltaker.isNipped() &&
-             Math.abs(Robot.lift.getEncodervalue()[0] - 480) <= 25){
+           // if( !(Robot.paneltaker.isNipped() &&
+            // Math.abs(Robot.lift.getEncodervalue()[0] - 480) <= 25)){
         double GravComp = 0.09;
 
         if (Robot.paneltaker.isExtended()){
@@ -61,7 +61,7 @@ public class TurnHolder extends Command{
         
             }else{
                 GravComp = 0.06;
-            }
+           // }
         }
 
         
@@ -120,7 +120,7 @@ public class TurnHolder extends Command{
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return Math.abs(Robot.rotary.get_encoder_value()-target) < 20;
     }
 
     @Override

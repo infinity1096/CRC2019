@@ -18,6 +18,7 @@ import frc.robot.commands.chassis.PosDrive;
 import frc.robot.commands.commandgroup.FlipPanel;
 import frc.robot.commands.commandgroup.ResetPanel;
 import frc.robot.commands.commandgroup.cargoReady;
+import frc.robot.commands.commandgroup.takeinready;
 import frc.robot.commands.lift.LockClimber;
 import frc.robot.commands.lift.MoveClimber;
 import frc.robot.commands.lift.MoveToDown;
@@ -67,7 +68,7 @@ public class OI {
 
   public boolean robotstate=false;
 
-  //public JoystickButton button_Switch = new JoystickButton(stick2, 4);
+  public JoystickButton button_panelready = new JoystickButton(stick2, 4);
   // There are a few additional built in buttons you can use. Additionally,
   // by subclassing Button you can create custom triggers and bind those to
   // commands the same as any other Button.
@@ -86,6 +87,7 @@ public class OI {
   }
   OI(){
     //joystick1
+    button_panelready.whenPressed(new PanelReady());
     button_UpdateOdometry.whenPressed(new UpdateOdometryPos());
     button_PosDrive.whenPressed(new PosDrive(80, 600, Math.PI/2));
     button_ChangeSpeed.whenPressed(new ChangeSpeed());
@@ -101,7 +103,7 @@ public class OI {
     button_ResetPanel.whenPressed(new ResetPanel());//holder and lift will move simultaneously do NOT move with panel
     button_HolderUp.whenPressed(new TurnHolder(0));
     //intake
-    button_TakeIn.whenPressed(new TakeIn());//intake will be lifted up after cargo is taken in
+    button_TakeIn.whenPressed(new takeinready());//intake will be lifted up after cargo is taken in
     button_Shoot.whenPressed(new Shoot());//intake will be moved down about 1s after shooting
     //button_Shoot.whenPressed(new );
   }

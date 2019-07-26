@@ -10,6 +10,11 @@ package frc.robot.commands.Intake;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+//import frc.robot.commands.commandgroup.takeinready;
+
+//import frc.robot.commands.paneltaker;
+
+
 
 public class TakeIn extends Command {
   
@@ -20,12 +25,15 @@ public class TakeIn extends Command {
   public TakeIn() {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.intake);
+    
+
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     Robot.intake.intakeDown();
+    Robot.intake.IntakeOpen();
     timer.reset();
     timer.start();
     is_triged = false;
@@ -40,6 +48,7 @@ public class TakeIn extends Command {
     if ((!is_triged) && !Robot.intake.getDigitital()){
       time = timer.get();
       is_triged = true;
+      //Robot.lift.
     }
   
 }
