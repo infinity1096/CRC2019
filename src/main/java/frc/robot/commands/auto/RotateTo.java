@@ -21,7 +21,7 @@ public class RotateTo extends Command {
   double preverror;
   double Kp = 0.5;
   double Ki = 0.7;
-  double Kd = 0.15;
+  double Kd = 0.16;
   double Izone = 0.16; 
   double maxAccum = 0.3456;
   double maxAllowableError = 0.005556;

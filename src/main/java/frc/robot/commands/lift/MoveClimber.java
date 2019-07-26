@@ -35,13 +35,8 @@ public class MoveClimber extends Command {
     if(timer.get()<0.7)
       Robot.lift.moveClimber(0.2);
     else
-      Robot.lift.moveClimber(0);
-    //else
-    //{
-      //if(timer.get()<2.5)
-        //Robot.lift.moveClimber(0.8);
-      //else
-        //Robot.lift.moveClimber(1);
+
+      Robot.lift.moveClimber(1);
     //}
     if(timer.get()>1.0)
       Robot.chassis.arcadeDrive(0.1,0);

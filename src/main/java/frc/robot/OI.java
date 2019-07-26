@@ -9,6 +9,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.auto.AutoDrive;
+import frc.robot.commands.auto.LinearDrive;
 import frc.robot.Odometry.UpdateOdometryPos;
 import frc.robot.commands.Intake.MoveIntake;
 import frc.robot.commands.Intake.PanelReady;
@@ -52,6 +54,8 @@ public class OI {
   public JoystickButton button_PosDrive = new JoystickButton(stick,5);
   public JoystickButton button_ChangeSpeed = new JoystickButton(stick,2);
   public JoystickButton button_Shoot = new JoystickButton(stick, 1);
+  public JoystickButton button_autodrive = new JoystickButton(stick,11);
+  public JoystickButton button_autoclimbup = new JoystickButton(stick,4);
   
   //joystick2
   //lift
@@ -66,10 +70,12 @@ public class OI {
   public JoystickButton button_HolderUp = new JoystickButton(stick2,9);
   //intake
   public JoystickButton button_TakeIn = new JoystickButton(stick2, 2);
+  public JoystickButton button_releaseClimber = new JoystickButton(stick2,6);
 
   public boolean robotstate=false;
 
   public JoystickButton button_panelready = new JoystickButton(stick2, 4);
+  public JoystickButton button_testAutoDrive = new JoystickButton(stick,9);
   // There are a few additional built in buttons you can use. Additionally,
   // by subclassing Button you can create custom triggers and bind those to
   // commands the same as any other Button.
@@ -88,15 +94,18 @@ public class OI {
   }
   OI(){
     //joystick1
+    button_autodrive.whenPressed(new AutoDrive());
     System.out.println(Robot.absoluteEncoder.getDeg());
     button_panelready.whenPressed(new PanelReady());
     button_UpdateOdometry.whenPressed(new UpdateOdometryPos());
     button_PosDrive.whenPressed(new PosDrive(80, 600, Math.PI/2));
     button_ChangeSpeed.whenPressed(new ChangeSpeed());
     button_Shoot.whenPressed(new Shoot());
+    button_testAutoDrive.whenPressed(new AutoDrive());
     
     //joystick2
     //lift
+    button_autoclimbup.whenPressed(new MoveClimber());
     button_MoveToUp.whenPressed(new MoveToUp());
     button_MoveToMid.whenPressed(new MoveToMid());
     button_MoveToDown.whenPressed(new MoveToDown());
@@ -110,6 +119,8 @@ public class OI {
     button_TakeIn.whenPressed(new takeinready());//intake will be lifted up after cargo is taken in
     //intake will be moved down about 1s after shooting
     //button_Shoot.whenPressed(new );
+    //backup release climber
+    button_releaseClimber.whenPressed(new ReleaseClimber());
   }
   // the button is released.
     //button.whileHeld(new ExampleCommand());

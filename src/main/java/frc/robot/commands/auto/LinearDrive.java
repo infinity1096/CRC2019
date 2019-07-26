@@ -17,9 +17,9 @@ public class LinearDrive extends Command {
   double error;
   double accum = 0;
   double preverror;
-  double Kp=0.0007;
-  double Ki=0.001;
-  double Kd=0.0009;
+  double Kp = 0.0007;
+  double Ki = 0.001;
+  double Kd = 0.0009;
   double Izone = 100; 
   double maxAccum = 50;
   double maxAllowableError = 20;
@@ -37,8 +37,8 @@ public class LinearDrive extends Command {
   @Override
   protected void initialize() {
 
-    target += (Robot.chassis.getWheelEncoderValue()[0][0] + Robot.chassis.getWheelEncoderValue()[0][0])/2.0;
-    error = target - (Robot.chassis.getWheelEncoderValue()[0][0] + Robot.chassis.getWheelEncoderValue()[0][0])/2.0;
+    target += (Robot.chassis.getWheelEncoderValue()[0][0] + Robot.chassis.getWheelEncoderValue()[0][1])/2.0;
+    error = target - (Robot.chassis.getWheelEncoderValue()[0][0] + Robot.chassis.getWheelEncoderValue()[0][1])/2.0;
     preverror = error;
     accum = 0;
 
@@ -48,19 +48,18 @@ public class LinearDrive extends Command {
   @Override
   protected void execute() {
 
-    error = target - (Robot.chassis.getWheelEncoderValue()[0][0] + Robot.chassis.getWheelEncoderValue()[0][0])/2.0;
+    error = target - (Robot.chassis.getWheelEncoderValue()[0][0] + Robot.chassis.getWheelEncoderValue()[0][1])/2.0;
     errordot = error - preverror;
-    SmartDashboard.putNumber("EncoderValue", (Robot.chassis.getWheelEncoderValue()[0][0] + Robot.chassis.getWheelEncoderValue()[0][0])/2.0);
+    SmartDashboard.putNumber("EncoderValue", (Robot.chassis.getWheelEncoderValue()[0][0] + Robot.chassis.getWheelEncoderValue()[0][1])/2.0);
     double Poutput = Kp * error;
     double Ioutput = Ki * accum;
     double Doutput = Kd * errordot;
     preverror = error;
-    SmartDashboard.putNumber("accum", accum);
 
     Poutput = range(Poutput,-0.5,0.5);
     Doutput = range(Doutput,-0.2,0.2);
     double output = Poutput + Ioutput + Doutput;
-    SmartDashboard.putNumber("Doutput", Doutput);
+
 
     if(Math.abs(error)<Izone){
       accum += error * 0.02;

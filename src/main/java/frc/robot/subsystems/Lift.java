@@ -64,6 +64,7 @@ public class Lift extends Subsystem {
   }
 
 
+
   public double[] getEncodervalue() {
 
     double realliftdistance =((Motor2.getSelectedSensorPosition())) + RobotMap.LIFT_OFFSET;
