@@ -9,6 +9,7 @@ package frc.robot.commands.lift;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.subsystems.PanelTaker;
 
 public class MoveToDown extends Command {
   public MoveToDown() {
@@ -18,7 +19,8 @@ public class MoveToDown extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.lift.moveTo(480);
+    if (PanelTaker.isNipped == false)
+      Robot.lift.moveTo(480);
     //System.out.println("IM WORKING");
   }
 

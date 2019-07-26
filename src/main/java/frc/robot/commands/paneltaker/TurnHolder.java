@@ -1,9 +1,16 @@
 package frc.robot.commands.paneltaker;
 
+import java.text.BreakIterator;
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.commands.Intake.PanelReady;
+import frc.robot.subsystems.PanelTaker;
+import frc.robot.subsystems.Rotary;
+import frc.robot.subsystems.Lift;
+import java.lang.Math;
+import frc.robot.Robot;
 public class TurnHolder extends Command{
 
     private double Kp = 0.015;
@@ -27,14 +34,17 @@ public class TurnHolder extends Command{
     }
 
     @Override
-    protected void initialize() {
+    protected void initialize (){
         error = target - Robot.rotary.get_encoder_value();
         prevError = error;
         
     }
     @Override
     protected void execute(){
-
+        //if (((Robot.paneltaker.isNipped()) && 
+        //(Math.abs(480.0-Robot.lift.getEncodervalue([0]))<=25))== false){
+            if( !Robot.paneltaker.isNipped() &&
+             Math.abs(Robot.lift.getEncodervalue()[0] - 480) <= 25){
         double GravComp = 0.09;
 
         if (Robot.paneltaker.isExtended()){
@@ -95,6 +105,7 @@ public class TurnHolder extends Command{
         double output = Poutput + Ioutput+ Doutput + comp +assistComp;
 
         Robot.rotary.turn(output);
+    }
     }
 
     private double range(double val,double min,double max){

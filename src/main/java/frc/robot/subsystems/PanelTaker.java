@@ -11,7 +11,7 @@ public class PanelTaker extends Subsystem{
     Solenoid takerNipper;
 
     public static boolean isExtended = false;
-    public boolean isNipped = false;
+    public static boolean isNipped = false;
 
     public PanelTaker()
     {
@@ -60,7 +60,7 @@ public class PanelTaker extends Subsystem{
      /**
      * @return the isNipped
      */
-    public boolean isNipped() {
+    public static boolean isNipped() {
         return isNipped;
     }
 
