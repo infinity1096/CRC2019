@@ -16,6 +16,7 @@ public class takeinready extends CommandGroup{
         addSequential(new ForceShrink());
         //addSequential(new TurnHolder(-180));
         //System.out.println("abcdefghijklmn");
+        addSequential(new TurnHolder(0));
         addSequential(new TakeIn());
     }
 }

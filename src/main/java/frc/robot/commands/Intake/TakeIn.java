@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 //import frc.robot.commands.commandgroup.takeinready;
+import frc.robot.commands.paneltaker.TurnHolder;
 
 //import frc.robot.commands.paneltaker;
 
@@ -48,6 +49,8 @@ public class TakeIn extends Command {
     if ((!is_triged) && !Robot.intake.getDigitital()){
       time = timer.get();
       is_triged = true;
+      //Robot.paneltaker.TurnHolder(0);
+      //Robot.paneltaker.
       //Robot.lift.
     }
   
