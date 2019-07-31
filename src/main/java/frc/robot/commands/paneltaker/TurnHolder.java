@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.commands.Intake.PanelReady;
 import frc.robot.subsystems.PanelTaker;
+import frc.robot.commands.lift.MoveToMid;
 import frc.robot.subsystems.Rotary;
 import frc.robot.subsystems.Lift;
 import java.lang.Math;
@@ -43,8 +44,9 @@ public class TurnHolder extends Command{
     protected void execute(){
         //if (((Robot.paneltaker.isNipped()) && 
         //(Math.abs(480.0-Robot.lift.getEncodervalue([0]))<=25))== false){
-           // if( !(Robot.paneltaker.isNipped() &&
-            // Math.abs(Robot.lift.getEncodervalue()[0] - 480) <= 25)){
+            //if( !(Robot.paneltaker.isNipped() &&
+             //Math.abs(Robot.lift.getEncodervalue()[0] - 480) <= 25)) ();
+        //Lift.moveTo(1192);
         double GravComp = 0.09;
 
         if (Robot.paneltaker.isExtended()){

@@ -54,7 +54,7 @@ public class OI {
   public JoystickButton button_PosDrive = new JoystickButton(stick,5);
   public JoystickButton button_ChangeSpeed = new JoystickButton(stick,2);
   public JoystickButton button_Shoot = new JoystickButton(stick, 1);
-  public JoystickButton button_autodrive = new JoystickButton(stick,11);
+  //public JoystickButton button_autodrive = new JoystickButton(stick,11);
   public JoystickButton button_autoclimbup = new JoystickButton(stick,4);
   
   //joystick2
@@ -65,9 +65,11 @@ public class OI {
   //holder
   public JoystickButton button_ExtendPanel = new JoystickButton(stick2,5);
   public JoystickButton button_NipPanel = new JoystickButton(stick2,3);
-  public JoystickButton button_FlipPanel = new JoystickButton(stick2,7);
-  public JoystickButton button_ResetPanel = new JoystickButton(stick2,11);
+  //public JoystickButton button_FlipPanel = new JoystickButton(stick2,7);
+  //public JoystickButton button_ResetPanel = new JoystickButton(stick2,11);
   public JoystickButton button_HolderUp = new JoystickButton(stick2,9);
+  public JoystickButton button_HolderFront = new JoystickButton(stick2, 7);
+  public JoystickButton button_HolderBack = new JoystickButton(stick2, 11);
   //intake
   public JoystickButton button_TakeIn = new JoystickButton(stick2, 2);
   public JoystickButton button_releaseClimber = new JoystickButton(stick2,6);
@@ -75,7 +77,7 @@ public class OI {
   public boolean robotstate=false;
 
   public JoystickButton button_panelready = new JoystickButton(stick2, 4);
-  public JoystickButton button_testAutoDrive = new JoystickButton(stick,9);
+  //public JoystickButton button_testAutoDrive = new JoystickButton(stick,9);
   // There are a few additional built in buttons you can use. Additionally,
   // by subclassing Button you can create custom triggers and bind those to
   // commands the same as any other Button.
@@ -94,14 +96,14 @@ public class OI {
   }
   OI(){
     //joystick1
-    button_autodrive.whenPressed(new AutoDrive());
+    //button_autodrive.whenPressed(new AutoDrive());
     System.out.println(Robot.absoluteEncoder.getDeg());
     button_panelready.whenPressed(new PanelReady());
     button_UpdateOdometry.whenPressed(new UpdateOdometryPos());
     button_PosDrive.whenPressed(new PosDrive(80, 600, Math.PI/2));
     button_ChangeSpeed.whenPressed(new ChangeSpeed());
     button_Shoot.whenPressed(new Shoot());
-    button_testAutoDrive.whenPressed(new AutoDrive());
+    //button_testAutoDrive.whenPressed(new AutoDrive());
     
     //joystick2
     //lift
@@ -112,9 +114,11 @@ public class OI {
     //holder
     button_ExtendPanel.whenPressed(new ExtendTaker());
     button_NipPanel.whenPressed(new NipPanel());
-    button_FlipPanel.whenPressed(new FlipPanel());//lift will move to mid prior to flipping
-    button_ResetPanel.whenPressed(new ResetPanel());//holder and lift will move simultaneously do NOT move with panel
+    //button_FlipPanel.whenPressed(new FlipPanel());//lift will move to mid prior to flipping
+    //button_ResetPanel.whenPressed(new ResetPanel());//holder and lift will move simultaneously do NOT move with panel
     button_HolderUp.whenPressed(new TurnHolder(0));
+    button_HolderBack.whenPressed(new TurnHolder(-90));
+    button_HolderFront.whenPressed(new TurnHolder(90));
     //intake
     button_TakeIn.whenPressed(new takeinready());//intake will be lifted up after cargo is taken in
     //intake will be moved down about 1s after shooting
