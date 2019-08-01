@@ -26,6 +26,7 @@ import frc.robot.commands.lift.MoveClimber;
 import frc.robot.commands.lift.MoveToDown;
 import frc.robot.commands.lift.MoveToMid;
 import frc.robot.commands.lift.MoveToUp;
+import frc.robot.commands.lift.ChassisTakeover;
 import frc.robot.commands.lift.ReleaseClimber;
 import frc.robot.commands.paneltaker.ExtendTaker;
 import frc.robot.commands.paneltaker.NipPanel;
@@ -53,9 +54,10 @@ public class OI {
   public JoystickButton button_UpdateOdometry = new JoystickButton(stick,3);
   public JoystickButton button_PosDrive = new JoystickButton(stick,5);
   public JoystickButton button_ChangeSpeed = new JoystickButton(stick,2);
-  public JoystickButton button_Shoot = new JoystickButton(stick, 1);
-  //public JoystickButton button_autodrive = new JoystickButton(stick,11);
-  public JoystickButton button_autoclimbup = new JoystickButton(stick,4);
+  public JoystickButton button_Shoot = new JoystickButton(stick2, 1);
+  public JoystickButton button_takeoverchassis = new JoystickButton(stick,11);
+  public JoystickButton button_autoclimbup = new JoystickButton(stick,11);
+
   
   //joystick2
   //lift
@@ -98,6 +100,7 @@ public class OI {
     //joystick1
     //button_autodrive.whenPressed(new AutoDrive());
     System.out.println(Robot.absoluteEncoder.getDeg());
+    button_takeoverchassis.whenPressed(new ChassisTakeover());
     button_panelready.whenPressed(new PanelReady());
     button_UpdateOdometry.whenPressed(new UpdateOdometryPos());
     button_PosDrive.whenPressed(new PosDrive(80, 600, Math.PI/2));
@@ -121,7 +124,7 @@ public class OI {
     button_HolderFront.whenPressed(new TurnHolder(90));
     //intake
     button_TakeIn.whenPressed(new takeinready());
-    
+
     //intake will be lifted up after cargo is taken in
     //intake will be moved down about 1s after shooting
     //button_Shoot.whenPressed(new );
