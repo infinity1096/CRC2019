@@ -18,12 +18,7 @@ public class AutoDrive extends CommandGroup {
 
 
     
-    addSequential(new LinearDrive(1000));
-    addSequential(new RotateTo(Math.PI*2/3));
-    addSequential(new LinearDrive(1000));
-    addSequential(new RotateTo(Math.PI*4/3));
-    addSequential(new LinearDrive(1000));
-    addSequential(new RotateTo(Math.PI*6/3));
+
       /*
       addSequential(new LinearDrive(200));       //start from the right to the rocket
       addSequential(new RotateTo(-Math.PI*1/2));

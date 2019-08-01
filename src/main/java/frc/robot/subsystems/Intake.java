@@ -60,9 +60,8 @@ import frc.robot.RobotMap;
   
   public void intakeDown(){
      IntakeLifter.set(true);
-     isDown = true;
-     System.out.println("IMMMMMMMMMMMMCALLLLLLLLLLLEDD");
-  }
+     isDown = true;  
+    }
 
   public void intakeUp(){
     IntakeLifter.set(false);

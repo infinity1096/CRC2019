@@ -39,9 +39,6 @@ public class UpdateOdometryPos extends Command {
           RealMatrix transf = MatrixUtils.createRealMatrix(transf_d);
           RealVector delta = new ArrayRealVector(new double[] {-x,-y});
           RealVector delta_U = transf.preMultiply(delta);
-
-          //RealVector offset = new ArrayRealVector(new double[] {80,600});
-          //delta_U = delta_U.add(offset);
           
           System.out.println(delta_U);
           Robot.odometry.setPos(delta_U.toArray());

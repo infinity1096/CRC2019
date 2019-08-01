@@ -112,6 +112,10 @@ public class PosDrive extends Command {
         double delta_angle = target[2] - RobotPos[2];
         delta_angle = Math.atan2(Math.sin(delta_angle), Math.cos(delta_angle));
         u[1] = ka * delta_angle;
+
+        //overcome friction
+        u[1] = range1(u[1],-0.06,0.06);
+
         u[0] = 0;
       }
       }
@@ -145,6 +149,22 @@ public class PosDrive extends Command {
     }
    
     return finalValue;
+  }
+
+  double range1(double val,double min1,double max1){
+
+    if(val>0 && val<max1){
+      return max1;
+    }
+    else if(val>max1){
+      return val;
+    }
+    else if(val<min1){
+      return val;
+    }
+    else{
+      return min1;
+    }
   }
 
   public double deadzone2(double value, double deadzone){

@@ -57,7 +57,7 @@ public class Odometry implements Runnable{
         RealVector delta = new ArrayRealVector(new double[] {dx,0});
         encoderl_last = encoderval[0];
         encoderr_last = encoderval[1];
-
+        
         //compute transformation matrix
         double heading = (measurement[0] + Math.PI/2);
         heading = Math.atan2(Math.sin(heading),Math.cos(heading));
