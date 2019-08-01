@@ -10,11 +10,14 @@ package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -27,6 +30,8 @@ import frc.robot.commands.lift_P1;
 import frc.robot.commands.lift_down;
 import frc.robot.commands.Intake.IntakeStop;
 import frc.robot.commands.Intake.PanelReady;
+import frc.robot.commands.Intake.Shoot;
+import frc.robot.commands.Intake.TakeIn;
 import frc.robot.commands.auto.AutoDrive;
 import frc.robot.commands.auto.LeftRocketAuto;
 import frc.robot.commands.auto.LinearDrive;
@@ -70,6 +75,7 @@ public class Robot extends TimedRobot {
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
+
   
   /**
    * This function is run when the robot is first started up and should be
@@ -79,6 +85,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
+    CameraServer.getInstance().startAutomaticCapture();
+
 
   }
 
@@ -138,7 +146,6 @@ public class Robot extends TimedRobot {
      // m_autonomousCommand.start();
     }
     gyro.reset();
-    new LeftRocketAuto().start();
 
     
   }
@@ -148,7 +155,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-
     Scheduler.getInstance().run();
   }
 
@@ -158,6 +164,8 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    Shoot.phase = false;
+    Robot.intake.hold();
     odometry_notifier = new Notifier(odometry);
     odometry_notifier.startPeriodic(0.02);
     odometry.setPos(0, 0);
@@ -173,7 +181,14 @@ public class Robot extends TimedRobot {
     Robot.paneltaker.forceShrink();
     Robot.paneltaker.forceRelease();
     gyro.reset();
-
+    SmartDashboard.putData(new UpdateOdometryPos());
+    SmartDashboard.putData(new PosDrive(80, 600, Math.PI/2));
+    //emergency stop buttons
+    SmartDashboard.putData(new IntakeStop());
+    SmartDashboard.putData(new PanelReady());
+    SmartDashboard.putData(new CalibrateLift());
+    SmartDashboard.putData(new TakeIn());
+    
   }
 
   /**
@@ -182,23 +197,25 @@ public class Robot extends TimedRobot {
   double i = 0;
   @Override
   public void teleopPeriodic() {
+  
     //Robot.lift.setPower(0);
+ 
     Scheduler.getInstance().run();
+    
     //odometry
     SmartDashboard.putNumber("Odom_x",odometry.get()[0]);
     SmartDashboard.putNumber("Odom_y",odometry.get()[1]);
     //encoder
     SmartDashboard.putNumber("encL",chassis.getWheelEncoderValue()[0][0]);
     SmartDashboard.putNumber("encR",chassis.getWheelEncoderValue()[0][1]);
-    //cv track
-    SmartDashboard.putData(new UpdateOdometryPos());
-    SmartDashboard.putData(new PosDrive(80, 600, Math.PI/2));
 
-    //emergency stop buttons
-    SmartDashboard.putData(new IntakeStop());
-    SmartDashboard.putData(new PanelReady());
-    SmartDashboard.putData(new CalibrateLift());
-    //SmartDashboard.putData(new AutoDrive());
+
+    SmartDashboard.putNumber("ANGLE",rotary.get_encoder_value());
+    
+    //cv track
+
+
+
   }
 
   /**

@@ -15,10 +15,11 @@ import frc.robot.subsystems.Intake;
 public class Shoot extends Command {
 
   Timer timer = new Timer();
-  
+  public static boolean phase = false; // false = phase1 = shoot, true = phase2 = down
   public Shoot() {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.intake);
+    
   }
 
   // Called just before this Command runs the first time
@@ -26,38 +27,50 @@ public class Shoot extends Command {
   protected void initialize() {
     timer.reset();
     timer.start();
-    Robot.intake.intakeClose();
+    if (!phase){
+      Robot.intake.intakeClose();
+    }
+    
     
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(timer.get()<=0.3)
-    Robot.intake.shoot();
-    if(timer.get()>0.3){
+    if (!phase){
+    if(timer.get()<=0.3){   
+      Robot.intake.shoot();
+    }else if(timer.get()>0.3){
       Robot.intake.IntakeOpen();
       Robot.intake.hold();
-    if(timer.get()>1.3)
-      Robot.intake.intakeDown();
-      
     }
+    }else{
+      Robot.intake.intakeDown();
+    }
+
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return timer.get() > 1.5;
+    if (!phase){
+      return timer.get() > 0.5;
+    }else{
+      return timer.get() > 0.8; 
+    }
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.intake.hold();
+    phase = !phase;
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.intake.hold();
   }
 }

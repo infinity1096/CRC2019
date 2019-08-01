@@ -26,7 +26,8 @@ public class TakeIn extends Command {
   public TakeIn() {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.intake);
-    
+    time = 999;
+    is_triged = false;
 
   }
 
@@ -38,6 +39,7 @@ public class TakeIn extends Command {
     timer.reset();
     timer.start();
     is_triged = false;
+    time = 999;
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -59,14 +61,19 @@ public class TakeIn extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return timer.get() > time + 0.5;
+    return timer.get() > time + 0.5 || timer.get() > 5.0;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    
+    if (timer.get() < 5.0){
+      Robot.intake.intakeUp();
+      Robot.intake.keepBall();
+    }else{
     Robot.intake.hold();
-    Robot.intake.intakeUp();
+    }
   }
 
   // Called when another command which requires one or more of the same

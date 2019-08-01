@@ -5,6 +5,7 @@ import frc.robot.commands.lift.MoveToDown;
 import frc.robot.commands.lift.MoveToMid;
 import frc.robot.commands.lift.MoveToUp;
 import frc.robot.Robot;
+import frc.robot.commands.Delay;
 import frc.robot.commands.Intake.CargoReady;
 import frc.robot.commands.Intake.PanelReady;
 import frc.robot.commands.Intake.TakeIn;
@@ -14,9 +15,6 @@ import frc.robot.commands.paneltaker.TurnHolder;
 public class takeinready extends CommandGroup{
     public takeinready(){
         addSequential(new ForceShrink());
-        //addSequential(new TurnHolder(-180));
-        //System.out.println("abcdefghijklmn");
-        addSequential(new TurnHolder(0));
         addSequential(new TakeIn());
     }
 }

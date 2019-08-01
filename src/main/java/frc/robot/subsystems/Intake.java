@@ -45,8 +45,12 @@ import frc.robot.RobotMap;
     csm.set(0);
     
   }
+
+  public void keepBall(){
+    csm.set(-0.1);
+  }
+
   public void shoot(){
-  
     csm.set(1);
   }
 
@@ -57,6 +61,7 @@ import frc.robot.RobotMap;
   public void intakeDown(){
      IntakeLifter.set(true);
      isDown = true;
+     System.out.println("IMMMMMMMMMMMMCALLLLLLLLLLLEDD");
   }
 
   public void intakeUp(){

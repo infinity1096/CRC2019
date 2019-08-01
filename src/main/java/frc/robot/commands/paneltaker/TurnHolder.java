@@ -38,16 +38,19 @@ public class TurnHolder extends Command{
     protected void initialize (){
         error = target - Robot.rotary.get_encoder_value();
         prevError = error;
-
+        accum = 0;
+        errordotFused = 0;
+        
     }
     @Override
     protected void execute(){
         //if (((Robot.paneltaker.isNipped()) && 
         //(Math.abs(480.0-Robot.lift.getEncodervalue([0]))<=25))== false){
-            if( (Robot.paneltaker.isNipped() &&
-             Math.abs(Robot.lift.getEncodervalue()[0] - 480) <= 25) ){
-        Robot.lift.moveTo(1192);
-             }
+      //      if( (Robot.paneltaker.isNipped() &&
+         //   Math.abs(Robot.lift.getEncodervalue()[0] - 480) <= 25) &&
+         //   Math.abs(Robot.lift.getEncodervalue()[0]-target)>30){
+       //Robot.lift.moveTo(1192);
+        //    }
         double GravComp = 0.09;
 
         if (Robot.paneltaker.isExtended()){
@@ -64,13 +67,12 @@ public class TurnHolder extends Command{
         
             }else{
                 GravComp = 0.06;
-           // }
+            }
         }
-
-        error = target - Robot.rotary.get_encoder_value();
+       error = target - Robot.rotary.get_encoder_value();
 
         if(Robot.paneltaker.isExtended() && Robot.paneltaker.isNipped()){
-            error *= 0.9;}
+            error *= 0.95;}
 
         double errordot = error - prevError;
         errordotFused = expAverageCoeff * errordotFused + (1-expAverageCoeff) * errordot;
@@ -82,7 +84,10 @@ public class TurnHolder extends Command{
 
 
         double assistComp = Math.sin(Math.toRadians(Robot.rotary.get_encoder_value())) / 
-        Math.sqrt(1325 - 700 * Math.cos(Math.toRadians(Robot.rotary.get_encoder_value()))) * 6.0;
+        Math.sqrt(1325 - 700 * Math.cos(Math.toRadians(Robot.rotary.get_encoder_value()))) * 5.5;
+
+            SmartDashboard.putNumber("rotery error", error);
+
 
         double Poutput = Kp * error;
         double Doutput = Kd * errordotFused;
@@ -107,7 +112,7 @@ public class TurnHolder extends Command{
 
         Robot.rotary.turn(output);
     }
-}
+
 
     private double range(double val,double min,double max){
         if (val > max){
@@ -115,13 +120,17 @@ public class TurnHolder extends Command{
         }else if(val < min){
             return min;
         }else{
+
             return val;
         }
     }
 
     @Override
     protected boolean isFinished() {
-        return Math.abs(Robot.rotary.get_encoder_value()-target) < 20;
+        SmartDashboard.putNumber("value", Robot.rotary.get_encoder_value());
+        SmartDashboard.putNumber("targetval", target);
+        //return Math.abs(Robot.rotary.get_encoder_value()-target) < 20;
+        return false;
     }
 
     @Override
@@ -133,7 +142,7 @@ public class TurnHolder extends Command{
     @Override
     protected void interrupted()
     {
-        
+        Robot.rotary.turn(0);
     }
 
 }

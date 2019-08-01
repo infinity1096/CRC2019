@@ -46,7 +46,7 @@ public class MoveClimber extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return timer.get() > 2.5;
+    return timer.get() > 2.75;
   }
 
   // Called once after isFinished returns true

@@ -28,6 +28,7 @@ public class Lift extends Subsystem {
   TalonSRX Motor3 = new TalonSRX(RobotMap.LIFT_MOTOR3_PORT);
   TalonSRX Motor4 = new TalonSRX(RobotMap.LIFT_MOTOR4_PORT);
 
+  
   Solenoid ElevatorClimberChanger = new Solenoid(4);
 
   boolean is_elevator_mode = true; // output shaft connected to elevator or climber

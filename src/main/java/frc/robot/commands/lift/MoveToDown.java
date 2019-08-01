@@ -19,7 +19,7 @@ public class MoveToDown extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    if (PanelTaker.isNipped == false)
+   // if (PanelTaker.isNipped == false)
       Robot.lift.moveTo(480);
     //System.out.println("IM WORKING");
   }
