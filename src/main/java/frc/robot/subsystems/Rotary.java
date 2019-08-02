@@ -28,8 +28,24 @@ public class Rotary extends Subsystem {
   }
 
   public double get_encoder_value(){
-        return Robot.absoluteEncoder.getDeg() * 2.0 / 3.0 - 106;
+        return Robot.absoluteEncoder.getDeg() * 2.0 / 3.0 - RotaryOffset;
   }
+
+  public double RotaryOffset(){
+    return RotaryOffset;
+  }
+
+  public void IncreaseOffset(){
+    this.RotaryOffset += 2;
+  }
+
+  public void DecreaseOffset(){
+    this.RotaryOffset -= 2;
+  }
+
+
+
+  double RotaryOffset = 106;
 
   public void turn(double power){
       holderTurner.set(ControlMode.PercentOutput,power);

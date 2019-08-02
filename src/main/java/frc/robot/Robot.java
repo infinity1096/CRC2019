@@ -37,6 +37,8 @@ import frc.robot.commands.auto.LeftRocketAuto;
 import frc.robot.commands.auto.LinearDrive;
 import frc.robot.commands.auto.RightRocketAuto;
 import frc.robot.commands.auto.RotateTo;
+import frc.robot.commands.calibration.DecreaseRotaryOffset;
+import frc.robot.commands.calibration.IncreaseRotaryOffset;
 import frc.robot.commands.auto.AutoDrive;
 import frc.robot.commands.chassis.PosDrive;
 import frc.robot.commands.lift.CalibrateLift;
@@ -189,6 +191,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData(new PanelReady());
     SmartDashboard.putData(new CalibrateLift());
     SmartDashboard.putData(new TakeIn());
+    SmartDashboard.putData(new IncreaseRotaryOffset());
+    SmartDashboard.putData(new DecreaseRotaryOffset());
+    
     
   }
 
@@ -212,6 +217,7 @@ public class Robot extends TimedRobot {
 
 
     SmartDashboard.putNumber("ANGLE",rotary.get_encoder_value());
+    SmartDashboard.putNumber("Rotary Offset",rotary.RotaryOffset());
     
     //cv track
 
