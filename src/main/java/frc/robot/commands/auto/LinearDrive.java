@@ -50,7 +50,7 @@ public class LinearDrive extends Command {
     preverror = error;
     accum = 0;
 
-    angle_error = heading -(- Math.toRadians(Robot.gyro.getAngle()));
+    angle_error = heading -(- Math.toRadians(Robot.gyro.getAngle()) + Math.PI/2);
     angle_error = Math.atan2(Math.sin(angle_error),Math.cos(angle_error));
     angle_preverror = angle_error;
   }
@@ -62,6 +62,7 @@ public class LinearDrive extends Command {
     error = target - (Robot.chassis.getWheelEncoderValue()[0][0] + Robot.chassis.getWheelEncoderValue()[0][1])/2.0;
     errordot = error - preverror;
     SmartDashboard.putNumber("EncoderValue", (Robot.chassis.getWheelEncoderValue()[0][0] + Robot.chassis.getWheelEncoderValue()[0][1])/2.0);
+    
     double Poutput = Kp * error;
     double Ioutput = Ki * accum;
     double Doutput = Kd * errordot;
@@ -81,8 +82,10 @@ public class LinearDrive extends Command {
     }
 
     //angle 
-    angle_error = heading -(- Math.toRadians(Robot.gyro.getAngle()));
+    angle_error = heading -(- Math.toRadians(Robot.gyro.getAngle()) + Math.PI/2);
     angle_error = Math.atan2(Math.sin(angle_error),Math.cos(angle_error));
+
+    System.out.println(angle_error);
 
     angle_accum += angle_error * 0.02;
 
@@ -103,7 +106,7 @@ public class LinearDrive extends Command {
     angle_ioutput = range1(angle_ioutput,-0.06,0.06);
     double angle_output = Poutput + Ioutput + Doutput;
   
-    Robot.chassis.arcadeDrive(output, angle_output);
+    Robot.chassis.arcadeDrive(output, 0);
   }
 
   double range(double val,double min,double max){

@@ -15,11 +15,11 @@ import frc.robot.commands.paneltaker.ExtendTaker;
 import frc.robot.commands.paneltaker.NipPanel;
 import frc.robot.commands.paneltaker.TurnHolder;
 
-public class LeftRocketAuto extends CommandGroup {
+public class RightRocketAuto extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public LeftRocketAuto() {
+  public RightRocketAuto() {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
@@ -41,16 +41,9 @@ public class LeftRocketAuto extends CommandGroup {
     addParallel(new TurnHolder(-90));
     //addSequential(new BumpBack());
     addSequential(new LinearDrive(2832,Math.PI/2));
-    addSequential(new RotateTo(0));
-    addSequential(new LinearDrive(-1860,0));
-    addSequential(new RotateTo(-Math.PI*1/3));
-    addSequential(new LinearDrive(-600,0));
-    
-    
-    
-    
-    
-
-
+    addSequential(new RotateTo(Math.PI));
+    addSequential(new LinearDrive(-1860,Math.PI));
+    addSequential(new RotateTo(-Math.PI*2/3));
+    addSequential(new LinearDrive(-600,-Math.PI*2/3));
   }
 }

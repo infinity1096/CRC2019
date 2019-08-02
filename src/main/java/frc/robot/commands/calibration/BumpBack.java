@@ -5,21 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.auto;
+package frc.robot.commands.calibration;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.Delay;
-import frc.robot.commands.calibration.BumpBack;
-import frc.robot.commands.lift.CalibrateLift;
-import frc.robot.commands.paneltaker.ExtendTaker;
-import frc.robot.commands.paneltaker.NipPanel;
-import frc.robot.commands.paneltaker.TurnHolder;
 
-public class LeftRocketAuto extends CommandGroup {
+public class BumpBack extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public LeftRocketAuto() {
+  public BumpBack() {
+    addSequential(new GoStraight(0.3,0));
+    addSequential(new Delay(1.3));
+    addSequential(new GoStraight(-0.3,0));
+    addSequential(new Delay(1.3));
+    addSequential(new GoStraight(0,0));
+
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
@@ -36,21 +37,5 @@ public class LeftRocketAuto extends CommandGroup {
     // e.g. if Command1 requires chassis, and Command2 requires arm,
     // a CommandGroup containing them would require both the chassis and the
     // arm.
-    addSequential(new NipPanel());
-    addSequential(new CalibrateLift());
-    addParallel(new TurnHolder(-90));
-    //addSequential(new BumpBack());
-    addSequential(new LinearDrive(2832,Math.PI/2));
-    addSequential(new RotateTo(0));
-    addSequential(new LinearDrive(-1860,0));
-    addSequential(new RotateTo(-Math.PI*1/3));
-    addSequential(new LinearDrive(-600,0));
-    
-    
-    
-    
-    
-
-
   }
 }

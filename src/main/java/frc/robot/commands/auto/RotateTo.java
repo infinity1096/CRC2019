@@ -9,6 +9,7 @@ package frc.robot.commands.auto;
 
 import javax.swing.text.StyleContext.SmallAttributeSet;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
@@ -27,6 +28,8 @@ public class RotateTo extends Command {
   double maxAllowableError = 0.005556;
   double errordot;
 
+  Timer timer = new Timer();
+
   public RotateTo(double target) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -39,9 +42,11 @@ public class RotateTo extends Command {
   @Override
   protected void initialize() {
 
-    error = target -(- Math.toRadians(Robot.gyro.getAngle()));
+    error = target -(- Math.toRadians(Robot.gyro.getAngle()) + Math.PI/2);
     error = Math.atan2(Math.sin(error),Math.cos(error));
     preverror = error;
+    timer.reset();
+    timer.start();
 
   }
 
@@ -49,7 +54,7 @@ public class RotateTo extends Command {
   @Override
   protected void execute() {
 
-    error = target - (-Math.toRadians(Robot.gyro.getAngle()));
+    error = target - (-Math.toRadians(Robot.gyro.getAngle())+ Math.PI/2);
     error = Math.atan2(Math.sin(error),Math.cos(error));
     errordot = error - preverror;
     SmartDashboard.putNumber("errordot", errordot);
@@ -118,7 +123,7 @@ public class RotateTo extends Command {
   @Override
   protected boolean isFinished() {
 
-    return Math.abs(error) < maxAllowableError && Math.abs(errordot) < maxAllowableError;
+    return Math.abs(error) < maxAllowableError && Math.abs(errordot) < maxAllowableError || timer.get() > 3;
     
   }
 

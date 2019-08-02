@@ -35,6 +35,7 @@ import frc.robot.commands.Intake.TakeIn;
 import frc.robot.commands.auto.AutoDrive;
 import frc.robot.commands.auto.LeftRocketAuto;
 import frc.robot.commands.auto.LinearDrive;
+import frc.robot.commands.auto.RightRocketAuto;
 import frc.robot.commands.auto.RotateTo;
 import frc.robot.commands.auto.AutoDrive;
 import frc.robot.commands.chassis.PosDrive;
@@ -133,6 +134,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
+    Robot.chassis.changeSpeed();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -142,12 +144,13 @@ public class Robot extends TimedRobot {
      */
 
     // schedule the autonomous command (example)
+    
     if (m_autonomousCommand != null) {
      // m_autonomousCommand.start();
     }
     gyro.reset();
 
-    
+    new LeftRocketAuto().start();
   }
 
   /**
@@ -178,11 +181,9 @@ public class Robot extends TimedRobot {
     new CalibrateLift().start();
     Robot.intake.intakeUp();
     Robot.intake.IntakeOpen();
-    Robot.paneltaker.forceShrink();
-    Robot.paneltaker.forceRelease();
-    gyro.reset();
     SmartDashboard.putData(new UpdateOdometryPos());
     SmartDashboard.putData(new PosDrive(80, 600, Math.PI/2));
+    SmartDashboard.putData(new LinearDrive(500,0));
     //emergency stop buttons
     SmartDashboard.putData(new IntakeStop());
     SmartDashboard.putData(new PanelReady());

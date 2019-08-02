@@ -15,8 +15,8 @@ public class GoStraight extends Command {
   public GoStraight(double v,double o) {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.chassis);
-    v=v;
-    o=o;
+    this.v=v;
+    this.o=o;
   }
 
   // Called just before this Command runs the first time

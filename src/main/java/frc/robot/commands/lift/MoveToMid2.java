@@ -18,7 +18,7 @@ public class MoveToMid2 extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.lift.moveTo(780);
+    Robot.lift.moveTo(830);
   }
 
   // Called repeatedly when this Command is scheduled to run

@@ -83,6 +83,11 @@ public void changeSpeed()
     isLowSpeed = !isLowSpeed;
 }
 
+public void toHighGear(){
+  speedShift.set(false);
+  isLowSpeed = false;
+}
+
 public boolean isLowSpeed()
 {
     return isLowSpeed;
