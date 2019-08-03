@@ -32,11 +32,11 @@ public class MoveClimber extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(timer.get()<0.7)
+    if(timer.get()<1.2)
       Robot.lift.moveClimber(0.2);
     else
 
-      Robot.lift.moveClimber(1);
+      Robot.lift.moveClimber(0.9);
     //}
     if(timer.get()>1.0)
       Robot.chassis.arcadeDrive(0.1,0);
@@ -46,7 +46,7 @@ public class MoveClimber extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return timer.get() > 2.75;
+    return timer.get() > 3.35 || Robot.lift.isClimberToLimit();
   }
 
   // Called once after isFinished returns true

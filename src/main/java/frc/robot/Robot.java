@@ -135,8 +135,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_chooser.getSelected();
-    Robot.chassis.changeSpeed();
+    m_autonomousCommand = new LeftRocketAuto();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -146,13 +145,11 @@ public class Robot extends TimedRobot {
      */
 
     // schedule the autonomous command (example)
-    
-    if (m_autonomousCommand != null) {
-     // m_autonomousCommand.start();
-    }
     gyro.reset();
-
-    new LeftRocketAuto().start();
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.start();
+    }
+    
   }
 
   /**
@@ -162,7 +159,7 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
   }
-
+  long count = 0;
   @Override
   public void teleopInit() {
     // This makes sure that the autonomous stops running when
@@ -185,7 +182,7 @@ public class Robot extends TimedRobot {
     Robot.intake.IntakeOpen();
     SmartDashboard.putData(new UpdateOdometryPos());
     SmartDashboard.putData(new PosDrive(80, 600, Math.PI/2));
-    SmartDashboard.putData(new LinearDrive(500,0));
+    SmartDashboard.putData(new LinearDrive(500, Math.PI/2));
     //emergency stop buttons
     SmartDashboard.putData(new IntakeStop());
     SmartDashboard.putData(new PanelReady());
@@ -214,14 +211,19 @@ public class Robot extends TimedRobot {
     //encoder
     SmartDashboard.putNumber("encL",chassis.getWheelEncoderValue()[0][0]);
     SmartDashboard.putNumber("encR",chassis.getWheelEncoderValue()[0][1]);
-
+    SmartDashboard.putBoolean("isNippped", PanelTaker.isNipped());
 
     SmartDashboard.putNumber("ANGLE",rotary.get_encoder_value());
     SmartDashboard.putNumber("Rotary Offset",rotary.RotaryOffset());
     
+    SmartDashboard.putBoolean("Is claw on", paneltaker.isNipped());
     //cv track
 
+    SmartDashboard.putBoolean("Is climber limit", lift.isClimberToLimit());
+    
 
+    boolean isValid = Robot.CVtable.getEntry("isvalid").getDouble(-1)==1;
+    SmartDashboard.putBoolean("Is Valid", isValid);
 
   }
 

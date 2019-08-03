@@ -27,25 +27,20 @@ public class Shoot extends Command {
   protected void initialize() {
     timer.reset();
     timer.start();
-    if (!phase){
+   
       Robot.intake.intakeClose();
-    }
-    
-    
+     
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (!phase){
+    
     if(timer.get()<=0.3){   
       Robot.intake.shoot();
-    }else if(timer.get()>0.3){
+    }else {
       Robot.intake.IntakeOpen();
       Robot.intake.hold();
-    }
-    }else{
-      Robot.intake.intakeDown();
     }
 
   }
@@ -53,18 +48,16 @@ public class Shoot extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (!phase){
+    
       return timer.get() > 0.5;
-    }else{
-      return timer.get() > 0.8; 
-    }
+    
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
     Robot.intake.hold();
-    phase = !phase;
+    
   }
 
   // Called when another command which requires one or more of the same

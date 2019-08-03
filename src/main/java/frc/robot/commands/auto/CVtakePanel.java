@@ -8,18 +8,14 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.Delay;
-import frc.robot.commands.calibration.BumpBack;
-import frc.robot.commands.lift.CalibrateLift;
-import frc.robot.commands.paneltaker.ExtendTaker;
-import frc.robot.commands.paneltaker.NipPanel;
-import frc.robot.commands.paneltaker.TurnHolder;
+import frc.robot.Odometry.UpdateOdometryPos;
+import frc.robot.commands.chassis.PosDriveCV;
 
-public class RightRocketAuto extends CommandGroup {
+public class CVtakePanel extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public RightRocketAuto() {
+  public CVtakePanel() {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
@@ -36,21 +32,8 @@ public class RightRocketAuto extends CommandGroup {
     // e.g. if Command1 requires chassis, and Command2 requires arm,
     // a CommandGroup containing them would require both the chassis and the
     // arm.
-    addSequential(new NipPanel());
-    addSequential(new CalibrateLift());
-    addParallel(new TurnHolder(-90));
-    //addSequential(new BumpBack());
-    addSequential(new LinearDrive(2832,Math.PI/2));
-    addSequential(new RotateTo(Math.PI));
-    addSequential(new LinearDrive(-1860,Math.PI));
-    addSequential(new RotateTo(-Math.PI*2/3));
-    addSequential(new LinearDrive(-600,-Math.PI*2/3));
-    addSequential(new ExtendTaker());
-    addSequential(new Delay(0.7));
-    addSequential(new NipPanel());
-    addSequential(new Delay(0.3));
-    addSequential(new ExtendTaker());
-    addSequential(new LinearDrive(600,-Math.PI*2/3));
-
+    addSequential(new UpdateOdometryPos());
+    addSequential(new PosDriveCV(80,600,Math.PI/2));
+    
   }
 }

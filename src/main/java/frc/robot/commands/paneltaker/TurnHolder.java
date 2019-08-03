@@ -84,7 +84,7 @@ public class TurnHolder extends Command{
 
 
         double assistComp = Math.sin(Math.toRadians(Robot.rotary.get_encoder_value())) / 
-        Math.sqrt(1325 - 700 * Math.cos(Math.toRadians(Robot.rotary.get_encoder_value()))) * 5.5;
+        Math.sqrt(1325 - 700 * Math.cos(Math.toRadians(Robot.rotary.get_encoder_value()))) * 6.0;
         SmartDashboard.putNumber("rotery error", error);
 
 

@@ -43,6 +43,8 @@ public class Chassis extends Subsystem {
   Notifier notifier = new Notifier(() ->{
     double left = leftMaster.getMotorOutputVoltage()/12.0d;
     double right = rightMaster.getMotorOutputVoltage()/12.0d;
+    System.out.print("volt output");
+    System.out.println(left);
     talonlf.set(left);
     talonlb.set(left);
     talonrf.set(right);
@@ -115,7 +117,6 @@ public double[][] getWheelEncoderValue(){
   val[1][1] = val[1][1] * RobotMap.encoderToMm;
   
   return val;
-
 }
 
 public void startMP(){

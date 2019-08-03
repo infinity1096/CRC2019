@@ -8,6 +8,7 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.Odometry.UpdateOdometryPos;
 import frc.robot.commands.Delay;
 import frc.robot.commands.calibration.BumpBack;
 import frc.robot.commands.lift.CalibrateLift;
@@ -44,7 +45,15 @@ public class LeftRocketAuto extends CommandGroup {
     addSequential(new RotateTo(0));
     addSequential(new LinearDrive(-1860,0));
     addSequential(new RotateTo(-Math.PI*1/3));
-    addSequential(new LinearDrive(-600,0));
+    addSequential(new LinearDrive(-600,-Math.PI*1/3));
+    addSequential(new ExtendTaker());
+    addSequential(new Delay(0.7));
+    addSequential(new NipPanel());
+    addSequential(new Delay(0.3));
+    addSequential(new ExtendTaker());
+    addSequential(new LinearDrive(600,-Math.PI*1/3));
+
+    //addSequential(new UpdateOdometryPos());
     
     
     

@@ -31,16 +31,18 @@ public class ChassisA extends Command {
   @Override
   protected void execute() {
   
-    double inputx = -Robot.oi.stick.getRawAxis(1)*0.6;
-    double inputy = -Robot.oi.stick.getRawAxis(2)*0.3;
+    double inputx = -Robot.oi.stick.getRawAxis(1)*1.0;
+    double inputy = -Robot.oi.stick.getRawAxis(2)*0.5;
 
     if (Math.abs(Robot.oi.stick.getRawAxis(1)) < 0.13){
       inputx = 0;
     }
 
-    if (Math.abs(Robot.oi.stick.getRawAxis(2)) < 0.13){
+    if (Math.abs(Robot.oi.stick.getRawAxis(2)) < 0.05){
       inputy = 0;
     }
+
+    inputy = Math.signum(inputy) * Math.pow(Math.abs(inputy), 1.3);
 
     Robot.chassis.arcadeDrive(inputx,inputy);
   

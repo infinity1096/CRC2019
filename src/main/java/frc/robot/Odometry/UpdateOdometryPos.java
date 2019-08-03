@@ -21,6 +21,7 @@ public class UpdateOdometryPos extends Command {
   boolean isValid = false;
 
   public UpdateOdometryPos() {  
+    this.isValid = false;
     }
 
   // Called just before this Command runs the first time
@@ -42,9 +43,18 @@ public class UpdateOdometryPos extends Command {
           
           System.out.println(delta_U);
           Robot.odometry.setPos(delta_U.toArray());
+          Robot.odometry.isUpdated = true;
           Robot.chassis.isAuto = true;
+          System.out.println("Odom pose update:");
+          System.out.println("x:");
+          System.out.println(-x);
+          System.out.println("y:");
+          System.out.println(-y);
+
+
         }else{
          //do nothing 
+         Robot.odometry.isUpdated = false;
           Robot.chassis.isAuto = false;
         }
 

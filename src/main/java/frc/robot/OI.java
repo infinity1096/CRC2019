@@ -18,6 +18,7 @@ import frc.robot.commands.Intake.PanelReady;
 import frc.robot.commands.Intake.TakeIn;
 import frc.robot.commands.chassis.ChangeSpeed;
 import frc.robot.commands.chassis.PosDrive;
+import frc.robot.commands.chassis.PosDriveCV;
 import frc.robot.commands.commandgroup.FlipPanel;
 import frc.robot.commands.commandgroup.ResetPanel;
 import frc.robot.commands.commandgroup.cargoReady;
@@ -109,7 +110,7 @@ public class OI {
     button_takeoverchassis.whenPressed(new ChassisTakeover());
     button_panelready.whenPressed(new PanelReady());
     button_UpdateOdometry.whenPressed(new UpdateOdometryPos());
-    button_PosDrive.whenPressed(new PosDrive(80, 600, Math.PI/2));
+    button_PosDrive.whenPressed(new PosDriveCV(80, 600, Math.PI/2));
     button_ChangeSpeed.whenPressed(new ChangeSpeed());
     button_Shoot.whenPressed(new Shoot());
     button_ClimberUp.whenPressed(new ClimberUp());
@@ -128,8 +129,8 @@ public class OI {
     //button_FlipPanel.whenPressed(new FlipPanel());//lift will move to mid prior to flipping
     //button_ResetPanel.whenPressed(new ResetPanel());//holder and lift will move simultaneously do NOT move with panel
     button_HolderUp.whenPressed(new TurnHolder(0));
-    button_HolderBack.whenPressed(new TurnHolder(-92));
-    button_HolderFront.whenPressed(new TurnHolder(92));
+    button_HolderBack.whenPressed(new TurnHolder(-93));
+    button_HolderFront.whenPressed(new TurnHolder(93));
     //intake
     button_TakeIn.whenPressed(new takeinready());
     button_climbReady.whenPressed(new ClimbReady());

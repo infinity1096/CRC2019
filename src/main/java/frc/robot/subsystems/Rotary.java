@@ -36,16 +36,16 @@ public class Rotary extends Subsystem {
   }
 
   public void IncreaseOffset(){
-    this.RotaryOffset += 2;
+    this.RotaryOffset += 4;
   }
 
   public void DecreaseOffset(){
-    this.RotaryOffset -= 2;
+    this.RotaryOffset -= 4;
   }
 
 
 
-  double RotaryOffset = 106;
+  double RotaryOffset = 112;
 
   public void turn(double power){
       holderTurner.set(ControlMode.PercentOutput,power);

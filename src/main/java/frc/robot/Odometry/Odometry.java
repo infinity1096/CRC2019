@@ -32,18 +32,22 @@ public class Odometry implements Runnable{
     RealVector Position = new ArrayRealVector(new double[] {0,0});
     private double dt = 0.02;
     private double encoderl_last, encoderr_last;
+    public boolean isUpdated = false;
 
     public Odometry(double dt,double encoderl_last,double encoderr_last){
         this.dt = dt;
         this.encoderl_last = encoderl_last;
         this.encoderr_last = encoderr_last;
+        isUpdated = false;
     }
 
     public Odometry(double encoderl_last,double encoderr_last){
         this.dt = 0.02;
         this.encoderl_last = encoderl_last;
         this.encoderr_last = encoderr_last;
+        isUpdated = false;
     }
+
 
     @Override
     public void run(){
@@ -75,9 +79,11 @@ public class Odometry implements Runnable{
 
     public void setPos(double[] Position){
         this.Position = new ArrayRealVector(Position);
+        
     }
     public void setPos(double deltaX, double deltaY){
         this.Position = new ArrayRealVector(new double[] {deltaX,deltaY});
+
     }
 
     private double[] getMeasurement() {
@@ -89,8 +95,6 @@ public class Odometry implements Runnable{
         return new double[] {h,hd,xdd,ydd};
     }
 
-    private void getEncoder(){
-
-    }
+ 
 
 }

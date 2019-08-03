@@ -25,9 +25,11 @@ public class LinearDrive extends Command {
   double maxAllowableError = 20;
   double errordot;
 
+  double slow_start_loop = 0;
+
   //angle
   double heading;
-  double angle_p = 0.5,angle_i = 0.7,angle_d = 0.16;
+  double angle_p = 0.25,angle_i = 0.35,angle_d = 0.08;
   double angle_izone = 0.16,angle_maxaccum = 0.3456,angle_accum = 0;
   double angle_error,angle_preverror,angle_expaverage = 0,angle_expcoeff = 0.2;
 
@@ -38,6 +40,7 @@ public class LinearDrive extends Command {
     requires(Robot.chassis);
     this.target = target;
     this.heading = heading;
+    slow_start_loop = 0;
 
   }
 
@@ -53,6 +56,7 @@ public class LinearDrive extends Command {
     angle_error = heading -(- Math.toRadians(Robot.gyro.getAngle()) + Math.PI/2);
     angle_error = Math.atan2(Math.sin(angle_error),Math.cos(angle_error));
     angle_preverror = angle_error;
+    slow_start_loop = 0;
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -104,9 +108,15 @@ public class LinearDrive extends Command {
     angle_poutput = range(angle_poutput,-0.5,0.5);
     angle_doutput = range(angle_doutput,-0.2,0.2);
     angle_ioutput = range1(angle_ioutput,-0.06,0.06);
-    double angle_output = Poutput + Ioutput + Doutput;
-  
-    Robot.chassis.arcadeDrive(output, 0);
+    double angle_output = angle_poutput + angle_doutput + angle_ioutput;
+
+    output *= slow_start_loop / 20.0;
+    
+    Robot.chassis.arcadeDrive(output, angle_output);
+    slow_start_loop ++;
+    if (slow_start_loop > 20){
+      slow_start_loop = 20;
+    }
   }
 
   double range(double val,double min,double max){
