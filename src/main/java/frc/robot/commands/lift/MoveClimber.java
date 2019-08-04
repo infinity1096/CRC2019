@@ -46,7 +46,7 @@ public class MoveClimber extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return timer.get() > 3.35 || Robot.lift.isClimberToLimit();
+    return timer.get() > 2.7 || Robot.lift.isClimberToLimit();
   }
 
   // Called once after isFinished returns true

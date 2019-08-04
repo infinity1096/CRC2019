@@ -36,17 +36,19 @@ public class ClimberUp extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return timer.get()>0.7;
+    return timer.get()>1.0;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.lift.moveClimber(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.lift.moveClimber(0);
   }
 }
